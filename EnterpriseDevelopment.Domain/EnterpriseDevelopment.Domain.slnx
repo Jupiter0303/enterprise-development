@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="EnterpriseDevelopment.Domain.Tests/EnterpriseDevelopment.Domain.Tests.csproj" Id="50b0a707-c60f-46a8-91c3-b6e0f3ca3213" />
+  <Project Path="EnterpriseDevelopment.Domain/EnterpriseDevelopment.Domain.csproj" />
+</Solution>
