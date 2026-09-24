@@ -46,7 +46,36 @@ public class TicketsTests
             .Select(g => new { Exhibition = g.First().Exhibition, VisitCount = g.Count() })
             .ToList();
         Assert.Equal(5, topFiveExhibitions.Count);
-        Assert.Equal([7, 7, 5, 4, 3], topFiveExhibitions.Select(x => x.VisitCount));
-        Assert.Equal([1, 5, 2, 7, 6], topFiveExhibitions.Select(x => x.Exhibition.Id));
+        Assert.Equal([7, 7, 5, 4, 3], topFiveExhibitions.Select(pair => pair.VisitCount));
+        Assert.Equal([1, 5, 2, 7, 6], topFiveExhibitions.Select(pair => pair.Exhibition.Id));
+    }
+
+    public class ExcursionTests
+    {
+        [Fact]
+        public void TopThreeExcursions_ByUniqueVisitors_ReturnsCorrectRanking()
+        {
+            var tickets = Seed.Tickets;
+            var excursions = tickets
+                        .Select(t => new { Excursion = t.Excursion, VisitorId = t.Visitor.Id })
+                        .DistinctBy(x => new { ExcursionId = x.Excursion.Id, VisitorId = x.VisitorId })
+                        .GroupBy(x => x.Excursion.Id)
+                        .Select(g => new { Excursion = g.First().Excursion, VisitCount = g.Count() })
+                        .Concat(
+                                 Seed.Excursions
+                                .Select(ex => new { Excursion = ex, VisitCount = 0 })
+                                )
+                        .DistinctBy(pair => pair.Excursion.Id)
+                        .OrderBy(pair => pair.VisitCount)
+                        .ThenBy(pair => pair.Excursion.Id)
+                        .Take(3)
+                        .ToList();
+            Assert.Equal(3, excursions.Count);
+            Assert.Equal([9, 3, 4], excursions.Select(x => x.Excursion.Id));
+            Assert.Equal([0, 1, 1], excursions.Select(x => x.VisitCount));
+
+
+        }
+
     }
 }
