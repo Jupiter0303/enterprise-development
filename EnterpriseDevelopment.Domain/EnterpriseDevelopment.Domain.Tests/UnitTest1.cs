@@ -78,4 +78,97 @@ public class TicketsTests
         }
 
     }
+
+    public class ThemesTests
+    {
+        [Fact]
+        public void ExhibitionAttendanceSummary_ByThemeAndPeriod_ReturnsCorrectStatistics()
+        {
+            var startDate = new DateOnly(2023, 1, 1);
+            var endDate = new DateOnly(2023, 12, 31);
+            var tickets = Seed.Tickets;
+            var themes = tickets
+                .Where(t => t.Excursion.Date >= startDate && t.Excursion.Date <= endDate)
+                .GroupBy(t => t.Excursion.Date)
+                .SelectMany(dateGroup => dateGroup
+                              .DistinctBy(t => new { t.Visitor, t.Excursion })
+                              .GroupBy(t => t.Excursion.Id)
+                              .SelectMany(excursionGroup => excursionGroup.First()
+                                                                          .Excursion
+                                                                          .Exhibitions
+                                                                          .DistinctBy(exh => exh.Theme)
+                                                                          .Select(exh => new
+                                                                          {
+                                                                              ExhibitionTheme = exh.Theme,
+                                                                              VisitCount = excursionGroup.Count(),
+                                                                              PriceExhibitionTheme = excursionGroup.Sum(ex => ex.Price) / excursionGroup.Count() / excursionGroup.First().Excursion
+                                                                                                                                                                                         .Exhibitions
+                                                                                                                                                                                         .Select(exh => exh.Theme)
+                                                                                                                                                                                         .Distinct()
+                                                                                                                                                                                         .Count()
+                                                                          })
+
+                              ).GroupBy(pairThemeVisit => pairThemeVisit.ExhibitionTheme)
+                              .Select(themeGroup => new
+                              {
+                                  Theme = themeGroup.Key,
+                                  TotalVisits = themeGroup.Sum(ThemeVisitsPriceInLocalExcurce => ThemeVisitsPriceInLocalExcurce.VisitCount),
+                                  TotalPrice = themeGroup.Sum(x => x.PriceExhibitionTheme * x.VisitCount)
+                              })
+                  )
+                  .GroupBy(ThemeVisitsPriceInLocalDay => ThemeVisitsPriceInLocalDay.Theme)
+                  .Select(themeGroup => new
+                  {
+                      Theme = themeGroup.Key,
+                      TotalPrice = themeGroup.Sum(ThemeVisitsPriceInLocalDay => ThemeVisitsPriceInLocalDay.TotalPrice),
+                      MinimalCountVisits = themeGroup.Min(ThemeVisitsPriceInLocalDay => ThemeVisitsPriceInLocalDay.TotalVisits),
+                      MaximalCountVisits = themeGroup.Max(x => x.TotalVisits),
+                      AverageCountVisits = themeGroup.Average(ThemeVisitsPriceInLocalDay => ThemeVisitsPriceInLocalDay.TotalVisits)
+                  })
+                  .ToList();
+
+
+
+        }
+    }
 }
+
+
+
+  public void ExhibitionAttendanceSummary_ByThemeAndPeriod_ReturnsCorrectStatistics()
+    {
+        var startDate = new DateOnly(2023, 1, 1);
+        var endDate = new DateOnly(2023, 12, 31);
+        var tickets = Seed.Tickets;
+        var themes = tickets
+            .Where(t => t.Excursion.Date >= startDate && t.Excursion.Date <= endDate)
+            .GroupBy(t => t.Excursion.Date)
+            .Select(dateGroup => dateGroup
+                          .DistinctBy(t => new { Visitor = t.Visitor, Excursion = t.Excursion })
+                          .GroupBy(t => t.Excursion.Id)
+                          .Select(excursionGroup => new
+                          {
+                              Excursion = excursionGroup.First().Excursion,
+                              VisitCount = excursionGroup.Count(),
+                              PriceExhibitionTheme = excursionGroup.Sum(ex => ex.Price) / excursionGroup.Count() / excursionGroup.First()
+                                                                                                                                        .Excursion
+                                                                                                                                        .Exhibitions
+                                                                                                                                        .Select(exh => exh.Theme)
+                                                                                                                                        .Distinct()
+                                                                                                                                        .Count()
+                          })
+                          .SelectMany(pairExсVisit => pairExсVisit.Excursion.Exhibitions
+                                                                .Select(ex => new
+                                                                {
+                                                                    ExhibitionTheme = ex.Theme,
+                                                                    VisitCount = pairExсVisit.VisitCount,
+                                                                    PriceExhibitionTheme = pairExсVisit.PriceExhibitionTheme
+                                                                })
+                                                                )
+                          .GroupBy(pairThemeVisit => pairThemeVisit.ExhibitionTheme)
+                          .Select(themesGroup => new
+                          {
+                              Theme = themesGroup.Key,
+                              TotalVisits = themesGroup.Sum(x => x.VisitCount)
+                          })
+                          );
