@@ -1,11 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace EnterpriseDevelopment.Domain;
-
+﻿namespace EnterpriseDevelopment.Domain;
+/// <summary>
+/// Тип билета
+/// </summary>
 public enum TicketType
 {
+    /// <summary>
+    /// Тип билета: Взрослый
+    /// </summary>
     Adult,
+    /// <summary>
+    /// Тип билета: Льготный
+    /// </summary>  
     Discounted
 }
