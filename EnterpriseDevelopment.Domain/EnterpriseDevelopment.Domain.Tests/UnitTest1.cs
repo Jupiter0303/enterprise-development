@@ -1,4 +1,5 @@
-﻿using EnterpriseDevelopment.Domain;
+﻿using Xunit;
+using EnterpriseDevelopment.Domain;
 
 namespace EnterpriseDevelopment.Domain.Tests;
 
@@ -66,7 +67,7 @@ public class ExcursionTests : IClassFixture<SeedFixture>
     public ExcursionTests(SeedFixture fixture) => _fixture = fixture;
 
     [Fact]
-    public void TopThreeExcursions_ByUniqueVisitors_ReturnsCorrectRanking()
+        public void TopThreeExcursions_ByUniqueVisitors_ReturnsCorrectRanking()
     {
         var tickets = _fixture.Tickets;
         var excursions = tickets
@@ -90,6 +91,24 @@ public class ExcursionTests : IClassFixture<SeedFixture>
 
     }
 
+    [Fact]
+    public void ExcursionsInHall_WithinPeriod_ReturnsMatchingExcursions()
+    {
+        var hallNumber = 101;
+        var startDate = new DateOnly(2024, 1, 1);
+        var endDate = new DateOnly(2024, 12, 31);
+
+        var hallExcursions = _fixture.Excursions
+                                            .Where(exc => exc.Exhibitions.Any(exh => exh.HallNumber == hallNumber) &&
+                                                         exc.Date >= startDate && exc.Date <= endDate)
+                                            .OrderBy(exc => exc.Id)
+                                            .ToList();
+
+        Assert.Equal(7, hallExcursions.Count);
+        Assert.Equal([1, 4, 5, 6, 7, 9, 10], hallExcursions.Select(exc => exc.Id));
+
+    }
+   
 }
 
 public class ThemesTests : IClassFixture<SeedFixture>
@@ -178,8 +197,3 @@ public class ThemesTests : IClassFixture<SeedFixture>
     }
 
 }
-
-
-  
-                                                                                                                                        
-                                 
