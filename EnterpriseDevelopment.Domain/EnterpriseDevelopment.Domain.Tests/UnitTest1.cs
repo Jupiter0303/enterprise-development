@@ -4,23 +4,6 @@ using EnterpriseDevelopment.Domain;
 namespace EnterpriseDevelopment.Domain.Tests;
 
 
-public class VisitorTests : IClassFixture<SeedFixture>
-{
-    private readonly SeedFixture _fixture;
-
-    public VisitorTests(SeedFixture fixture) => _fixture = fixture;
-
-    [Fact]
-    public void GetVisitors_ReturnsAtLeastTenVisitors()
-    {
-        //получение данных о посетителях из метода GetVisitors
-        var visitors = _fixture.Visitors;
-        //действие для проверки , что количество посетителей больше или равно 10
-        var count = visitors.Count;
-        //проверка услови я
-        Assert.True(count >= 10);
-    }
-}
 
 public class TicketsTests : IClassFixture<SeedFixture>
 {
@@ -67,7 +50,7 @@ public class ExcursionTests : IClassFixture<SeedFixture>
     public ExcursionTests(SeedFixture fixture) => _fixture = fixture;
 
     [Fact]
-        public void TopThreeExcursions_ByUniqueVisitors_ReturnsCorrectRanking()
+    public void TopThreeExcursions_ByUniqueVisitors_ReturnsCorrectRanking()
     {
         var tickets = _fixture.Tickets;
         var excursions = tickets
@@ -108,7 +91,7 @@ public class ExcursionTests : IClassFixture<SeedFixture>
         Assert.Equal([1, 4, 5, 6, 7, 9, 10], hallExcursions.Select(exc => exc.Id));
 
     }
-   
+
 }
 
 public class ThemesTests : IClassFixture<SeedFixture>
@@ -196,4 +179,71 @@ public class ThemesTests : IClassFixture<SeedFixture>
 
     }
 
+}
+
+public class VisitorTests : IClassFixture<SeedFixture>
+{
+    private readonly SeedFixture _fixture;
+
+    public VisitorTests(SeedFixture fixture) => _fixture = fixture;
+
+    [Fact]
+    public void GetVisitors_ReturnsAtLeastTenVisitors()
+    {
+        //получение данных о посетителях из метода GetVisitors
+        var visitors = _fixture.Visitors;
+        //действие для проверки , что количество посетителей больше или равно 10
+        var count = visitors.Count;
+        //проверка услови я
+        Assert.True(count >= 10);
+
+    }
+
+    [Fact]
+    public void GetVisitors_ForSelectedExcursion_OrderedByFullName()
+    {
+        var excursionId = 1;
+
+        var extraTicket = new List<Ticket>
+        {
+            new()
+            {
+                Id = 1001,
+                Excursion = _fixture.Excursions[0],
+                Visitor = _fixture.Visitors[2],
+                Type = TicketType.Adult,
+                Price = 500m
+            },
+        new()   {
+            Id = 1002,
+            Excursion = _fixture.Excursions[0],
+            Visitor = _fixture.Visitors[8],
+            Type = TicketType.Discounted,
+            Price = 250m
+            }
+        };
+        var allTickets = _fixture.Tickets.Concat(extraTicket).ToList();
+        var visitorsExc = allTickets
+                                .Where(t => t.Excursion.Id == excursionId)
+                                .DistinctBy(t => t.Visitor.Id)
+                                .Select(t => new
+                                {
+                                    t.Visitor.Id,
+                                    t.Visitor.FirstName,
+                                    t.Visitor.LastName,
+                                    t.Visitor.MiddleName,
+                                    t.Visitor.Birthday
+                                })
+                                .OrderBy(v => v.LastName)
+                                .ThenBy(v => v.FirstName)
+                                .ThenBy(v => v.Id)
+                                .ToList();
+
+
+        Assert.Equal(4, visitorsExc.Count);
+        Assert.Equal(["Иванов", "Новиков", "Петров", "Попова"], visitorsExc.Select(v => v.LastName));
+        Assert.Equal([3, 9, 1, 6], visitorsExc.Select(v => v.Id));
+
+
+    }
 }
