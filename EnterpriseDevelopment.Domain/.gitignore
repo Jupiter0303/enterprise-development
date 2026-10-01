@@ -1,0 +1,34 @@
+# Build output
+[Bb]in/
+[Oo]bj/
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+# Rider / ReSharper
+.idea/
+_ReSharper*/
+*.DotSettings.user
+# Test results and coverage
+TestResults/
+*.trx
+coverage/
+*.coverage
+*.coveragexml
+# NuGet
+packages/
+*.nupkg
+*.snupkg
+# Generated files
+GeneratedFiles/
+# OS files
+.DS_Store
+Thumbs.db
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+# Local logs
+*.log
