@@ -21,7 +21,7 @@ public class VisitorTests : IClassFixture<SeedFixture>
     }
 }
 
-public class TicketsTests: IClassFixture<SeedFixture>
+public class TicketsTests : IClassFixture<SeedFixture>
 {
     private readonly SeedFixture _fixture;
     public TicketsTests(SeedFixture fixture) => _fixture = fixture;
@@ -144,10 +144,41 @@ public class ThemesTests : IClassFixture<SeedFixture>
                         AverageVisitorsPerDay = themeGroup.Average(x => x.DailyVisitors)
                     })
                     .ToList();
+        var sortedThemes = themes.OrderBy(t => t.Theme.ToString()).ToList();
 
-        
+        Assert.Equal(4, sortedThemes.Count);
+        var art = sortedThemes.Single(t => t.Theme == ExhibitionTheme.Art);
+        Assert.Equal(14, art.TotalVisitors);
+        Assert.Equal(3433.33m, art.TotalPrice);
+        Assert.Equal(1, art.MinVisitorsPerDay);
+        Assert.Equal(2, art.MaxVisitorsPerDay);
+        Assert.Equal(1.4, art.AverageVisitorsPerDay, 2);
+
+        var history = sortedThemes.Single(t => t.Theme == ExhibitionTheme.History);
+        Assert.Equal(6, history.TotalVisitors);
+        Assert.Equal(1308.33m, history.TotalPrice);
+        Assert.Equal(1, history.MinVisitorsPerDay);
+        Assert.Equal(2, history.MaxVisitorsPerDay);
+        Assert.Equal(1.2, history.AverageVisitorsPerDay, 2);
+
+        var science = sortedThemes.Single(t => t.Theme == ExhibitionTheme.Science);
+        Assert.Equal(5, science.TotalVisitors);
+        Assert.Equal(1033.33m, science.TotalPrice);
+        Assert.Equal(1, science.MinVisitorsPerDay);
+        Assert.Equal(2, science.MaxVisitorsPerDay);
+        Assert.Equal(1.25, science.AverageVisitorsPerDay, 2);
+
+        var natural = sortedThemes.Single(t => t.Theme == ExhibitionTheme.Natural);
+        Assert.Equal(2, natural.TotalVisitors);
+        Assert.Equal(425.00m, natural.TotalPrice);
+        Assert.Equal(2, natural.MinVisitorsPerDay);
+        Assert.Equal(2, natural.MaxVisitorsPerDay);
+        Assert.Equal(2.0, natural.AverageVisitorsPerDay, 2);
+
     }
+
 }
+
 
   
                                                                                                                                         
