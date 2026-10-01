@@ -93,41 +93,42 @@ public class TicketsTests
                 .SelectMany(dateGroup => dateGroup
                               .DistinctBy(t => new { t.Visitor, t.Excursion })
                               .GroupBy(t => t.Excursion.Id)
-                              .SelectMany(excursionGroup => excursionGroup.First()
-                                                                          .Excursion
-                                                                          .Exhibitions
-                                                                          .DistinctBy(exh => exh.Theme)
-                                                                          .Select(exh => new
-                                                                          {
-                                                                              ExhibitionTheme = exh.Theme,
-                                                                              VisitCount = excursionGroup.Count(),
-                                                                              PriceExhibitionTheme = excursionGroup.Sum(ex => ex.Price) / excursionGroup.Count() / excursionGroup.First().Excursion
-                                                                                                                                                                                         .Exhibitions
-                                                                                                                                                                                         .Select(exh => exh.Theme)
-                                                                                                                                                                                         .Distinct()
-                                                                                                                                                                                         .Count()
-                                                                          })
+                              .SelectMany(excursionGroup =>
+                              {
+                                  var excursion = excursionGroup.First().Excursion;
+                                  var uniqueThemes = excursion.Exhibitions
+                                                              .Select(exh => exh.Theme)
+                                                              .Distinct()
+                                                              .ToList();
+                                  var totalExcursionPrice = excursionGroup.Sum(ex => ex.Price);
+                                  var priceShare = totalExcursionPrice / uniqueThemes.Count;
 
-                              ).GroupBy(pairThemeVisit => pairThemeVisit.ExhibitionTheme)
+                                  return uniqueThemes.Select(theme => new
+                                  {
+                                      Theme = theme,
+                                      VisitorCount = excursionGroup.Count(),
+                                      Price = priceShare
+                                  });
+                              })
+                              .GroupBy(x => x.Theme)
                               .Select(themeGroup => new
                               {
                                   Theme = themeGroup.Key,
-                                  TotalVisits = themeGroup.Sum(ThemeVisitsPriceInLocalExcurce => ThemeVisitsPriceInLocalExcurce.VisitCount),
-                                  TotalPrice = themeGroup.Sum(x => x.PriceExhibitionTheme * x.VisitCount)
+                                  DailyVisitors = themeGroup.Sum(x => x.VisitorCount),
+                                  DailyPrice = themeGroup.Sum(x => x.Price)
                               })
-                  )
-                  .GroupBy(ThemeVisitsPriceInLocalDay => ThemeVisitsPriceInLocalDay.Theme)
-                  .Select(themeGroup => new
-                  {
-                      Theme = themeGroup.Key,
-                      TotalPrice = themeGroup.Sum(ThemeVisitsPriceInLocalDay => ThemeVisitsPriceInLocalDay.TotalPrice),
-                      MinimalCountVisits = themeGroup.Min(ThemeVisitsPriceInLocalDay => ThemeVisitsPriceInLocalDay.TotalVisits),
-                      MaximalCountVisits = themeGroup.Max(x => x.TotalVisits),
-                      AverageCountVisits = themeGroup.Average(ThemeVisitsPriceInLocalDay => ThemeVisitsPriceInLocalDay.TotalVisits)
-                  })
-                  .ToList();
-
-
+                         )
+                        .GroupBy(x => x.Theme)
+                        .Select(themeGroup => new
+                        {
+                            Theme = themeGroup.Key,
+                            TotalVisitors = themeGroup.Sum(x => x.DailyVisitors),
+                            TotalPrice = themeGroup.Sum(x => x.DailyPrice),
+                            MinVisitorsPerDay = themeGroup.Min(x => x.DailyVisitors),
+                            MaxVisitorsPerDay = themeGroup.Max(x => x.DailyVisitors),
+                            AverageVisitorsPerDay = themeGroup.Average(x => x.DailyVisitors)
+                        })
+                        .ToList();
 
         }
     }
@@ -135,40 +136,6 @@ public class TicketsTests
 
 
 
-  public void ExhibitionAttendanceSummary_ByThemeAndPeriod_ReturnsCorrectStatistics()
-    {
-        var startDate = new DateOnly(2023, 1, 1);
-        var endDate = new DateOnly(2023, 12, 31);
-        var tickets = Seed.Tickets;
-        var themes = tickets
-            .Where(t => t.Excursion.Date >= startDate && t.Excursion.Date <= endDate)
-            .GroupBy(t => t.Excursion.Date)
-            .Select(dateGroup => dateGroup
-                          .DistinctBy(t => new { Visitor = t.Visitor, Excursion = t.Excursion })
-                          .GroupBy(t => t.Excursion.Id)
-                          .Select(excursionGroup => new
-                          {
-                              Excursion = excursionGroup.First().Excursion,
-                              VisitCount = excursionGroup.Count(),
-                              PriceExhibitionTheme = excursionGroup.Sum(ex => ex.Price) / excursionGroup.Count() / excursionGroup.First()
-                                                                                                                                        .Excursion
-                                                                                                                                        .Exhibitions
-                                                                                                                                        .Select(exh => exh.Theme)
-                                                                                                                                        .Distinct()
-                                                                                                                                        .Count()
-                          })
-                          .SelectMany(pairExсVisit => pairExсVisit.Excursion.Exhibitions
-                                                                .Select(ex => new
-                                                                {
-                                                                    ExhibitionTheme = ex.Theme,
-                                                                    VisitCount = pairExсVisit.VisitCount,
-                                                                    PriceExhibitionTheme = pairExсVisit.PriceExhibitionTheme
-                                                                })
-                                                                )
-                          .GroupBy(pairThemeVisit => pairThemeVisit.ExhibitionTheme)
-                          .Select(themesGroup => new
-                          {
-                              Theme = themesGroup.Key,
-                              TotalVisits = themesGroup.Sum(x => x.VisitCount)
-                          })
-                          );
+  
+                                                                                                                                        
+                                 
