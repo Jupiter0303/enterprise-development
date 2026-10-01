@@ -3,10 +3,16 @@ using System.Collections.Generic;
 
 namespace EnterpriseDevelopment.Domain.Tests;
 
-public static class Seed
+public class SeedFixture
 {
-    public static List<Visitor> Visitors { get; } =
-        [
+    public List<Visitor> Visitors { get; }
+    public List<Exhibition> Exhibitions { get; }
+    public List<Excursion> Excursions { get; }
+    public List<Ticket> Tickets { get; }
+
+    public SeedFixture()
+    {
+        Visitors = [
         new () {
             Id = 1,
             FirstName = "Иван",
@@ -94,8 +100,7 @@ public static class Seed
         }
         ];
 
-    public static List<Exhibition> Exhibitions { get; } =
-    [
+        Exhibitions = [
         new() {
             Id = 1,
             Name = "Импрессионисты",
@@ -178,8 +183,7 @@ public static class Seed
         }
 
     ];
-    public static List<Excursion> Excursions { get; } =
-        [
+        Excursions = [
         new() {
             Id = 1,
             Date = new DateOnly(2024, 1, 15),
@@ -248,7 +252,7 @@ public static class Seed
             StartTime = new TimeOnly(9, 0),
             Duration = new TimeSpan(2, 15, 0),
             Exhibitions = [Exhibitions[0], Exhibitions[1], Exhibitions[8]]
-        }, 
+        },
         new() {
             Id = 11,
             Date = new DateOnly(2024, 10, 15),
@@ -257,9 +261,8 @@ public static class Seed
             Exhibitions = [Exhibitions[4]]
         }
         ];
-
-    public static List<Ticket> Tickets { get; } =
-    [
+        
+        Tickets = [
         new() {
             Id = 1,
             Excursion = Excursions[0],
@@ -359,5 +362,8 @@ public static class Seed
             Price = 300m
         }
         ];
+    }        
+            
+    
 
 }
