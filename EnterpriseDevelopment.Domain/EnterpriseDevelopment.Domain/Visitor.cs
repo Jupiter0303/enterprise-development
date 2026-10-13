@@ -20,7 +20,7 @@ public class Visitor
     /// <summary>
     /// Отчество посетителя
     /// </summary>
-    public string? MiddleName { get; init;  }
+    public string? MiddleName { get; init; }
     /// <summary>
     /// Дата рождения посетителя
     /// </summary>

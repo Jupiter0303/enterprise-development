@@ -280,7 +280,7 @@ public class SeedFixture
                 Duration = new TimeSpan(1, 30, 0),
                 Exhibitions = [Exhibitions[0], Exhibitions[1], Exhibitions[6]]
             },
-            new() 
+            new()
             {
                 Id = 8,
                 Date = new DateOnly(2024, 4, 10),
@@ -304,7 +304,7 @@ public class SeedFixture
                 Duration = new TimeSpan(2, 15, 0),
                 Exhibitions = [Exhibitions[0], Exhibitions[1], Exhibitions[8]]
             },
-            new() 
+            new()
             {
                 Id = 11,
                 Date = new DateOnly(2024, 10, 15),
@@ -324,7 +324,7 @@ public class SeedFixture
                 Type = TicketType.Adult,
                 Price = 500m
             },
-            new() 
+            new()
             {
                 Id = 2,
                 Excursion = Excursions[1],
@@ -332,7 +332,7 @@ public class SeedFixture
                 Type = TicketType.Discounted,
                 Price = 300m
             },
-            new() 
+            new()
             {
                 Id = 3,
                 Excursion = Excursions[4],
@@ -356,7 +356,7 @@ public class SeedFixture
                 Type = TicketType.Adult,
                 Price = 550m
             },
-            new() 
+            new()
             {
                 Id = 6,
                 Excursion = Excursions[0],
@@ -396,7 +396,7 @@ public class SeedFixture
                 Type = TicketType.Discounted,
                 Price = 400m
             },
-            new() 
+            new()
             {
                 Id = 11,
                 Excursion = Excursions[5],
@@ -404,7 +404,7 @@ public class SeedFixture
                 Type = TicketType.Adult,
                 Price = 550m
             },
-            new() 
+            new()
             {
                 Id = 12,
                 Excursion = Excursions[9],
@@ -412,7 +412,7 @@ public class SeedFixture
                 Type = TicketType.Discounted,
                 Price = 350m
             },
-            new() 
+            new()
             {
                 Id = 13,
                 Excursion = Excursions[10],
