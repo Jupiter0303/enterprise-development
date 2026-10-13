@@ -1,4 +1,5 @@
 ﻿namespace EnterpriseDevelopment.Domain;
+
 /// <summary>
 /// Тип билета
 /// </summary>

@@ -1,5 +1,4 @@
-﻿using System;
-namespace EnterpriseDevelopment.Domain.Tests;
+﻿namespace EnterpriseDevelopment.Domain.Tests;
 
 /// <summary>
 /// Фикстура для инициализации тестовых данных для юнит тестов
