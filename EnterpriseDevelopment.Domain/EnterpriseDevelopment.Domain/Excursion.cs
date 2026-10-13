@@ -8,21 +8,21 @@ public class Excursion
     /// <summary>
     /// Идентификатор экскурсии
     /// </summary>
-    public required int Id { get; init; }
+    public required int Id { get; set; }
     /// <summary>
     /// Дата проведения экскурсии
     /// </summary>
-    public required DateOnly Date { get; init; }
+    public required DateOnly Date { get; set; }
     /// <summary>
     /// Время начала экскурсии
     /// </summary>
-    public required TimeOnly StartTime { get; init; }
+    public required TimeOnly StartTime { get; set; }
     /// <summary>
     /// Продолжительность экскурсии
     /// </summary>
-    public required TimeSpan Duration { get; init; }
+    public required TimeSpan Duration { get; set; }
     /// <summary>
     /// Список выставок, включенных в экскурсию
     /// </summary>
-    public required List<Exhibition> Exhibitions { get; init; }
+    public required List<Exhibition> Exhibitions { get; set; }
 }

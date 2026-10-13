@@ -8,25 +8,25 @@ public class Exhibition
     /// <summary>
     /// Идентификатор выставки
     /// </summary>
-    public required int Id { get; init; }
+    public required int Id { get; set; }
     /// <summary>
     /// Название выставки
     /// </summary>
-    public required string Name { get; init; }
+    public required string Name { get; set; }
     /// <summary>
     /// Тема выставки
     /// </summary>
-    public required ExhibitionTheme Theme { get; init; }
+    public required ExhibitionTheme Theme { get; set; }
     /// <summary>
     /// Номер зала
     /// </summary>
-    public required int HallNumber { get; init; }
+    public required int HallNumber { get; set; }
     /// <summary>
     /// Дата начала выставки
     /// </summary>
-    public required DateOnly StartDate { get; init; }
+    public required DateOnly StartDate { get; set; }
     /// <summary>
     /// Дата окончания выставки
     /// </summary>
-    public required DateOnly EndDate { get; init; }
+    public required DateOnly EndDate { get; set; }
 }
