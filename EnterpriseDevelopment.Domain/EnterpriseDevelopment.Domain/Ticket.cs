@@ -3,7 +3,7 @@
 /// <summary>
 /// Билет на экскурсию
 /// </summary>
-public record Ticket
+public class Ticket
 {
     /// <summary>
     /// Идентификатор билета

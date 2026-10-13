@@ -29,6 +29,4 @@ public class Visitor
     /// Номер телефона посетителя
     /// </summary>
     public string? PhoneNumber { get; set; }
-    
 }
-

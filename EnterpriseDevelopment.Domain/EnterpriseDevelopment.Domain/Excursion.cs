@@ -25,6 +25,4 @@ public class Excursion
     /// Список выставок, включенных в экскурсию
     /// </summary>
     public required List<Exhibition> Exhibitions { get; init; }
-
-
 }
