@@ -6,7 +6,7 @@
 public class SeedFixture
 {
     /// <summary>
-    /// Список посетит
+    /// Список посетитителей
     /// </summary>
     public List<Visitor> Visitors { get; }
 
