@@ -254,7 +254,7 @@ public class SeedFixture
                 Duration = new TimeSpan(2, 10, 0),
                 Exhibitions = [Exhibitions[0], Exhibitions[8], Exhibitions[9]]
             },
-            new() 
+            new()
             {
                 Id = 5,
                 StartsAt = new DateTime(2024, 9, 15, 13, 0, 0),
