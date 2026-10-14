@@ -11,6 +11,6 @@ public enum TicketType
     Adult,
     /// <summary>
     /// Тип билета: Льготный
-    /// </summary>  
+    /// </summary>
     Discounted
 }

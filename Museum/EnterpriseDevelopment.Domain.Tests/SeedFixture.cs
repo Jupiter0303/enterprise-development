@@ -32,7 +32,7 @@ public class SeedFixture
     {
         Visitors =
         [
-            new ()
+            new()
             {
                 Id = 1,
                 FirstName = "Иван",
@@ -40,7 +40,7 @@ public class SeedFixture
                 Birthday = new DateOnly(1990, 5, 12),
                 PhoneNumber = "+79001112233"
             },
-            new ()
+            new()
             {
                 Id = 2,
                 FirstName = "Мария",
@@ -266,7 +266,7 @@ public class SeedFixture
                 Id = 6,
                 StartsAt = new DateTime(2024, 11, 10, 15, 30, 0),
                 Duration = new TimeSpan(2, 50, 0),
-                Exhibitions = [ Exhibitions[0], Exhibitions[6]]
+                Exhibitions = [Exhibitions[0], Exhibitions[6]]
             },
             new()
             {

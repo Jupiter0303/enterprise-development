@@ -10,7 +10,7 @@ public class Excursion
     /// </summary>
     public required int Id { get; set; }
     /// <summary>
-    /// Дата и время проведения экскурсии
+    /// Дата и время начала экскурсии
     /// </summary>
     public required DateTime StartsAt { get; set; }
     /// <summary>
