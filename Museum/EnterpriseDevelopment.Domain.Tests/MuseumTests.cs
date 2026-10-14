@@ -95,8 +95,8 @@ public class MuseumTests(SeedFixture fixture) : IClassFixture<SeedFixture>
         //act
         var hallExcursions = fixture.Excursions
             .Where(exc => exc.Exhibitions.Any(exh => exh.HallNumber == hallNumber)
-                           && exc.Date >= startDate
-                           && exc.Date <= endDate)
+                           && DateOnly.FromDateTime(exc.StartsAt) >= startDate
+                           && DateOnly.FromDateTime(exc.StartsAt) <= endDate)
             .OrderBy(exc => exc.Id)
             .ToList();
 
@@ -118,8 +118,9 @@ public class MuseumTests(SeedFixture fixture) : IClassFixture<SeedFixture>
 
         //act
         var themes = tickets
-            .Where(t => t.Excursion.Date >= startDate && t.Excursion.Date <= endDate)
-            .GroupBy(t => t.Excursion.Date)
+            .Where(t => DateOnly.FromDateTime(t.Excursion.StartsAt) >= startDate
+                    && DateOnly.FromDateTime(t.Excursion.StartsAt) <= endDate)
+            .GroupBy(t => DateOnly.FromDateTime(t.Excursion.StartsAt))
             .SelectMany(dateGroup => dateGroup
                             .DistinctBy(t => new { t.Visitor, t.Excursion })
                             .GroupBy(t => t.Excursion.Id)
