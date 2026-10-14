@@ -6,7 +6,7 @@
 public class SeedFixture
 {
     /// <summary>
-    /// Список посетитителей
+    /// Список посетителей
     /// </summary>
     public List<Visitor> Visitors { get; }
 
@@ -229,86 +229,77 @@ public class SeedFixture
             new()
             {
                 Id = 1,
-                Date = new DateOnly(2024, 1, 15),
-                StartTime = new TimeOnly(10, 0),
+                StartsAt = new DateTime(2024, 1, 15, 10, 0, 0),
                 Duration = new TimeSpan(1, 30, 0),
                 Exhibitions = [Exhibitions[0], Exhibitions[3], Exhibitions[4]]
             },
             new()
             {
-                Id = 2, Date = new DateOnly(2024, 3, 10),
-                StartTime = new TimeOnly(14, 0),
+                Id = 2,
+                StartsAt = new DateTime(2024, 3, 10, 14, 0, 0),
                 Duration = new TimeSpan(2, 0, 0),
                 Exhibitions = [Exhibitions[1], Exhibitions[4], Exhibitions[5]]
             },
             new()
             {
                 Id = 3,
-                Date = new DateOnly(2024, 5, 20),
-                StartTime = new TimeOnly(11, 30),
+                StartsAt = new DateTime(2024, 5, 20, 11, 30, 0),
                 Duration = new TimeSpan(1, 45, 0),
                 Exhibitions = [Exhibitions[2], Exhibitions[4], Exhibitions[8]]
             },
             new()
             {
                 Id = 4,
-                Date = new DateOnly(2024, 7, 5),
-                StartTime = new TimeOnly(9, 0),
+                StartsAt = new DateTime(2024, 7, 5, 9, 0, 0),
                 Duration = new TimeSpan(2, 10, 0),
                 Exhibitions = [Exhibitions[0], Exhibitions[8], Exhibitions[9]]
             },
-            new() {
+            new() 
+            {
                 Id = 5,
-                Date = new DateOnly(2024, 9, 15),
-                StartTime = new TimeOnly(13, 0),
+                StartsAt = new DateTime(2024, 9, 15, 13, 0, 0),
                 Duration = new TimeSpan(1, 30, 0),
                 Exhibitions = [Exhibitions[0], Exhibitions[1], Exhibitions[5]]
             },
             new()
             {
                 Id = 6,
-                Date = new DateOnly(2024, 11, 10),
-                StartTime = new TimeOnly(15, 30),
+                StartsAt = new DateTime(2024, 11, 10, 15, 30, 0),
                 Duration = new TimeSpan(2, 50, 0),
                 Exhibitions = [ Exhibitions[0], Exhibitions[6]]
             },
             new()
             {
                 Id = 7,
-                Date = new DateOnly(2024, 2, 5),
-                StartTime = new TimeOnly(10, 0),
+                StartsAt = new DateTime(2024, 2, 5, 10, 0, 0),
                 Duration = new TimeSpan(1, 30, 0),
                 Exhibitions = [Exhibitions[0], Exhibitions[1], Exhibitions[6]]
             },
             new()
             {
                 Id = 8,
-                Date = new DateOnly(2024, 4, 10),
-                StartTime = new TimeOnly(14, 0),
+                StartsAt = new DateTime(2024, 4, 10, 14, 0, 0),
                 Duration = new TimeSpan(2, 0, 0),
                 Exhibitions = [Exhibitions[4], Exhibitions[6]]
             },
             new()
             {
                 Id = 9,
-                Date = new DateOnly(2024, 6, 20),
-                StartTime = new TimeOnly(11, 30),
+                StartsAt = new DateTime(2024, 6, 20, 11, 30, 0),
                 Duration = new TimeSpan(1, 45, 0),
                 Exhibitions = [Exhibitions[0]]
             },
             new()
             {
                 Id = 10,
-                Date = new DateOnly(2024, 8, 5),
-                StartTime = new TimeOnly(9, 0),
+                StartsAt = new DateTime(2024, 8, 5, 9, 0, 0),
                 Duration = new TimeSpan(2, 15, 0),
                 Exhibitions = [Exhibitions[0], Exhibitions[1], Exhibitions[8]]
             },
             new()
             {
                 Id = 11,
-                Date = new DateOnly(2024, 10, 15),
-                StartTime = new TimeOnly(13, 0),
+                StartsAt = new DateTime(2024, 10, 15, 13, 0, 0),
                 Duration = new TimeSpan(1, 30, 0),
                 Exhibitions = [Exhibitions[4]]
             }

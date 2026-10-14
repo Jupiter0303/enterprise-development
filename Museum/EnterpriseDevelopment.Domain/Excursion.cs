@@ -10,13 +10,9 @@ public class Excursion
     /// </summary>
     public required int Id { get; set; }
     /// <summary>
-    /// Дата проведения экскурсии
+    /// Дата и время проведения экскурсии
     /// </summary>
-    public required DateOnly Date { get; set; }
-    /// <summary>
-    /// Время начала экскурсии
-    /// </summary>
-    public required TimeOnly StartTime { get; set; }
+    public required DateTime StartsAt { get; set; }
     /// <summary>
     /// Продолжительность экскурсии
     /// </summary>
