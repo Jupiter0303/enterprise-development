@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EnterpriseDevelopment.Domain\EnterpriseDevelopment.Domain.csproj" />
+    <ProjectReference Include="..\Museum.Domain\Museum.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>

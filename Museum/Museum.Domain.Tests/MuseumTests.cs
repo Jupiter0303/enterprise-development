@@ -1,4 +1,4 @@
-﻿namespace EnterpriseDevelopment.Domain.Tests;
+﻿namespace Museum.Domain.Tests;
 
 /// <summary>
 /// Класс тестов для проверки функциональности музея

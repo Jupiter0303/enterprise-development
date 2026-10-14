@@ -1,4 +1,4 @@
-﻿namespace EnterpriseDevelopment.Domain;
+﻿namespace Museum.Domain;
 
 /// <summary>
 /// Тип билета
