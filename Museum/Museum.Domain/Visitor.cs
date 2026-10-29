@@ -3,12 +3,12 @@
 /// <summary>
 /// Посетитель музея
 /// </summary>
-public class Visitor
+public class Visitor: IEntity
 {
     /// <summary>
     /// Идентификатор посетителя
     /// </summary>
-    public required int Id { get; set; }
+    public int Id { get; set; }
     /// <summary>
     /// Имя посетителя
     /// </summary>

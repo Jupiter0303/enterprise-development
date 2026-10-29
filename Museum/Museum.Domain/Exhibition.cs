@@ -3,12 +3,12 @@
 /// <summary>
 /// Выставка
 /// </summary>
-public class Exhibition
+public class Exhibition: IEntity
 {
     /// <summary>
     /// Идентификатор выставки
     /// </summary>
-    public required int Id { get; set; }
+    public int Id { get; set; }
     /// <summary>
     /// Название выставки
     /// </summary>

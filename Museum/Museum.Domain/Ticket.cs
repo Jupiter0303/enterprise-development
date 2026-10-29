@@ -3,12 +3,12 @@
 /// <summary>
 /// Билет на экскурсию
 /// </summary>
-public class Ticket
+public class Ticket: IEntity
 {
     /// <summary>
     /// Идентификатор билета
     /// </summary>
-    public required int Id { get; set; }
+    public int Id { get; set; }
     /// <summary>
     /// Экскурсия, на которую оформлен билет
     /// </summary>

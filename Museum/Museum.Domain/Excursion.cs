@@ -3,12 +3,12 @@
 /// <summary>
 /// Экскурсия
 /// </summary>
-public class Excursion
+public class Excursion : IEntity
 {
     /// <summary>
     /// Идентификатор экскурсии
     /// </summary>
-    public required int Id { get; set; }
+    public int Id { get; set; }
     /// <summary>
     /// Дата и время начала экскурсии
     /// </summary>
