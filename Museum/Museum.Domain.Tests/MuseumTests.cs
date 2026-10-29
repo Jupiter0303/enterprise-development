@@ -112,6 +112,15 @@ public class MuseumTests(SeedFixture fixture) : IClassFixture<SeedFixture>
     public void GetExhibitionAttendanceSummary_ByThemeAndPeriod_ReturnsCorrectStatistics()
     {
         //arrange
+        var expectedStats = new Dictionary<ExhibitionTheme,
+            (int TotalVisitors, decimal TotalPrice, int MinVisitorsPerDay, int MaxVisitorsPerDay, 
+double AverageVisitorsPerDay)>
+        {
+            { ExhibitionTheme.Art, (14, 3433.33m, 1, 2, 1.4) },
+            { ExhibitionTheme.History, (6, 1308.33m, 1, 2, 1.2) },
+            { ExhibitionTheme.Science, (5, 1033.33m, 1, 2, 1.25) },
+            { ExhibitionTheme.Natural, (2, 425.00m, 2, 2, 2.0) }
+        };
         var startDate = new DateOnly(2024, 1, 1);
         var endDate = new DateOnly(2024, 12, 31);
         var tickets = fixture.Tickets;
@@ -165,35 +174,17 @@ public class MuseumTests(SeedFixture fixture) : IClassFixture<SeedFixture>
                         .ToList();
 
         //assert
-        Assert.Equal(4, themes.Count);
+        Assert.Equal(expectedStats.Count, themes.Count);
 
-        var art = themes.Single(t => t.Theme == ExhibitionTheme.Art);
-        Assert.Equal(14, art.TotalVisitors);
-        Assert.Equal(3433.33m, art.TotalPrice);
-        Assert.Equal(1, art.MinVisitorsPerDay);
-        Assert.Equal(2, art.MaxVisitorsPerDay);
-        Assert.Equal(1.4, art.AverageVisitorsPerDay, 2);
-
-        var history = themes.Single(t => t.Theme == ExhibitionTheme.History);
-        Assert.Equal(6, history.TotalVisitors);
-        Assert.Equal(1308.33m, history.TotalPrice);
-        Assert.Equal(1, history.MinVisitorsPerDay);
-        Assert.Equal(2, history.MaxVisitorsPerDay);
-        Assert.Equal(1.2, history.AverageVisitorsPerDay, 2);
-
-        var science = themes.Single(t => t.Theme == ExhibitionTheme.Science);
-        Assert.Equal(5, science.TotalVisitors);
-        Assert.Equal(1033.33m, science.TotalPrice);
-        Assert.Equal(1, science.MinVisitorsPerDay);
-        Assert.Equal(2, science.MaxVisitorsPerDay);
-        Assert.Equal(1.25, science.AverageVisitorsPerDay, 2);
-
-        var natural = themes.Single(t => t.Theme == ExhibitionTheme.Natural);
-        Assert.Equal(2, natural.TotalVisitors);
-        Assert.Equal(425.00m, natural.TotalPrice);
-        Assert.Equal(2, natural.MinVisitorsPerDay);
-        Assert.Equal(2, natural.MaxVisitorsPerDay);
-        Assert.Equal(2.0, natural.AverageVisitorsPerDay, 2);
+        foreach (var expected in expectedStats)
+        {
+            var actual = themes.Single(t => t.Theme == expected.Key);
+            Assert.Equal(expected.Value.TotalVisitors, actual.TotalVisitors);
+            Assert.Equal(expected.Value.TotalPrice, actual.TotalPrice);
+            Assert.Equal(expected.Value.MinVisitorsPerDay, actual.MinVisitorsPerDay);
+            Assert.Equal(expected.Value.MaxVisitorsPerDay, actual.MaxVisitorsPerDay);
+            Assert.Equal(expected.Value.AverageVisitorsPerDay, actual.AverageVisitorsPerDay, 2);
+        }
     }
 
     /// <summary>
