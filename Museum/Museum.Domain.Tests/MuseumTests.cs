@@ -210,13 +210,13 @@ public class MuseumTests(SeedFixture fixture) : IClassFixture<SeedFixture>
 
         // act
         var visitorsExc = tickets
-                                .Where(t => t.Excursion.Id == excursionId)
-                                .DistinctBy(t => t.Visitor.Id)
-                                .Select(t => t.Visitor)
-                                .OrderBy(v => v.LastName)
-                                .ThenBy(v => v.FirstName)
-                                .ThenBy(v => v.Id)
-                                .ToList();
+            .Where(t => t.Excursion.Id == excursionId)
+            .DistinctBy(t => t.Visitor.Id)
+            .Select(t => t.Visitor)
+            .OrderBy(v => v.LastName)
+            .ThenBy(v => v.FirstName)
+            .ThenBy(v => v.Id)
+            .ToList();
 
         //assert
         Assert.Equal(2, visitorsExc.Count);
