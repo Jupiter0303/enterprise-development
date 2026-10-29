@@ -23,24 +23,19 @@ public class InMemoryRepository<TEntity>(IReadOnlyCollection<TEntity> seed)
 
     public Task<TEntity?> Read(int id)
     {
-        var entity = default(TEntity);
         lock (_lock)
         {
-            entity = _items.FirstOrDefault(e => e.Id == id);
+            var entity = _items.FirstOrDefault(e => e.Id == id);
+            return Task.FromResult<TEntity?>(entity);
         }
-        return Task.FromResult<TEntity?>(entity);
 
     }
     public Task<IList<TEntity>> ReadAll()
     {
-        var entities = default(IList<TEntity>);
         lock (_lock)
         {
-            entities = _items.ToList();
+            return Task.FromResult<IList<TEntity>>([.. _items]);
         }
-        return Task.FromResult<IList<TEntity>>(entities);
-
-
     }
     public Task<TEntity?> Update(TEntity entity)
     {
@@ -58,12 +53,8 @@ public class InMemoryRepository<TEntity>(IReadOnlyCollection<TEntity> seed)
     {
         lock(_lock)
         {
-            if(_items.RemoveAll(e => e.Id == id) > 0)
-            {
-
-                return Task.FromResult(true);
-            }
+            var delCount = _items.RemoveAll(e => e.Id == id);
+            return Task.FromResult(delCount > 0);
         }
-        return Task.FromResult(false);
     }
 }
