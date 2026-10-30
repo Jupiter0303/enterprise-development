@@ -9,5 +9,28 @@ public abstract class CrudControllerBase<TDto, TCreateUpdateDto>(
     ICrudService<TDto, TCreateUpdateDto> service,
     ILogger<CrudControllerBase<TDto, TCreateUpdateDto>> logger) : ControllerBase
 {
+    [HttpGet("{id}")]
+    public async Task<ActionResult<TDto>> Get(int id)
+    {
+        logger.LogInformation("HTTP GET запрос: получение объекта {Controller} с ID {Id}", GetType().Name, id);
+        var result = await service.Get(id);
+        return result == null ? NotFound() : Ok(result);
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<TDto>>> GetAll()
+    {
+        logger.LogInformation("HTTP GET запрос: получение списка {Controller}", GetType().Name);
+        var result = await service.GetAll();
+        return Ok(result);
+    }
+
+    [HttpPost]
+    public async Task<ActionResult<TDto>> Create([FromBody] TCreateUpdateDto dto)
+    {
+        logger.LogInformation("HTTP POST запрос: создание объекта {Controller}", GetType().Name);
+        var result = await service.Create(dto);
+        return CreatedAtAction(nameof(Get), new { id = ((dynamic)result!).Id }, result);
+    }
 
 }
