@@ -16,23 +16,24 @@ public class TicketService(
 
     protected override async Task<Ticket> CreateEntity(TicketCreateUpdateDto dto)
     {
-        var excursion = await excursionRepository.Read(dto.ExcursionId);
-        if (excursion is null)
-            throw new ArgumentException($"Экскурсия с id {dto.ExcursionId} не найдена");
-        var visitor = await visitorRepository.Read(dto.VisitorId);
-        if (visitor is null)
-            throw new ArgumentException($"Посетитель с id {dto.VisitorId} не найден");
+        var (excursion, visitor) = await ResolveReferences(dto);
         return dto.ToEntity(excursion, visitor);
     }
 
     protected override async Task ApplyChanges(Ticket entity, TicketCreateUpdateDto dto)
     {
-        var excursion = await excursionRepository.Read(dto.ExcursionId);
-        if (excursion is null)
-            throw new ArgumentException($"Экскурсия с id {dto.ExcursionId} не найдена");
-        var visitor = await visitorRepository.Read(dto.VisitorId);
-        if (visitor is null)
-            throw new ArgumentException($"Посетитель с id {dto.VisitorId} не найден");
+        var (excursion, visitor) = await ResolveReferences(dto);
         entity.UpdateFrom(dto, excursion, visitor);
+    }
+    
+    private async Task<(Excursion Excursion, Visitor Visitor)> ResolveReferences(TicketCreateUpdateDto dto)
+    {
+        var excursion = await excursionRepository.Read(dto.ExcursionId)
+            ?? throw new RelatedEntityNotFoundException(nameof(Excursion), dto.ExcursionId);
+
+        var visitor = await visitorRepository.Read(dto.VisitorId)
+            ?? throw new RelatedEntityNotFoundException(nameof(Visitor), dto.VisitorId);
+
+        return (excursion, visitor);
     }
 }
