@@ -49,4 +49,54 @@ public class AnalyticsService(
             .Select(x => new ExcursionVisitsDto(x.Excursion.ToDto(), x.VisitCount))
             .ToList();
     }
+
+    public async Task<IList<ThemeStatisticsDto>> GetThemeStatistics(DateOnly startDate, DateOnly endDate)
+    {
+        var tickets = await ticketRepository.ReadAll();
+
+        return tickets
+            .Where(t => DateOnly.FromDateTime(t.Excursion.StartsAt) >= startDate
+                     && DateOnly.FromDateTime(t.Excursion.StartsAt) <= endDate)
+            .GroupBy(t => DateOnly.FromDateTime(t.Excursion.StartsAt))
+            .SelectMany(dateGroup => dateGroup
+                .DistinctBy(t => new { t.Visitor.Id, t.Excursion })
+                .GroupBy(t => t.Excursion.Id)
+                .SelectMany(excursionGroup =>
+                {
+                    var excursion = excursionGroup.First().Excursion;
+                    var uniqueThemes = excursion.Exhibitions
+                    .Select(exh => exh.Theme)
+                    .Distinct()
+                    .ToList();
+                    var totalExcursionPrice = excursionGroup.Sum(ex => ex.Price);
+                    var priceShare = totalExcursionPrice / uniqueThemes.Count;
+
+                    return uniqueThemes.Select(theme => new
+                    {
+                        Theme = theme,
+                        VisitorCount = excursionGroup.Count(),
+                        Price = priceShare
+                    });
+                })
+                .GroupBy(x => x.Theme)
+                .Select(themeGroup => new
+                {
+                    Theme = themeGroup.Key,
+                    DailyVisitors = themeGroup.Sum(x => x.VisitorCount),
+                    DailyPrice = themeGroup.Sum(x => x.Price)
+                })
+            )
+            .GroupBy(x => x.Theme)
+            .Select(themeGroup => new 
+            ThemeStatisticsDto(
+                themeGroup.Key,
+                themeGroup.Sum(x => x.DailyVisitors),
+                Math.Round(themeGroup.Sum(x => x.DailyPrice), 2),
+                themeGroup.Min(x => x.DailyVisitors),
+                themeGroup.Max(x => x.DailyVisitors),
+                themeGroup.Average(x => x.DailyVisitors)
+            ))
+            .OrderBy(t => t.Theme.ToString())
+            .ToList();
+    }
 }
