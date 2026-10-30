@@ -15,8 +15,10 @@ public record VisitorCreateUpdateDto
     [StringLength(100)]
     public string? MiddleName { get; init; }
 
+    [Range(typeof(DateOnly), "1900-01-01", "2100-01-01")]
     public required DateOnly Birthday { get; init; }
+
     [Phone]
-    public string? Phone { get; init; }
+    public string? PhoneNumber { get; init; }
 }
 

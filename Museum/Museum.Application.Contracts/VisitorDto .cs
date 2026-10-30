@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Museum.Application.Contracts;
+﻿namespace Museum.Application.Contracts;
 
 public record VisitorDto
 (
