@@ -7,5 +7,5 @@ public record ExcursionDto
     int Id,
     DateTime StartsAt,
     TimeSpan Duration,
-    List<Exhibition> Exhibitions
+    List<ExhibitionDto> Exhibitions
 );

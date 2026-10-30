@@ -1,6 +1,6 @@
 ﻿namespace Museum.Application.Contracts;
 
-internal record ExhibitionDto
+public record ExhibitionDto
 (
     int Id,
     string Name,
