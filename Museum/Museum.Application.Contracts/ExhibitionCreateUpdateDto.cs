@@ -2,16 +2,35 @@
 
 namespace Museum.Application.Contracts;
 
-public class ExhibitionCreateUpdateDto
+public record ExhibitionCreateUpdateDto : IValidatableObject
 {
     [Required, StringLength(200)]
-    public required string Name { get; set; } = string.Empty;
+    public required string Name { get; init; }
 
-    [Required]
-    public required Domain.ExhibitionTheme Theme { get; set; }
+    public required Domain.ExhibitionTheme Theme { get; init; }
 
-    [Required]
-    public required DateOnly StartDate { get; set; }
+    [Range(1, 999)]
+    public required int HallNumber { get; init; }
 
-    public required DateOnly EndDate { get; set; }
+    public required DateOnly StartDate { get; init; }
+
+    public required DateOnly EndDate { get; init; }
+
+    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+    {
+        var errors = new List<ValidationResult>();
+
+        if ( EndDate < StartDate)
+                    {
+            errors.Add(new ValidationResult(
+                "Дата окончания не может быть раньше даты начала",
+                new[] { nameof(EndDate) }
+                ));
+        }
+
+        return errors;
+    }
+
 }
+
+
