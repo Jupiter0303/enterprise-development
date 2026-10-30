@@ -21,7 +21,7 @@ public static class Mapper
         PhoneNumber = dto.PhoneNumber
     };
 
-    public static void UpdateEntity(this VisitorCreateUpdateDto dto, Visitor entity)
+    public static void UpdateFrom(this Visitor entity, VisitorCreateUpdateDto dto)
     {
         entity.FirstName = dto.FirstName; 
         entity.LastName = dto.LastName;
@@ -42,7 +42,7 @@ public static class Mapper
         EndDate = dto.EndDate
     };
 
-    public static void UpdateEntity(this ExhibitionCreateUpdateDto dto, Exhibition entity)
+    public static void UpdateFrom(this Exhibition entity, ExhibitionCreateUpdateDto dto )
     {
         entity.Name = dto.Name;
         entity.Theme = dto.Theme;
