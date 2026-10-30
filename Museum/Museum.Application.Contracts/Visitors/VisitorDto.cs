@@ -1,4 +1,6 @@
-﻿namespace Museum.Application.Contracts.Visitors;
+﻿using Museum.Application.Contracts.Common;
+
+namespace Museum.Application.Contracts.Visitors;
 
 public record VisitorDto
 (
@@ -8,4 +10,4 @@ public record VisitorDto
     string? MiddleName,
     DateOnly Birthday,
     string? PhoneNumber
-);
+) : IHasId;

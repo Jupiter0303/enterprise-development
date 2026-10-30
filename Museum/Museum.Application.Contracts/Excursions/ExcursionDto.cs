@@ -1,4 +1,5 @@
-﻿using Museum.Application.Contracts.Exhibitions;
+﻿using Museum.Application.Contracts.Common;
+using Museum.Application.Contracts.Exhibitions;
 
 namespace Museum.Application.Contracts.Excursions;
 
@@ -8,4 +9,4 @@ public record ExcursionDto
     DateTime StartsAt,
     TimeSpan Duration,
     List<ExhibitionDto> Exhibitions
-);
+) : IHasId;
