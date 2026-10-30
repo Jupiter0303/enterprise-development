@@ -33,4 +33,20 @@ public abstract class CrudControllerBase<TDto, TCreateUpdateDto>(
         return CreatedAtAction(nameof(Get), new { id = ((dynamic)result!).Id }, result);
     }
 
+    [HttpPut("{id}")]
+    public async Task<ActionResult<TDto>> Update(int id, [FromBody] TCreateUpdateDto dto)
+    {
+        logger.LogInformation("HTTP PUT запрос: обновление {Controller} с ID {Id}", GetType().Name, id);
+        var result = await service.Update(id, dto);
+        return result == null ? NotFound() : Ok(result);
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        logger.LogInformation("HTTP DELETE запрос: удаление {Controller} с ID {Id}", GetType().Name, id);
+        await service.Delete(id);
+        return NoContent();
+    }
+
 }
