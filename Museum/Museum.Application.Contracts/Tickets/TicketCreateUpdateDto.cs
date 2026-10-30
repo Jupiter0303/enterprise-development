@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Museum.Application.Contracts;
+namespace Museum.Application.Contracts.Tickets;
 
 public record TicketCreateUpdateDto
 {

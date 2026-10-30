@@ -1,6 +1,7 @@
-﻿using Museum.Domain;
+﻿using Museum.Application.Contracts.Exhibitions;
+using Museum.Domain;
 
-namespace Museum.Application.Contracts;
+namespace Museum.Application.Contracts.Excursions;
 
 public record ExcursionDto
 (

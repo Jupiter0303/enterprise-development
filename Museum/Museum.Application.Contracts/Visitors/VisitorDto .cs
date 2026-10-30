@@ -1,4 +1,4 @@
-﻿namespace Museum.Application.Contracts;
+﻿namespace Museum.Application.Contracts.Visitors;
 
 public record VisitorDto
 (

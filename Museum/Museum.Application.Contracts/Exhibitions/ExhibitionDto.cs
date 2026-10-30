@@ -1,4 +1,4 @@
-﻿namespace Museum.Application.Contracts;
+﻿namespace Museum.Application.Contracts.Exhibitions;
 
 public record ExhibitionDto
 (
