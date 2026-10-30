@@ -1,6 +1,7 @@
 ﻿using Museum.Application.Contracts.Analytics;
-using Museum.Domain;
+using Museum.Application.Contracts.Excursions;
 using Museum.Application.Mapping;
+using Museum.Domain;
 
 
 namespace Museum.Application.Analytics;
@@ -97,6 +98,18 @@ public class AnalyticsService(
                 themeGroup.Average(x => x.DailyVisitors)
             ))
             .OrderBy(t => t.Theme.ToString())
+            .ToList();
+    }
+    public async Task<IList<ExcursionDto>> GetExcursionsInHall(int hallNumber, DateOnly startDate, DateOnly endDate)
+    {
+        var excursions = await excursionRepository.ReadAll();
+
+        return excursions
+            .Where(exc => exc.Exhibitions.Any(exh => exh.HallNumber == hallNumber)
+                       && DateOnly.FromDateTime(exc.StartsAt) >= startDate
+                       && DateOnly.FromDateTime(exc.StartsAt) <= endDate)
+            .OrderBy(exc => exc.Id)
+            .Select(exc => exc.ToDto())
             .ToList();
     }
 }
