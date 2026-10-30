@@ -1,5 +1,6 @@
 ﻿using Museum.Application.Contracts.Analytics;
 using Museum.Application.Contracts.Excursions;
+using Museum.Application.Contracts.Visitors;
 using Museum.Application.Mapping;
 using Museum.Domain;
 
@@ -110,6 +111,19 @@ public class AnalyticsService(
                        && DateOnly.FromDateTime(exc.StartsAt) <= endDate)
             .OrderBy(exc => exc.Id)
             .Select(exc => exc.ToDto())
+            .ToList();
+    }
+    public async Task<IList<VisitorDto>> GetVisitorsByExcursion(int excursionId)
+    {
+        var tickets = await ticketRepository.ReadAll();
+
+        return tickets
+            .Where(t => t.Excursion.Id == excursionId)
+            .DistinctBy(t => t.Visitor.Id)
+            .Select(t => t.Visitor.ToDto())
+            .OrderBy(v => v.LastName)
+            .ThenBy(v => v.FirstName)
+            .ThenBy(v => v.Id)
             .ToList();
     }
 }
