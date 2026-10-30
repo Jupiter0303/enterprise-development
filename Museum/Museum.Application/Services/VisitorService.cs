@@ -1,12 +1,13 @@
 ﻿using Museum.Application.Common;
+using Microsoft.Extensions.Logging;
 using Museum.Application.Contracts.Visitors;
 using Museum.Application.Mapping;
 using Museum.Domain;
 
 namespace Museum.Application.Services;
 
-public class VisitorService(IRepository<Visitor> repository)
-    : CrudServiceBase<Visitor, VisitorDto, VisitorCreateUpdateDto>(repository), IVisitorService
+public class VisitorService(IRepository<Visitor> repository, ILogger<VisitorService> logger)
+    : CrudServiceBase<Visitor, VisitorDto, VisitorCreateUpdateDto>(repository, logger), IVisitorService
 {
     protected override VisitorDto ToDto(Visitor entity) => entity.ToDto();
 

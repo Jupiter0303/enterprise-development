@@ -1,12 +1,13 @@
 ﻿using Museum.Application.Common;
 using Museum.Application.Contracts.Exhibitions;
+using Microsoft.Extensions.Logging;
 using Museum.Application.Mapping;
 using Museum.Domain;
 
 namespace Museum.Application.Services;
 
-public class ExhibitionService(IRepository<Exhibition> repository)
-    : CrudServiceBase<Exhibition, ExhibitionDto, ExhibitionCreateUpdateDto>(repository), IExhibitionService
+public class ExhibitionService(IRepository<Exhibition> repository, ILogger<ExhibitionService> logger)
+    : CrudServiceBase<Exhibition, ExhibitionDto, ExhibitionCreateUpdateDto>(repository, logger  ), IExhibitionService
 {
     protected override ExhibitionDto ToDto(Exhibition entity) => entity.ToDto();
 

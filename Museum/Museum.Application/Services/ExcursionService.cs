@@ -2,16 +2,15 @@
 using Museum.Application.Contracts.Excursions;
 using Museum.Application.Mapping;
 using Museum.Domain;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Microsoft.Extensions.Logging;
 
 namespace Museum.Application.Services;
 
 public class ExcursionService(
     IRepository<Excursion> repository,
-    IRepository<Exhibition> exhibitionRepository)
-    : CrudServiceBase<Excursion, ExcursionDto, ExcursionCreateUpdateDto>(repository), IExcursionService
+    IRepository<Exhibition> exhibitionRepository,
+    ILogger<ExcursionService> logger)
+    : CrudServiceBase<Excursion, ExcursionDto, ExcursionCreateUpdateDto>(repository, logger), IExcursionService
 {
     protected override ExcursionDto ToDto(Excursion entity) => entity.ToDto();
 
