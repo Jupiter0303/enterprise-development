@@ -8,6 +8,7 @@ namespace Museum.Api.Controllers;
 public abstract class CrudControllerBase<TDto, TCreateUpdateDto>(
     ICrudService<TDto, TCreateUpdateDto> service,
     ILogger<CrudControllerBase<TDto, TCreateUpdateDto>> logger) : ControllerBase
+    where TDto : class, IHasId
 {
     [HttpGet("{id}")]
     public async Task<ActionResult<TDto>> Get(int id)
