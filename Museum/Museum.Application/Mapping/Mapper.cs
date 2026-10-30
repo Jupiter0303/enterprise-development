@@ -57,11 +57,41 @@ public static class Mapper
         entity.Duration,
         entity.Exhibitions.Select(e => e.ToDto()).ToList());
 
+    public static Excursion ToEntity(this ExcursionCreateUpdateDto dto, List<Exhibition> exhibitions) => new()
+    {
+        StartsAt = dto.StartsAt,
+        Duration = dto.Duration,
+        Exhibitions = exhibitions
+    };
+    public static void UpdateFrom(this Excursion entity, ExcursionCreateUpdateDto dto, List<Exhibition> exhibitions)
+    {
+        entity.StartsAt = dto.StartsAt;
+        entity.Duration = dto.Duration;
+        entity.Exhibitions = exhibitions;
+    }
+
     public static TicketDto ToDto(this Ticket entity) => new(
         entity.Id, 
         entity.Excursion.ToDto(),
         entity.Visitor.ToDto(),
         entity.Type,
         entity.Price);
+
+    public static Ticket ToEntity(this TicketCreateUpdateDto dto, Excursion excursion, Visitor visitor) => new()
+    {
+        Excursion = excursion,
+        Visitor = visitor,
+        Type = dto.Type,
+        Price = dto.Price
+    };
+
+    public static void UpdateFrom(this Ticket entity, TicketCreateUpdateDto dto, Excursion excursion, Visitor visitor)
+    {
+        entity.Excursion = excursion;
+        entity.Visitor = visitor;
+        entity.Type = dto.Type;
+        entity.Price = dto.Price;
+    }
+
 }
 
