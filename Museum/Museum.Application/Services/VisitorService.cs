@@ -1,12 +1,16 @@
-﻿using Museum.Application.Common;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
+using Museum.Application.Common;
+using Museum.Application.Contracts.Tickets;
 using Museum.Application.Contracts.Visitors;
 using Museum.Application.Mapping;
 using Museum.Domain;
 
 namespace Museum.Application.Services;
 
-public class VisitorService(IRepository<Visitor> repository, ILogger<VisitorService> logger)
+public class VisitorService(
+    IRepository<Visitor> repository,
+    IRepository<Ticket> ticketRepository,
+    ILogger<VisitorService> logger)
     : CrudServiceBase<Visitor, VisitorDto, VisitorCreateUpdateDto>(repository, logger), IVisitorService
 {
     protected override VisitorDto ToDto(Visitor entity) => entity.ToDto();
@@ -18,5 +22,13 @@ public class VisitorService(IRepository<Visitor> repository, ILogger<VisitorServ
     {
         entity.UpdateFrom(dto);
         return Task.CompletedTask;
+    }
+    public async Task<IList<TicketDto>> GetVisitorTickets(int visitorId)
+    {
+        var tickets = await ticketRepository.ReadAll();
+        return tickets
+            .Where(t => t.Visitor.Id == visitorId)
+            .Select(t => t.ToDto())
+            .ToList();
     }
 }
