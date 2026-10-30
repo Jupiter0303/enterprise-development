@@ -1,4 +1,4 @@
-﻿namespace Museum.Application.Contracts;
+﻿namespace Museum.Application.Contracts.Common;
 
 public interface ICrudService<TDto, TCreateUpdateDto>
 {
