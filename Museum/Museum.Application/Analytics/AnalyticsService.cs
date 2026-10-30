@@ -25,4 +25,28 @@ public class AnalyticsService(
             .ToList();
     }
 
+    public async Task<IList<ExcursionVisitsDto>> GetExcursionsWithMinVisitors()
+    {
+        var tickets = await ticketRepository.ReadAll();
+        var excursions = await excursionRepository.ReadAll();
+
+        var query = tickets
+            .Select(t => new { Excursion = t.Excursion, VisitorId = t.Visitor.Id })
+            .DistinctBy(x => new { ExcursionId = x.Excursion.Id, VisitorId = x.VisitorId })
+            .GroupBy(x => x.Excursion.Id)
+            .Select(g => new { Excursion = g.First().Excursion, VisitCount = g.Count() })
+            .Concat(
+            excursions.Select(ex => new { Excursion = ex, VisitCount = 0 })
+            )
+            .DistinctBy(x => x.Excursion.Id)
+            .ToList();
+
+        var minVisitors = query.Min(x => x.VisitCount);
+
+        return query
+            .Where(x => x.VisitCount == minVisitors)
+            .OrderBy(x => x.Excursion.Id)
+            .Select(x => new ExcursionVisitsDto(x.Excursion.ToDto(), x.VisitCount))
+            .ToList();
+    }
 }
