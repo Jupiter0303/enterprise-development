@@ -9,5 +9,4 @@ public record ExcursionCreateUpdateDto
 
     [Required, MinLength(1, ErrorMessage = "В экскурсии должна быть хотя бы 1 выставка")]
     public required List<int> ExhibitionIds { get; init; }
-
 }
