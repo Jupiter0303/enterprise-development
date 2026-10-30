@@ -27,4 +27,15 @@ public class ExcursionService(
         return dto.ToEntity(exhibitions);
     }
 
+    protected override async Task ApplyChanges(Excursion entity, ExcursionCreateUpdateDto dto)
+    {
+        var exhibitions = new List<Exhibition>();
+        foreach (var id in dto.ExhibitionIds)
+        {
+            var exhibition = await exhibitionRepository.Read(id);
+            if (exhibition != null) exhibitions.Add(exhibition);
+        }
+        entity.UpdateFrom(dto, exhibitions);
+
+    }
 }
