@@ -14,7 +14,28 @@ public abstract class CrudServiceBase<TEntity, TDto, TCreateUpdateDto>(IReposito
         var entity = await repository.Read(id);
         return entity is null ? default : ToDto(entity);
     }
+    public async Task<IEnumerable<TDto>> GetAll()
+    {
+        var entities = await repository.ReadAll();
+        return entities.Select(ToDto).ToList();
+    }
+    public async Task<TDto> Create(TCreateUpdateDto dto)
+    {
+        var entity = await CreateEntity(dto);
+        var created = await repository.Create(entity);
+        return ToDto(created);
+    }
 
+    public async Task<TDto?> Update(int id, TCreateUpdateDto dto)
+    {
+        var entity = await repository.Read(id);
+        if (entity is null)
+            return default;
 
+        await ApplyChanges(entity, dto);
+        var updated = await repository.Update(entity);
+        return updated is null ? default : ToDto(updated);
+    }
+    public Task<bool> Delete(int id) => repository.Delete(id);
 
 }
