@@ -6,8 +6,8 @@ namespace Museum.Application.Contracts.Tickets;
 public record TicketDto
 (
     int Id,
-    VisitorDto VisitorId,
     ExcursionDto Excursion,
+    VisitorDto Visitor,
     Domain.TicketType Type,
     decimal Price
 );

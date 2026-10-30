@@ -9,6 +9,6 @@ public record TicketCreateUpdateDto
     public required int VisitorId { get; init; }
     public required Domain.TicketType Type { get; init; }
 
-    [Range(0,10000, ErrorMessage = "Цена должна быть между 0 и 10000")]
+    [Range(typeof(decimal), "0","10000", ErrorMessage = "Цена должна быть между 0 и 10000")]
     public required decimal Price { get; init; }
 }
