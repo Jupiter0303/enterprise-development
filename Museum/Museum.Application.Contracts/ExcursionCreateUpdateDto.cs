@@ -8,6 +8,6 @@ public record ExcursionCreateUpdateDto
     public required TimeSpan Duration { get; init; }
 
     [Required, MinLength(1, ErrorMessage = "В экскурсии должна быть хотя бы 1 выставка")]
-    public required string ExhibitionIds { get; init; }
+    public required List<int> ExhibitionIds { get; init; }
 
 }
