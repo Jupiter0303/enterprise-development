@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Museum.Domain;
 
 namespace Museum.Application.Contracts.Exhibitions;
 
@@ -7,7 +8,7 @@ public record ExhibitionCreateUpdateDto : IValidatableObject
     [Required, StringLength(200)]
     public required string Name { get; init; }
 
-    public required Domain.ExhibitionTheme Theme { get; init; }
+    public required ExhibitionTheme Theme { get; init; }
 
     [Range(1, 999)]
     public required int HallNumber { get; init; }
