@@ -1,4 +1,6 @@
-﻿using Museum.Domain;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Museum.Domain;
+using Museum.Domain.Data;
 
 namespace Museum.Infrastructure.InMemory;
 
@@ -56,5 +58,19 @@ public class InMemoryRepository<TEntity>(IReadOnlyCollection<TEntity> seed)
             var delCount = _items.RemoveAll(e => e.Id == id);
             return Task.FromResult(delCount > 0);
         }
+    }
+}
+
+
+public static class DependencyInjection
+{
+    public static IServiceCollection AddInMemoryRepositories(this IServiceCollection services)
+    {
+        var seed = DataSeeder.Create();
+        services.AddSingleton<IRepository<Visitor>>(new InMemoryRepository<Visitor>(seed.Visitors));
+        services.AddSingleton<IRepository<Exhibition>>(new InMemoryRepository<Exhibition>(seed.Exhibitions));
+        services.AddSingleton<IRepository<Excursion>>(new InMemoryRepository<Excursion>(seed.Excursions));
+        services.AddSingleton<IRepository<Ticket>>(new InMemoryRepository<Ticket>(seed.Tickets));
+        return services;
     }
 }
