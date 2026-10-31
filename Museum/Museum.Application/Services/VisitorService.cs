@@ -23,8 +23,12 @@ public class VisitorService(
         entity.UpdateFrom(dto);
         return Task.CompletedTask;
     }
-    public async Task<IList<TicketDto>> GetVisitorTickets(int visitorId)
+    public async Task<IList<TicketDto>?> GetVisitorTickets(int visitorId)
     {
+        var visitor = await repository.Read(visitorId);
+        if (visitor is null)
+            return null;
+
         var tickets = await ticketRepository.ReadAll();
         return tickets
             .Where(t => t.Visitor.Id == visitorId)

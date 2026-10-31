@@ -13,7 +13,7 @@ public class VisitorController(IVisitorService service, ILogger<VisitorControlle
         logger.LogInformation("HTTP GET запрос: Билеты посетителя {Id}", id);
 
         var result = await service.GetVisitorTickets(id);
-        return Ok(result);
+        return result == null ? NotFound(): Ok(result);
     }
 
 }
