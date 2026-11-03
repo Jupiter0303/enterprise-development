@@ -1,4 +1,5 @@
-﻿using Museum.Application.Analytics;
+﻿using Museum.Api;
+using Museum.Application.Analytics;
 using Museum.Application.Contracts.Analytics;
 using Museum.Application.Contracts.Excursions;
 using Museum.Application.Contracts.Exhibitions;
@@ -11,6 +12,8 @@ using Scalar.AspNetCore;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
+builder.Services.AddExceptionHandler<RelatedEntityExceptionHandler>();
+builder.Services.AddProblemDetails();
 builder.Services.AddOpenApi();
 
 builder.Services.AddInMemoryRepositories();
@@ -29,6 +32,7 @@ if (app.Environment.IsDevelopment())
     app.MapScalarApiReference();
 }
 
+app.UseExceptionHandler();
 app.UseHttpsRedirection();
 app.MapControllers();
 
