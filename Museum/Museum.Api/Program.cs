@@ -8,10 +8,16 @@ using Museum.Application.Contracts.Visitors;
 using Museum.Application.Services;
 using Museum.Infrastructure.InMemory;
 using Scalar.AspNetCore;
+using System.Text.Json.Serialization;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+
 builder.Services.AddExceptionHandler<RelatedEntityExceptionHandler>();
 builder.Services.AddProblemDetails();
 builder.Services.AddOpenApi();
