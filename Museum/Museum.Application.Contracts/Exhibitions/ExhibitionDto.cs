@@ -1,5 +1,6 @@
 ﻿using Museum.Application.Contracts.Common;
 using Museum.Domain;
+using System.ComponentModel.DataAnnotations;
 
 namespace Museum.Application.Contracts.Exhibitions;
 

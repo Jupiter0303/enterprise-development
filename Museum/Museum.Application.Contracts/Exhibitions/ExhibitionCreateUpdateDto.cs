@@ -8,6 +8,7 @@ public record ExhibitionCreateUpdateDto : IValidatableObject
     [Required, StringLength(200)]
     public required string Name { get; init; }
 
+    [EnumDataType(typeof(Domain.ExhibitionTheme))]
     public required ExhibitionTheme Theme { get; init; }
 
     [Range(1, 999)]
