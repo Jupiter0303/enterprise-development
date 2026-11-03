@@ -9,8 +9,7 @@ namespace Museum.Application.Analytics;
 
 public class AnalyticsService(
     IRepository<Ticket> ticketRepository,
-    IRepository<Excursion> excursionRepository,
-    IRepository<Visitor> visitorRepository) : IAnalyticsService
+    IRepository<Excursion> excursionRepository) : IAnalyticsService
 {
 
     public async Task<IList<ExhibitionVisitsDto>> GetTopExhibitions()
@@ -42,6 +41,9 @@ public class AnalyticsService(
             )
             .DistinctBy(x => x.Excursion.Id)
             .ToList();
+
+        if(!query.Any())
+            return [];
 
         var minVisitors = query.Min(x => x.VisitCount);
 
