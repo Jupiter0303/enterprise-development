@@ -1,4 +1,5 @@
-﻿using Museum.Application.Contracts.Analytics;
+﻿using Microsoft.Extensions.Logging;
+using Museum.Application.Contracts.Analytics;
 using Museum.Application.Contracts.Excursions;
 using Museum.Application.Contracts.Visitors;
 using Museum.Application.Mapping;
@@ -9,11 +10,13 @@ namespace Museum.Application.Analytics;
 
 public class AnalyticsService(
     IRepository<Ticket> ticketRepository,
-    IRepository<Excursion> excursionRepository) : IAnalyticsService
+    IRepository<Excursion> excursionRepository,
+    ILogger<AnalyticsService> logger) : IAnalyticsService
 {
 
     public async Task<IList<ExhibitionVisitsDto>> GetTopExhibitions()
     {
+        logger.LogInformation("Аналитика: топ 5 выставок по уникальным посетителям");
         var tickets = await ticketRepository.ReadAll();
         return tickets
             .SelectMany(t => t.Excursion.Exhibitions.Select(ex => new { Exhibition = ex, VisitorId = t.Visitor.Id }))
@@ -28,6 +31,7 @@ public class AnalyticsService(
 
     public async Task<IList<ExcursionVisitsDto>> GetExcursionsWithMinVisitors()
     {
+        logger.LogInformation("Аналитика: экскурсии с минимальным количеством уникальных посетителей");
         var tickets = await ticketRepository.ReadAll();
         var excursions = await excursionRepository.ReadAll();
 
@@ -44,7 +48,6 @@ public class AnalyticsService(
 
         if(!query.Any())
             return [];
-
         var minVisitors = query.Min(x => x.VisitCount);
 
         return query
@@ -56,6 +59,7 @@ public class AnalyticsService(
 
     public async Task<IList<ThemeStatisticsDto>> GetThemeStatistics(DateOnly startDate, DateOnly endDate)
     {
+        logger.LogInformation("Аналитика: статистика по темам выставок за период {StartDate} - {EndDate}", startDate, endDate);
         var tickets = await ticketRepository.ReadAll();
 
         return tickets
@@ -63,7 +67,7 @@ public class AnalyticsService(
                      && DateOnly.FromDateTime(t.Excursion.StartsAt) <= endDate)
             .GroupBy(t => DateOnly.FromDateTime(t.Excursion.StartsAt))
             .SelectMany(dateGroup => dateGroup
-                .DistinctBy(t => new { t.Visitor.Id, t.Excursion })
+                .DistinctBy(t => new { VisitorId = t.Visitor.Id, ExcursionId = t.Excursion.Id })
                 .GroupBy(t => t.Excursion.Id)
                 .SelectMany(excursionGroup =>
                 {
@@ -105,6 +109,10 @@ public class AnalyticsService(
     }
     public async Task<IList<ExcursionDto>> GetExcursionsInHall(int hallNumber, DateOnly startDate, DateOnly endDate)
     {
+        logger.LogInformation("Аналитика: экскурсии в зале {HallNumber} за период {StartDate} - {EndDate}",
+            hallNumber,
+            startDate,
+            endDate);
         var excursions = await excursionRepository.ReadAll();
 
         return excursions
@@ -117,6 +125,7 @@ public class AnalyticsService(
     }
     public async Task<IList<VisitorDto>> GetVisitorsByExcursion(int excursionId)
     {
+        logger.LogInformation("Аналитика: уникальные посетители экскурсии {ExcursionId}", excursionId);
         var tickets = await ticketRepository.ReadAll();
 
         return tickets
