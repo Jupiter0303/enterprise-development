@@ -43,7 +43,7 @@ public abstract class CrudServiceBase<TEntity, TDto, TCreateUpdateDto>(
     /// Получить сущность по идентификатору
     /// </summary>
     /// <param name="id">Идентификатор сущности</param>
-    /// <returns>DTO объект </returns>
+    /// <returns>DTO объект</returns>
     public async Task<TDto?> Get(int id)
     {
         logger.LogInformation("Поиск {Entity} с Id: {Id}", typeof(TEntity).Name, id);
@@ -54,7 +54,7 @@ public abstract class CrudServiceBase<TEntity, TDto, TCreateUpdateDto>(
     /// <summary>
     /// Получить все объекты
     /// </summary>
-    /// <returns> Список DTO объектов</returns>
+    /// <returns>Список DTO объектов</returns>
     public async Task<IEnumerable<TDto>> GetAll()
     {
         logger.LogInformation("Получение списка всех {Entity}", typeof(TEntity).Name);

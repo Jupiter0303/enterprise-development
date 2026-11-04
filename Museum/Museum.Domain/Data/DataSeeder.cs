@@ -1,6 +1,5 @@
 ﻿namespace Museum.Domain.Data;
 
-
 /// <summary>
 /// контейнер для передачи списков сущностей
 /// </summary>
@@ -20,7 +19,7 @@ public static class DataSeeder
     /// <summary>
     /// создает и возвращает набор стартовых данных
     /// </summary>
-    /// <returns> набор стартовых данных в виде SeedData </returns>
+    /// <returns>Набор стартовых данных в виде SeedData</returns>
     public static SeedData Create()
     {
         var visitors = new List<Visitor>
@@ -124,7 +123,8 @@ public static class DataSeeder
         };
 
         var exhibitions = new List<Exhibition>
-        { new()
+        {
+            new()
             {
                 Id = 1,
                 Name = "Импрессионисты",
@@ -334,7 +334,7 @@ public static class DataSeeder
             {
                 Id = 5,
                 Excursion = excursions[7],
-                Visitor = visitors [4],
+                Visitor = visitors[4],
                 Type = TicketType.Adult,
                 Price = 550m
             },

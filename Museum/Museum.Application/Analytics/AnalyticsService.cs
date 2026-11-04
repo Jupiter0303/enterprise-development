@@ -5,7 +5,6 @@ using Museum.Application.Contracts.Visitors;
 using Museum.Application.Mapping;
 using Museum.Domain;
 
-
 namespace Museum.Application.Analytics;
 
 /// <summary>

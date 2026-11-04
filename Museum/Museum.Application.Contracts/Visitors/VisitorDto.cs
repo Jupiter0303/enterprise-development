@@ -13,7 +13,6 @@ namespace Museum.Application.Contracts.Visitors;
 /// <param name="PhoneNumber">Номер телефона посетителя</param>
 public record VisitorDto
 (
-    
     int Id,
     string FirstName,
     string LastName,

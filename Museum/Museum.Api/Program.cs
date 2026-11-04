@@ -10,7 +10,6 @@ using Museum.Infrastructure.InMemory;
 using Scalar.AspNetCore;
 using System.Text.Json.Serialization;
 
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();

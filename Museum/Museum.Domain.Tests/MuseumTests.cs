@@ -26,12 +26,12 @@ public class MuseumTests(SeedFixture fixture) : IClassFixture<SeedFixture>
     [Fact]
     public void GetTopFiveExhibitions_ByUniqueVisitors_ReturnsCorrectRanking()
     {
-        //arrange
+        // arrange
         var tickets = fixture.Tickets;
         int[] expectedExhibitionIds = [1, 5, 2, 7, 6];
         int[] expectedVisitCounts = [7, 7, 5, 4, 3];
 
-        //act
+        // act
         var topFiveExhibitions = tickets
             .SelectMany(t => t.Excursion.Exhibitions.Select(ex => new { Exhibition = ex, VisitorId = t.Visitor.Id }))
             .DistinctBy(x => new { ExhibitionId = x.Exhibition.Id, VisitorId = x.VisitorId })
@@ -86,13 +86,13 @@ public class MuseumTests(SeedFixture fixture) : IClassFixture<SeedFixture>
     [Fact]
     public void GetExcursionsInHall_WithinPeriod_ReturnsMatchingExcursions()
     {
-        //arrange
+        // arrange
         var hallNumber = 101;
         var startDate = new DateOnly(2024, 1, 1);
         var endDate = new DateOnly(2024, 12, 31);
         int[] expectedExcursionIds = [1, 4, 5, 6, 7, 9, 10];
 
-        //act
+        // act
         var hallExcursions = fixture.Excursions
             .Where(exc => exc.Exhibitions.Any(exh => exh.HallNumber == hallNumber)
                            && DateOnly.FromDateTime(exc.StartsAt) >= startDate
@@ -100,7 +100,7 @@ public class MuseumTests(SeedFixture fixture) : IClassFixture<SeedFixture>
             .OrderBy(exc => exc.Id)
             .ToList();
 
-        //assert
+        // assert
         Assert.Equal(7, hallExcursions.Count);
         Assert.Equal(expectedExcursionIds, hallExcursions.Select(exc => exc.Id));
     }
@@ -111,10 +111,10 @@ public class MuseumTests(SeedFixture fixture) : IClassFixture<SeedFixture>
     [Fact]
     public void GetExhibitionAttendanceSummary_ByThemeAndPeriod_ReturnsCorrectStatistics()
     {
-        //arrange
+        // arrange
         var expectedStats = new Dictionary<ExhibitionTheme,
-            (int TotalVisitors, decimal TotalPrice, int MinVisitorsPerDay, int MaxVisitorsPerDay, 
-double AverageVisitorsPerDay)>
+            (int TotalVisitors, decimal TotalPrice, int MinVisitorsPerDay, int MaxVisitorsPerDay,
+             double AverageVisitorsPerDay)>
         {
             { ExhibitionTheme.Art, (14, 3433.33m, 1, 2, 1.4) },
             { ExhibitionTheme.History, (6, 1308.33m, 1, 2, 1.2) },
@@ -125,7 +125,7 @@ double AverageVisitorsPerDay)>
         var endDate = new DateOnly(2024, 12, 31);
         var tickets = fixture.Tickets;
 
-        //act
+        // act
         var themes = tickets
             .Where(t => DateOnly.FromDateTime(t.Excursion.StartsAt) >= startDate
                     && DateOnly.FromDateTime(t.Excursion.StartsAt) <= endDate)
@@ -141,10 +141,10 @@ double AverageVisitorsPerDay)>
                                     .Distinct()
                                     .ToList();
                                 var totalExcursionPrice = excursionGroup.Sum(ex => ex.Price);
-                                var priceShare = totalExcursionPrice / uniqueThemes.Count;// цена за тематику = 
-                                                                                          // сумма билетов на текущую экскурсию,
-                                                                                          // поделенная на количество уникальных тематик
-                                                                                          // выставок в этой экскурсии
+                                var priceShare = totalExcursionPrice / uniqueThemes.Count; // цена за тематику =
+                                                                                           // сумма билетов на текущую экскурсию,
+                                                                                           // поделенная на количество уникальных тематик
+                                                                                           // выставок в этой экскурсии
                                 return uniqueThemes.Select(theme => new
                                 {
                                     Theme = theme,
@@ -173,7 +173,7 @@ double AverageVisitorsPerDay)>
                         .OrderBy(t => t.Theme.ToString())
                         .ToList();
 
-        //assert
+        // assert
         Assert.Equal(expectedStats.Count, themes.Count);
 
         foreach (var expected in expectedStats)
@@ -193,7 +193,7 @@ double AverageVisitorsPerDay)>
     [Fact]
     public void GetVisitors_ForSelectedExcursion_OrderedByFullName()
     {
-        //arrange
+        // arrange
         var excursionId = 1;
         string[] expectedLastNames = ["Петров", "Попова"];
         int[] expectedVisitorIds = [1, 6];
@@ -209,7 +209,7 @@ double AverageVisitorsPerDay)>
             .ThenBy(v => v.Id)
             .ToList();
 
-        //assert
+        // assert
         Assert.Equal(2, visitorsExc.Count);
         Assert.Equal(expectedLastNames, visitorsExc.Select(v => v.LastName));
         Assert.Equal(expectedVisitorIds, visitorsExc.Select(v => v.Id));

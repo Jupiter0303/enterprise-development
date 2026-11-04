@@ -23,17 +23,16 @@ public class InMemoryRepository<TEntity>(IReadOnlyCollection<TEntity> seed)
     /// <summary>
     /// Добавить сущность и присвоить ей идентификатор
     /// </summary>
-    /// <param name="entity"> Добавляемая сущность</param>
-    /// <returns> Сущность с присвоенным идентификатором</returns>
+    /// <param name="entity">Добавляемая сущность</param>
+    /// <returns>Сущность с присвоенным идентификатором</returns>
     public Task<TEntity> Create(TEntity entity)
     {
-        lock(_lock)
+        lock (_lock)
         {
             entity.Id = ++_lastId;
             _items.Add(entity);
         }
         return Task.FromResult(entity);
-
     }
 
     /// <summary>
@@ -48,9 +47,7 @@ public class InMemoryRepository<TEntity>(IReadOnlyCollection<TEntity> seed)
             var entity = _items.FirstOrDefault(e => e.Id == id);
             return Task.FromResult<TEntity?>(entity);
         }
-
     }
-
     /// <summary>
     /// Вернуть список всех сущностей
     /// </summary>
@@ -88,7 +85,7 @@ public class InMemoryRepository<TEntity>(IReadOnlyCollection<TEntity> seed)
     /// <returns>True, если сущность была удалена, иначе false</returns>
     public Task<bool> Delete(int id)
     {
-        lock(_lock)
+        lock (_lock)
         {
             var delCount = _items.RemoveAll(e => e.Id == id);
             return Task.FromResult(delCount > 0);
