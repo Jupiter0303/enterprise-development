@@ -96,7 +96,9 @@ public class AnalyticsService(
                     .Distinct()
                     .ToList();
                     var totalExcursionPrice = excursionGroup.Sum(ex => ex.Price);
-                    var priceShare = totalExcursionPrice / uniqueThemes.Count;
+                    var priceShare = uniqueThemes.Count > 0
+                    ? totalExcursionPrice / uniqueThemes.Count
+                    : 0;
 
                     return uniqueThemes.Select(theme => new
                     {
