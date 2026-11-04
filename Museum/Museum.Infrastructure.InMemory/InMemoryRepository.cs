@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Museum.Domain;
-using Museum.Domain.Data;
+﻿using Museum.Domain;
 
 namespace Museum.Infrastructure.InMemory;
 

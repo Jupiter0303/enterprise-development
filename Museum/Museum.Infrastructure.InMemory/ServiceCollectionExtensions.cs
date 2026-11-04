@@ -1,12 +1,12 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Museum.Domain;
 using Museum.Domain.Data;
-using Museum.Infrastructure.InMemory;
 
+namespace Museum.Infrastructure.InMemory;
 /// <summary>
 /// Расширение IServiceCollection для регистрации InMemory репозиториев в DI контейнере
 /// </summary>
-public static class DependencyInjection
+public static class ServiceCollectionExtensions
 {
     /// <summary>
     /// Регистритровать репозитории InMemory на основе общего DataSeeder
