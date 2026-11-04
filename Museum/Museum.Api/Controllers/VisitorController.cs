@@ -17,8 +17,8 @@ public class VisitorController(IVisitorService service, ILogger<VisitorControlle
     /// </summary>
     /// <param name="id">Идентификатор посетителя</param>
     /// <returns>список билетов</returns>
-    /// response code="200">Список билетов найден</response>
-    /// response code="404">Посетитель не найден</response>
+    /// <response code="200">Список билетов найден</response>
+    /// <response code="404">Посетитель не найден</response>
     [HttpGet("{id}/tickets")]
     public async Task<ActionResult<IList<TicketDto>>> GetTickets(int id)
     {

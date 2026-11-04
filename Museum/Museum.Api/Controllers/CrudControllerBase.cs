@@ -47,6 +47,7 @@ public abstract class CrudControllerBase<TDto, TCreateUpdateDto>(
     [HttpPost]
     public async Task<ActionResult<TDto>> Create([FromBody] TCreateUpdateDto dto)
     {
+        logger.LogInformation("HTTP POST запрос: создание нового объекта {Controller}", GetType().Name);
         var result = await service.Create(dto);
         return CreatedAtAction(nameof(Get), new { id = result.Id }, result);
     }
