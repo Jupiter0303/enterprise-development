@@ -4,6 +4,7 @@ using Museum.Application.Common;
 
 namespace Museum.Api;
 
+
 public class RelatedEntityExceptionHandler(ILogger<RelatedEntityExceptionHandler> logger): IExceptionHandler
 {
     public async ValueTask<bool> TryHandleAsync(
