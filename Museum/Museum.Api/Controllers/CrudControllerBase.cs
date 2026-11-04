@@ -80,5 +80,4 @@ public abstract class CrudControllerBase<TDto, TCreateUpdateDto>(
         await service.Delete(id);
         return NoContent();
     }
-
 }

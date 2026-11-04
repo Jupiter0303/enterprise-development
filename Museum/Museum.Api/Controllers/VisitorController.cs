@@ -27,5 +27,4 @@ public class VisitorController(IVisitorService service, ILogger<VisitorControlle
         var result = await service.GetVisitorTickets(id);
         return result == null ? NotFound(): Ok(result);
     }
-
 }
