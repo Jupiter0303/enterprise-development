@@ -1,4 +1,6 @@
-﻿namespace Museum.Domain;
+﻿using Museum.Shared.Enums;
+
+namespace Museum.Domain;
 
 /// <summary>
 /// Билет на экскурсию

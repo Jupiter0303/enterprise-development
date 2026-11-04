@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Museum.Domain;
+using Museum.Shared.Enums;
 
 namespace Museum.Application.Contracts.Exhibitions;
 
@@ -17,7 +17,7 @@ public record ExhibitionCreateUpdateDto : IValidatableObject
     /// <summary>
     /// Тема выставки
     /// </summary>
-    [EnumDataType(typeof(Domain.ExhibitionTheme))]
+    [EnumDataType(typeof(ExhibitionTheme))]
     public required ExhibitionTheme Theme { get; init; }
 
     /// <summary>

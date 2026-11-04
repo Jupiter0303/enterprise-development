@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Museum.Shared.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace Museum.Application.Contracts.Tickets;
 
@@ -20,8 +21,8 @@ public record TicketCreateUpdateDto
     /// <summary>
     /// Тип билета
     /// </summary>
-    [EnumDataType(typeof(Domain.TicketType))]
-    public required Domain.TicketType Type { get; init; }
+    [EnumDataType(typeof(TicketType))]
+    public required TicketType Type { get; init; }
 
     /// <summary>  
     /// Цена билета

@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Museum.Domain\Museum.Domain.csproj" />
+    <ProjectReference Include="..\Museum.Shared\Museum.Shared.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

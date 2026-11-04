@@ -1,7 +1,7 @@
 ﻿using Museum.Application.Contracts.Common;
 using Museum.Application.Contracts.Excursions;
 using Museum.Application.Contracts.Visitors;
-using Museum.Domain;
+using Museum.Shared.Enums;
 
 namespace Museum.Application.Contracts.Tickets;
 

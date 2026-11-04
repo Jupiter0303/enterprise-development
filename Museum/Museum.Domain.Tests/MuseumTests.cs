@@ -1,4 +1,6 @@
-﻿namespace Museum.Domain.Tests;
+﻿using Museum.Shared.Enums;
+
+namespace Museum.Domain.Tests;
 
 /// <summary>
 /// Класс тестов для проверки функциональности музея

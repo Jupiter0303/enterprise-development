@@ -1,4 +1,6 @@
-﻿namespace Museum.Domain.Data;
+﻿using Museum.Shared.Enums;
+
+namespace Museum.Domain.Data;
 
 /// <summary>
 /// контейнер для передачи списков сущностей

@@ -1,6 +1,6 @@
 ﻿using Museum.Application.Contracts.Excursions;
 using Museum.Application.Contracts.Exhibitions;
-using Museum.Domain;
+using Museum.Shared.Enums;
 
 namespace Museum.Application.Contracts.Analytics;
 

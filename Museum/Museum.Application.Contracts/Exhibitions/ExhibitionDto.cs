@@ -1,5 +1,5 @@
 ﻿using Museum.Application.Contracts.Common;
-using Museum.Domain;
+using Museum.Shared.Enums;
 
 namespace Museum.Application.Contracts.Exhibitions;
 
