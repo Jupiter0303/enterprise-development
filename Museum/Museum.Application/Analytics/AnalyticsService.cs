@@ -8,12 +8,21 @@ using Museum.Domain;
 
 namespace Museum.Application.Analytics;
 
+/// <summary>
+/// Сервис для работы с аналитически запросами
+/// </summary>
+/// <param name="ticketRepository">Репозиторий билетов</param>
+/// <param name="excursionRepository">Репозиторий экскурсий</param>
+/// <param name="logger">Логгер</param>
 public class AnalyticsService(
     IRepository<Ticket> ticketRepository,
     IRepository<Excursion> excursionRepository,
     ILogger<AnalyticsService> logger) : IAnalyticsService
 {
-
+    /// <summary>
+    /// Получить топ 5 выставок по количеству уникальных посетителей
+    /// </summary>
+    /// <returns>Список выставок с количеством уникальных посетителей</returns>
     public async Task<IList<ExhibitionVisitsDto>> GetTopExhibitions()
     {
         logger.LogInformation("Аналитика: топ 5 выставок по уникальным посетителям");
@@ -29,6 +38,11 @@ public class AnalyticsService(
             .ToList();
     }
 
+    /// <summary>
+    /// Получить экскурсии с минимальным количеством посетителей, включая те,
+    /// на которые не взяли ни одного билета
+    /// </summary>
+    /// <returns>Список экскурсий с минимальным количеством посетителей</returns>
     public async Task<IList<ExcursionVisitsDto>> GetExcursionsWithMinVisitors()
     {
         logger.LogInformation("Аналитика: экскурсии с минимальным количеством уникальных посетителей");
@@ -46,7 +60,7 @@ public class AnalyticsService(
             .DistinctBy(x => x.Excursion.Id)
             .ToList();
 
-        if(!query.Any())
+        if (!query.Any())
             return [];
         var minVisitors = query.Min(x => x.VisitCount);
 
@@ -57,6 +71,12 @@ public class AnalyticsService(
             .ToList();
     }
 
+    /// <summary>
+    /// Получить статистику посещаемости по темам выставок за указанный период
+    /// </summary>
+    /// <param name="startDate">Дата начала периода</param>
+    /// <param name="endDate">Дата окончания периода</param>
+    /// <returns>Список статистик по темам выставок</returns>
     public async Task<IList<ThemeStatisticsDto>> GetThemeStatistics(DateOnly startDate, DateOnly endDate)
     {
         logger.LogInformation("Аналитика: статистика по темам выставок за период {StartDate} - {EndDate}", startDate, endDate);
@@ -95,7 +115,7 @@ public class AnalyticsService(
                 })
             )
             .GroupBy(x => x.Theme)
-            .Select(themeGroup => new 
+            .Select(themeGroup => new
             ThemeStatisticsDto(
                 themeGroup.Key,
                 themeGroup.Sum(x => x.DailyVisitors),
@@ -107,6 +127,14 @@ public class AnalyticsService(
             .OrderBy(t => t.Theme.ToString())
             .ToList();
     }
+
+    /// <summary>
+    /// Получить список экскурсий в указанном зале за указанный период
+    /// </summary>
+    /// <param name="hallNumber">Номер зала</param>
+    /// <param name="startDate">Дата начала периода</param>
+    /// <param name="endDate">Дата окончания периода</param>
+    /// <returns>Список экскурсий в указанном зале за указанный период</returns>
     public async Task<IList<ExcursionDto>> GetExcursionsInHall(int hallNumber, DateOnly startDate, DateOnly endDate)
     {
         logger.LogInformation("Аналитика: экскурсии в зале {HallNumber} за период {StartDate} - {EndDate}",
@@ -123,6 +151,12 @@ public class AnalyticsService(
             .Select(exc => exc.ToDto())
             .ToList();
     }
+
+    /// <summary>
+    /// Получить список посетителей, которые посетили указанную экскурсию
+    /// </summary>
+    /// <param name="excursionId">ID экскурсии</param>
+    /// <returns>Список посетителей, которые посетили указанную экскурсию</returns>
     public async Task<IList<VisitorDto>> GetVisitorsByExcursion(int excursionId)
     {
         logger.LogInformation("Аналитика: уникальные посетители экскурсии {ExcursionId}", excursionId);
