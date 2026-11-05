@@ -42,9 +42,15 @@ public abstract class CrudControllerBase<TDto, TCreateUpdateDto>(
     /// <summary>
     /// Создать новый объект
     /// </summary>
+    /// <param name="dto">Данные для создания</param>
     /// <response code="201">Объект создан</response>
-    /// <response code="400">Некорректные данные</response>
+    /// <response code="400">Некорректные данные или не найдена связанная сущность</response>
+    // Название и коды ответов заданы атрибутами: судя по Scalar, XML-комментарии
+    // методов с параметром обобщённого типа в OpenAPI не попадают
     [HttpPost]
+    [EndpointSummary("Создать новый объект")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<TDto>> Create([FromBody] TCreateUpdateDto dto)
     {
         logger.LogInformation("HTTP POST запрос: создание нового объекта {Controller}", GetType().Name);
@@ -57,23 +63,29 @@ public abstract class CrudControllerBase<TDto, TCreateUpdateDto>(
     /// </summary>
     /// <param name="id">Идентификатор объекта</param>
     /// <param name="dto">Данные для обновления</param>
-    /// <response code="200">Объект обновлен</response>
-    /// <response code="400">Невалидные данные</response>
+    /// <response code="200">Объект обновлён</response>
+    /// <response code="400">Некорректные данные или не найдена связанная сущность</response>
     /// <response code="404">Объект не найден</response>
     [HttpPut("{id}")]
+    [EndpointSummary("Обновить существующий объект")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<TDto>> Update(int id, [FromBody] TCreateUpdateDto dto)
     {
         logger.LogInformation("HTTP PUT запрос: обновление {Controller} с ID {Id}", GetType().Name, id);
         var result = await service.Update(id, dto);
-        return result == null ? NotFound() : Ok(result);
+        return result is null ? NotFound() : Ok(result);
     }
 
+
     /// <summary>
-    /// Удалить обхект
+    /// Удалить объект
     /// </summary>
     /// <param name="id">Идентификатор объекта</param>
     /// <response code="204">Объект удален</response>
     [HttpDelete("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> Delete(int id)
     {
         logger.LogInformation("HTTP DELETE запрос: удаление {Controller} с ID {Id}", GetType().Name, id);
