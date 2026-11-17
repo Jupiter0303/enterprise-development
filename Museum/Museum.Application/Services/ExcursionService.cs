@@ -59,7 +59,7 @@ public class ExcursionService(
     /// <exception cref="RelatedEntityNotFoundException">Выбрасывается, если одна из выставок не найдена</exception>
     private async Task<List<Exhibition>> LoadExhibitions(ExcursionCreateUpdateDto dto)
     {
-        logger.LogInformation("Поиск выставок для экскурсии по {Count} идентификаторам", dto.ExhibitionIds.Count);
+        Logger.LogInformation("Поиск выставок для экскурсии по {Count} идентификаторам", dto.ExhibitionIds.Count);
 
         var exhibitions = new List<Exhibition>();
 
@@ -81,9 +81,9 @@ public class ExcursionService(
     /// <returns>Список билетов</returns>
     public async Task<IList<TicketDto>?> GetExcursionTickets(int excursionId)
     {
-        logger.LogInformation("Получение билетов для экскурсии с ID {ExcursionId}", excursionId);
+        Logger.LogInformation("Получение билетов для экскурсии с ID {ExcursionId}", excursionId);
 
-        var excursion = await repository.Read(excursionId);
+        var excursion = await Repository.Read(excursionId);
         if (excursion is null)
             return null;
 
@@ -101,9 +101,9 @@ public class ExcursionService(
     /// <returns>Список выставок</returns>
     public async Task<IList<ExhibitionDto>?> GetExcursionExhibitions(int excursionId)
     {
-        logger.LogInformation("Получение выставок для экскурсии с ID {ExcursionId}", excursionId);
+        Logger.LogInformation("Получение выставок для экскурсии с ID {ExcursionId}", excursionId);
 
-        var excursion = await repository.Read(excursionId);
+        var excursion = await Repository.Read(excursionId);
         if (excursion is null)
             return null;
 

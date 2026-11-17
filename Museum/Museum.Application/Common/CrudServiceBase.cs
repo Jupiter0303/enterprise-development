@@ -20,6 +20,14 @@ public abstract class CrudServiceBase<TEntity, TDto, TCreateUpdateDto>(
     where TEntity : class, IEntity
 {
     /// <summary>
+    /// Репозиторий для доступа к данным текущей сущности
+    /// </summary>
+    protected IRepository<TEntity> Repository => repository;
+    /// <summary>
+    /// Логгер для логирования действий сервиса
+    /// </summary>
+    protected ILogger Logger => logger;
+    /// <summary>
     /// Преобразовать сущность в DTO
     /// </summary>
     /// <param name="entity">Сущность для преобразования</param>

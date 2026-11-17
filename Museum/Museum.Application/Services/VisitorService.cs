@@ -52,9 +52,9 @@ public class VisitorService(
     /// <returns>Список билетов посетителя</returns>
     public async Task<IList<TicketDto>?> GetVisitorTickets(int visitorId)
     {
-        logger.LogInformation("Получение билетов для посетителя с ID {VisitorId}", visitorId);
+        Logger.LogInformation("Получение билетов для посетителя с ID {VisitorId}", visitorId);
 
-        var visitor = await repository.Read(visitorId);
+        var visitor = await Repository.Read(visitorId);
         if (visitor is null)
             return null;
 

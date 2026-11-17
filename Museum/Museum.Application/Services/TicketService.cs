@@ -58,7 +58,7 @@ public class TicketService(
     /// <exception cref="RelatedEntityNotFoundException">Выбрасывается в случае отсуствия сущности</exception>
     private async Task<(Excursion Excursion, Visitor Visitor)> ResolveReferences(TicketCreateUpdateDto dto)
     {
-        logger.LogInformation("Поиск связанных сущностей для билета: Экскурсия {ExcursionId}, Посетитель {VisitorId}",
+        Logger.LogInformation("Поиск связанных сущностей для билета: Экскурсия {ExcursionId}, Посетитель {VisitorId}",
             dto.ExcursionId, dto.VisitorId);
 
         var excursion = await excursionRepository.Read(dto.ExcursionId)

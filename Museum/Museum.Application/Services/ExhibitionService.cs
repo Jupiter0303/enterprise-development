@@ -49,9 +49,9 @@ public class ExhibitionService(IRepository<Exhibition> repository, IRepository<E
     /// <returns>Список DTO экскурсий или null, если выставка не найдена</returns>
     public async Task<IList<ExcursionDto>?> GetExhibitionExcursions(int exhibitionId)
     {
-        logger.LogInformation("Получение экскурсий для выставки с ID {ExhibitionId}", exhibitionId);
+        Logger.LogInformation("Получение экскурсий для выставки с ID {ExhibitionId}", exhibitionId);
 
-        var exhibition = await repository.Read(exhibitionId);
+        var exhibition = await Repository.Read(exhibitionId);
         if (exhibition is null) return null;
 
         var excurions = await excursionRepository.ReadAll();
