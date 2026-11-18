@@ -11,6 +11,7 @@ using Scalar.AspNetCore;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.AddServiceDefaults();
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
@@ -29,6 +30,7 @@ builder.Services.AddScoped<ITicketService, TicketService>();
 builder.Services.AddScoped<IAnalyticsService, AnalyticsService>();
 
 var app = builder.Build();
+app.MapDefaultEndpoints();
 
 if (app.Environment.IsDevelopment())
 {
