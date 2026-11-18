@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Museum.Application\Museum.Application.csproj" />
     <ProjectReference Include="..\Museum.Infrastructure.InMemory\Museum.Infrastructure.InMemory.csproj" />
+    <ProjectReference Include="..\Museum.ServiceDefaults\Museum.ServiceDefaults.csproj" />
   </ItemGroup>
 
 </Project>
