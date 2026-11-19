@@ -9,6 +9,7 @@ using Museum.Application.Services;
 using Museum.Infrastructure.InMemory;
 using Scalar.AspNetCore;
 using System.Text.Json.Serialization;
+using Museum.Infrastructure.EfCore;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.AddServiceDefaults();
@@ -21,7 +22,16 @@ builder.Services.AddExceptionHandler<RelatedEntityExceptionHandler>();
 builder.Services.AddProblemDetails();
 builder.Services.AddOpenApi();
 
-builder.Services.AddInMemoryRepositories();
+var provider = builder.Configuration["Storage:Provider"] ?? "EfCore";
+
+if(provider == "InMemory")
+    builder.Services.AddInMemoryRepositories();
+
+else
+{
+    builder.AddMySqlDbContext<MuseumDbContext>("museam");
+    builder.Services.AddEfCoreRepositories();
+}
 
 builder.Services.AddScoped<IVisitorService, VisitorService>();
 builder.Services.AddScoped<IExhibitionService, ExhibitionService>();

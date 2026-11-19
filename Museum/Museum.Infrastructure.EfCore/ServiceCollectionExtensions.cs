@@ -1,7 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Museum.Domain;
+using Museum.Infrastructure.EfCore.Repositories;
 
-namespace Museum.Infrastructure.EfCore.Repositories;
+namespace Museum.Infrastructure.EfCore;
 
 public static class ServiceCollectionExtensions
 {
