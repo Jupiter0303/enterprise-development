@@ -1,4 +1,6 @@
-﻿using Museum.Shared.Enums;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Museum.Shared.Enums;
 
 namespace Museum.Domain;
 
@@ -10,6 +12,8 @@ public class Ticket: IEntity
     /// <summary>
     /// Идентификатор билета
     /// </summary>
+    [Key]
+    [Column("id")]
     public int Id { get; set; }
     /// <summary>
     /// Экскурсия, на которую оформлен билет
@@ -22,9 +26,11 @@ public class Ticket: IEntity
     /// <summary>
     /// Тип билета
     /// </summary>
+    [Column("type")]
     public required TicketType Type { get; set; }
     /// <summary>
     /// Цена билета
     /// </summary>
+    [Column("price", TypeName = "decimal(10, 2)")]
     public required decimal Price { get; set; }
 }
