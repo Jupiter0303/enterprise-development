@@ -29,7 +29,7 @@ if(provider == "InMemory")
 
 else
 {
-    builder.AddMySqlDbContext<MuseumDbContext>("museam");
+    builder.AddMySqlDbContext<MuseumDbContext>("museum");
     builder.Services.AddEfCoreRepositories();
 }
 
