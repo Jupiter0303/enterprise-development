@@ -16,6 +16,7 @@
     <ProjectReference Include="..\Museum.Application\Museum.Application.csproj" />
     <ProjectReference Include="..\Museum.Infrastructure.InMemory\Museum.Infrastructure.InMemory.csproj" />
     <ProjectReference Include="..\Museum.ServiceDefaults\Museum.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\Museum.Infrastructure.EfCore\Museum.Infrastructure.EfCore.csproj" />
   </ItemGroup>
 
 </Project>

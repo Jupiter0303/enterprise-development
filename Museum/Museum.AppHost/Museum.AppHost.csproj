@@ -13,4 +13,8 @@
     <ProjectReference Include="..\Museum.Api\Museum.Api.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Aspire.Hosting.MySql" Version="13.5.4" />
+  </ItemGroup>
+
 </Project>
