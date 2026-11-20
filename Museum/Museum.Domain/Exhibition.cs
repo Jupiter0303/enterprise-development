@@ -7,6 +7,7 @@ namespace Museum.Domain;
 /// <summary>
 /// Выставка
 /// </summary>
+[Table("exhibitions")]
 public class Exhibition: IEntity
 {
     /// <summary>

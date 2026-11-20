@@ -7,6 +7,7 @@ namespace Museum.Domain;
 /// <summary>
 /// Билет на экскурсию
 /// </summary>
+[Table("tickets")]
 public class Ticket: IEntity
 {
     /// <summary>

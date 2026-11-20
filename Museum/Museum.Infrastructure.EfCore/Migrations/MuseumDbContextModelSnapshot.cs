@@ -41,7 +41,7 @@ namespace Museum.Infrastructure.EfCore.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Excursions");
+                    b.ToTable("excursions");
                 });
 
             modelBuilder.Entity("Museum.Domain.Exhibition", b =>
@@ -76,7 +76,7 @@ namespace Museum.Infrastructure.EfCore.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Exhibitions");
+                    b.ToTable("exhibitions");
                 });
 
             modelBuilder.Entity("Museum.Domain.Ticket", b =>
@@ -110,7 +110,7 @@ namespace Museum.Infrastructure.EfCore.Migrations
 
                     b.HasIndex("VisitorId");
 
-                    b.ToTable("Tickets");
+                    b.ToTable("tickets");
                 });
 
             modelBuilder.Entity("Museum.Domain.Visitor", b =>
@@ -146,7 +146,7 @@ namespace Museum.Infrastructure.EfCore.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Visitors");
+                    b.ToTable("visitors");
                 });
 
             modelBuilder.Entity("excursion_exhibitions", b =>

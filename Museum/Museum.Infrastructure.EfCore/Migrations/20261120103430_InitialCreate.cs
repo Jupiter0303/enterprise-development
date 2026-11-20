@@ -16,7 +16,7 @@ namespace Museum.Infrastructure.EfCore.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Excursions",
+                name: "excursions",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "int", nullable: false)
@@ -26,12 +26,12 @@ namespace Museum.Infrastructure.EfCore.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Excursions", x => x.id);
+                    table.PrimaryKey("PK_excursions", x => x.id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Exhibitions",
+                name: "exhibitions",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "int", nullable: false)
@@ -45,12 +45,12 @@ namespace Museum.Infrastructure.EfCore.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Exhibitions", x => x.id);
+                    table.PrimaryKey("PK_exhibitions", x => x.id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Visitors",
+                name: "visitors",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "int", nullable: false)
@@ -67,7 +67,7 @@ namespace Museum.Infrastructure.EfCore.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Visitors", x => x.id);
+                    table.PrimaryKey("PK_visitors", x => x.id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -82,22 +82,22 @@ namespace Museum.Infrastructure.EfCore.Migrations
                 {
                     table.PrimaryKey("PK_excursion_exhibitions", x => new { x.excursion_id, x.exhibition_id });
                     table.ForeignKey(
-                        name: "FK_excursion_exhibitions_Excursions_excursion_id",
+                        name: "FK_excursion_exhibitions_excursions_excursion_id",
                         column: x => x.excursion_id,
-                        principalTable: "Excursions",
+                        principalTable: "excursions",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_excursion_exhibitions_Exhibitions_exhibition_id",
+                        name: "FK_excursion_exhibitions_exhibitions_exhibition_id",
                         column: x => x.exhibition_id,
-                        principalTable: "Exhibitions",
+                        principalTable: "exhibitions",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Tickets",
+                name: "tickets",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "int", nullable: false)
@@ -109,17 +109,17 @@ namespace Museum.Infrastructure.EfCore.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Tickets", x => x.id);
+                    table.PrimaryKey("PK_tickets", x => x.id);
                     table.ForeignKey(
-                        name: "FK_Tickets_Excursions_excursion_id",
+                        name: "FK_tickets_excursions_excursion_id",
                         column: x => x.excursion_id,
-                        principalTable: "Excursions",
+                        principalTable: "excursions",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Tickets_Visitors_visitor_id",
+                        name: "FK_tickets_visitors_visitor_id",
                         column: x => x.visitor_id,
-                        principalTable: "Visitors",
+                        principalTable: "visitors",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -131,13 +131,13 @@ namespace Museum.Infrastructure.EfCore.Migrations
                 column: "exhibition_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tickets_excursion_id",
-                table: "Tickets",
+                name: "IX_tickets_excursion_id",
+                table: "tickets",
                 column: "excursion_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tickets_visitor_id",
-                table: "Tickets",
+                name: "IX_tickets_visitor_id",
+                table: "tickets",
                 column: "visitor_id");
         }
 
@@ -148,16 +148,16 @@ namespace Museum.Infrastructure.EfCore.Migrations
                 name: "excursion_exhibitions");
 
             migrationBuilder.DropTable(
-                name: "Tickets");
+                name: "tickets");
 
             migrationBuilder.DropTable(
-                name: "Exhibitions");
+                name: "exhibitions");
 
             migrationBuilder.DropTable(
-                name: "Excursions");
+                name: "excursions");
 
             migrationBuilder.DropTable(
-                name: "Visitors");
+                name: "visitors");
         }
     }
 }

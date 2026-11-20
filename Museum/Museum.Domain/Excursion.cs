@@ -1,10 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+
 namespace Museum.Domain;
 
 /// <summary>
 /// Экскурсия
 /// </summary>
+[Table("excursions")]
 public class Excursion : IEntity
 {
     /// <summary>

@@ -6,6 +6,7 @@ namespace Museum.Domain;
 /// <summary>
 /// Посетитель музея
 /// </summary>
+[Table("visitors")  ]
 public class Visitor: IEntity
 {
     /// <summary>
