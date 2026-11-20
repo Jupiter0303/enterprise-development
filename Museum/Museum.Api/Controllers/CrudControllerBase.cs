@@ -78,7 +78,6 @@ public abstract class CrudControllerBase<TDto, TCreateUpdateDto>(
         return result is null ? NotFound() : Ok(result);
     }
 
-
     /// <summary>
     /// Удалить объект
     /// </summary>

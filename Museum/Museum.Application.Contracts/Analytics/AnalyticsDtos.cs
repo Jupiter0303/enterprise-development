@@ -9,7 +9,7 @@ namespace Museum.Application.Contracts.Analytics;
 /// </summary>
 /// <param name="Exhibition">DTO выставки</param>
 /// <param name="VisitorCount">Количество уникальных посетителей</param>
-public record ExhibitionVisitsDto (
+public record ExhibitionVisitsDto(
     ExhibitionDto Exhibition,
     int VisitorCount);
 

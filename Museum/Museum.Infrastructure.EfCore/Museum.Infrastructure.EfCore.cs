@@ -1,10 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-
 namespace Museum.Infrastructure.EfCore;
 
-public class MuseumDbContextFactory: IDesignTimeDbContextFactory<MuseumDbContext>
+public class MuseumDbContextFactory : IDesignTimeDbContextFactory<MuseumDbContext>
 {
     // Для генерации миграции в disign-time при использовании dotnet ef
     public MuseumDbContext CreateDbContext(string[] args)

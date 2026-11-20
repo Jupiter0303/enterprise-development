@@ -2,7 +2,6 @@
 
 namespace Museum.Application.Contracts.Visitors;
 
-
 /// <summary>
 /// DTO для создания и обновления посетителя
 /// </summary>
@@ -38,4 +37,3 @@ public record VisitorCreateUpdateDto
     [Phone]
     public string? PhoneNumber { get; init; }
 }
-

@@ -38,7 +38,7 @@ public interface IAnalyticsService
     /// <param name="endDate">Дата окончания периода</param>
     /// <returns>Список экскурсий в указанном зале за указанный период</returns>
     public Task<IList<ExcursionDto>> GetExcursionsInHall(int hallNumber, DateOnly startDate, DateOnly endDate);
-    
+
     /// <summary>
     /// Получить список посетителей, которые посетили указанную экскурсию
     /// </summary>

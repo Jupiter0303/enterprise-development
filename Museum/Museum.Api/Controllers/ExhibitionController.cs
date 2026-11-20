@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Museum.Application.Contracts.Excursions;
 using Museum.Application.Contracts.Exhibitions;
+
 namespace Museum.Api.Controllers;
 
 /// <summary>

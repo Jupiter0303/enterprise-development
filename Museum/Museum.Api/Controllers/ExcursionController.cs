@@ -1,7 +1,7 @@
-﻿using Museum.Application.Contracts.Excursions;
-using Museum.Application.Contracts.Tickets;
+﻿using Microsoft.AspNetCore.Mvc;
+using Museum.Application.Contracts.Excursions;
 using Museum.Application.Contracts.Exhibitions;
-using Microsoft.AspNetCore.Mvc;
+using Museum.Application.Contracts.Tickets;
 
 namespace Museum.Api.Controllers;
 

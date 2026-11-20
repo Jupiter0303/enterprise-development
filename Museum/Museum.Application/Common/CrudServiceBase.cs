@@ -1,6 +1,6 @@
-﻿using Museum.Domain;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Museum.Application.Contracts.Common;
+using Museum.Domain;
 
 namespace Museum.Application.Common;
 

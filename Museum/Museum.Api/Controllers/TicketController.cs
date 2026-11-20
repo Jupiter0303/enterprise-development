@@ -1,4 +1,5 @@
 ﻿using Museum.Application.Contracts.Tickets;
+
 namespace Museum.Api.Controllers;
 
 /// <summary>

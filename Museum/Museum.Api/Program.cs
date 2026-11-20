@@ -1,4 +1,5 @@
-﻿using Museum.Api;
+﻿using Microsoft.EntityFrameworkCore;
+using Museum.Api;
 using Museum.Application.Analytics;
 using Museum.Application.Contracts.Analytics;
 using Museum.Application.Contracts.Excursions;
@@ -6,11 +7,10 @@ using Museum.Application.Contracts.Exhibitions;
 using Museum.Application.Contracts.Tickets;
 using Museum.Application.Contracts.Visitors;
 using Museum.Application.Services;
+using Museum.Infrastructure.EfCore;
 using Museum.Infrastructure.InMemory;
 using Scalar.AspNetCore;
 using System.Text.Json.Serialization;
-using Museum.Infrastructure.EfCore;
-using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.AddServiceDefaults();
@@ -25,15 +25,14 @@ builder.Services.AddOpenApi();
 
 var provider = builder.Configuration["Storage:Provider"] ?? "EfCore";
 
-if(provider == "InMemory")
+if (provider == "InMemory")
     builder.Services.AddInMemoryRepositories();
-
 else
 {
     builder.AddMySqlDbContext<MuseumDbContext>("museum");
     builder.Services.AddEfCoreRepositories();
 }
-    
+
 builder.Services.AddScoped<IVisitorService, VisitorService>();
 builder.Services.AddScoped<IExhibitionService, ExhibitionService>();
 builder.Services.AddScoped<IExcursionService, ExcursionService>();

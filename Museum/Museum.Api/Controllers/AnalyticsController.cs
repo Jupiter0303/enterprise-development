@@ -12,8 +12,8 @@ namespace Museum.Api.Controllers;
 /// <param name="logger">Логгер</param>
 [ApiController]
 [Route("api/[controller]")]
-public class AnalyticsController
-    (IAnalyticsService analyticsService,
+public class AnalyticsController(
+    IAnalyticsService analyticsService,
     ILogger<AnalyticsController> logger) : ControllerBase
 {
     /// <summary>

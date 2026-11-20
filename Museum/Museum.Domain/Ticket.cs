@@ -1,6 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Museum.Shared.Enums;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Museum.Shared.Enums;
 
 namespace Museum.Domain;
 
@@ -8,7 +8,7 @@ namespace Museum.Domain;
 /// Билет на экскурсию
 /// </summary>
 [Table("tickets")]
-public class Ticket: IEntity
+public class Ticket : IEntity
 {
     /// <summary>
     /// Идентификатор билета

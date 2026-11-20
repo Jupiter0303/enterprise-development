@@ -1,7 +1,7 @@
-﻿using Museum.Application.Common;
-using Museum.Application.Contracts.Exhibitions;
+﻿using Microsoft.Extensions.Logging;
+using Museum.Application.Common;
 using Museum.Application.Contracts.Excursions;
-using Microsoft.Extensions.Logging;
+using Museum.Application.Contracts.Exhibitions;
 using Museum.Application.Mapping;
 using Museum.Domain;
 
@@ -54,10 +54,10 @@ public class ExhibitionService(IRepository<Exhibition> repository, IRepository<E
         var exhibition = await Repository.Read(exhibitionId);
         if (exhibition is null) return null;
 
-        var excurions = await excursionRepository.ReadAll();
-        return excurions.
-                Where(exc => exc.Exhibitions.Any(exh => exh.Id == exhibition.Id))
-                .Select(exc => exc.ToDto())
-                .ToList();
+        var excursions = await excursionRepository.ReadAll();
+        return excursions
+            .Where(exc => exc.Exhibitions.Any(exh => exh.Id == exhibition.Id))
+            .Select(exc => exc.ToDto())
+            .ToList();
     }
 }

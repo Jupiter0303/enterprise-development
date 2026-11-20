@@ -6,8 +6,8 @@ namespace Museum.Domain;
 /// <summary>
 /// Посетитель музея
 /// </summary>
-[Table("visitors")  ]
-public class Visitor: IEntity
+[Table("visitors")]
+public class Visitor : IEntity
 {
     /// <summary>
     /// Идентификатор посетителя

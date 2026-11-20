@@ -42,6 +42,74 @@ namespace Museum.Infrastructure.EfCore.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("excursions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Duration = new TimeSpan(0, 1, 30, 0, 0),
+                            StartsAt = new DateTime(2024, 1, 15, 10, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Duration = new TimeSpan(0, 2, 0, 0, 0),
+                            StartsAt = new DateTime(2024, 3, 10, 14, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Duration = new TimeSpan(0, 1, 45, 0, 0),
+                            StartsAt = new DateTime(2024, 5, 20, 11, 30, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Duration = new TimeSpan(0, 2, 10, 0, 0),
+                            StartsAt = new DateTime(2024, 7, 5, 9, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Duration = new TimeSpan(0, 1, 30, 0, 0),
+                            StartsAt = new DateTime(2024, 9, 15, 13, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Duration = new TimeSpan(0, 2, 50, 0, 0),
+                            StartsAt = new DateTime(2024, 11, 10, 15, 30, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Duration = new TimeSpan(0, 1, 30, 0, 0),
+                            StartsAt = new DateTime(2024, 2, 5, 10, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Duration = new TimeSpan(0, 2, 0, 0, 0),
+                            StartsAt = new DateTime(2024, 4, 10, 14, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Duration = new TimeSpan(0, 1, 45, 0, 0),
+                            StartsAt = new DateTime(2024, 6, 20, 11, 30, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Duration = new TimeSpan(0, 2, 15, 0, 0),
+                            StartsAt = new DateTime(2024, 8, 5, 9, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Duration = new TimeSpan(0, 1, 30, 0, 0),
+                            StartsAt = new DateTime(2024, 10, 15, 13, 0, 0, 0, DateTimeKind.Unspecified)
+                        });
                 });
 
             modelBuilder.Entity("Museum.Domain.Exhibition", b =>
@@ -77,6 +145,98 @@ namespace Museum.Infrastructure.EfCore.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("exhibitions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            EndDate = new DateOnly(2024, 2, 10),
+                            HallNumber = 101,
+                            Name = "Импрессионисты",
+                            StartDate = new DateOnly(2024, 1, 10),
+                            Theme = 0
+                        },
+                        new
+                        {
+                            Id = 2,
+                            EndDate = new DateOnly(2024, 4, 5),
+                            HallNumber = 209,
+                            Name = "Древний Египет",
+                            StartDate = new DateOnly(2024, 3, 5),
+                            Theme = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            EndDate = new DateOnly(2024, 6, 15),
+                            HallNumber = 212,
+                            Name = "Выставка динозавров",
+                            StartDate = new DateOnly(2024, 5, 15),
+                            Theme = 2
+                        },
+                        new
+                        {
+                            Id = 4,
+                            EndDate = new DateOnly(2024, 8, 1),
+                            HallNumber = 110,
+                            Name = "Фауна Северной Америки",
+                            StartDate = new DateOnly(2024, 7, 1),
+                            Theme = 3
+                        },
+                        new
+                        {
+                            Id = 5,
+                            EndDate = new DateOnly(2024, 10, 10),
+                            HallNumber = 103,
+                            Name = "Русский авангард",
+                            StartDate = new DateOnly(2024, 9, 10),
+                            Theme = 0
+                        },
+                        new
+                        {
+                            Id = 6,
+                            EndDate = new DateOnly(2024, 12, 20),
+                            HallNumber = 206,
+                            Name = "Римская империя",
+                            StartDate = new DateOnly(2024, 11, 20),
+                            Theme = 1
+                        },
+                        new
+                        {
+                            Id = 7,
+                            EndDate = new DateOnly(2024, 2, 25),
+                            HallNumber = 211,
+                            Name = "Космос",
+                            StartDate = new DateOnly(2024, 1, 25),
+                            Theme = 2
+                        },
+                        new
+                        {
+                            Id = 8,
+                            EndDate = new DateOnly(2024, 4, 15),
+                            HallNumber = 108,
+                            Name = "Тропические леса",
+                            StartDate = new DateOnly(2024, 3, 15),
+                            Theme = 3
+                        },
+                        new
+                        {
+                            Id = 9,
+                            EndDate = new DateOnly(2024, 6, 5),
+                            HallNumber = 103,
+                            Name = "Выставка архитектуры",
+                            StartDate = new DateOnly(2024, 5, 5),
+                            Theme = 0
+                        },
+                        new
+                        {
+                            Id = 10,
+                            EndDate = new DateOnly(2024, 8, 20),
+                            HallNumber = 200,
+                            Name = "Выставка древних цивилизаций",
+                            StartDate = new DateOnly(2024, 7, 20),
+                            Theme = 1
+                        });
                 });
 
             modelBuilder.Entity("Museum.Domain.Ticket", b =>
@@ -111,6 +271,120 @@ namespace Museum.Infrastructure.EfCore.Migrations
                     b.HasIndex("VisitorId");
 
                     b.ToTable("tickets");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ExcursionId = 1,
+                            Price = 500m,
+                            Type = 0,
+                            VisitorId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ExcursionId = 2,
+                            Price = 300m,
+                            Type = 1,
+                            VisitorId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ExcursionId = 5,
+                            Price = 600m,
+                            Type = 0,
+                            VisitorId = 3
+                        },
+                        new
+                        {
+                            Id = 4,
+                            ExcursionId = 7,
+                            Price = 400m,
+                            Type = 1,
+                            VisitorId = 4
+                        },
+                        new
+                        {
+                            Id = 5,
+                            ExcursionId = 8,
+                            Price = 550m,
+                            Type = 0,
+                            VisitorId = 5
+                        },
+                        new
+                        {
+                            Id = 6,
+                            ExcursionId = 1,
+                            Price = 350m,
+                            Type = 1,
+                            VisitorId = 6
+                        },
+                        new
+                        {
+                            Id = 7,
+                            ExcursionId = 2,
+                            Price = 500m,
+                            Type = 0,
+                            VisitorId = 7
+                        },
+                        new
+                        {
+                            Id = 8,
+                            ExcursionId = 3,
+                            Price = 300m,
+                            Type = 1,
+                            VisitorId = 8
+                        },
+                        new
+                        {
+                            Id = 9,
+                            ExcursionId = 4,
+                            Price = 600m,
+                            Type = 0,
+                            VisitorId = 9
+                        },
+                        new
+                        {
+                            Id = 10,
+                            ExcursionId = 8,
+                            Price = 400m,
+                            Type = 1,
+                            VisitorId = 10
+                        },
+                        new
+                        {
+                            Id = 11,
+                            ExcursionId = 6,
+                            Price = 550m,
+                            Type = 0,
+                            VisitorId = 11
+                        },
+                        new
+                        {
+                            Id = 12,
+                            ExcursionId = 10,
+                            Price = 350m,
+                            Type = 1,
+                            VisitorId = 12
+                        },
+                        new
+                        {
+                            Id = 13,
+                            ExcursionId = 11,
+                            Price = 500m,
+                            Type = 0,
+                            VisitorId = 1
+                        },
+                        new
+                        {
+                            Id = 14,
+                            ExcursionId = 11,
+                            Price = 300m,
+                            Type = 1,
+                            VisitorId = 2
+                        });
                 });
 
             modelBuilder.Entity("Museum.Domain.Visitor", b =>
@@ -147,6 +421,98 @@ namespace Museum.Infrastructure.EfCore.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("visitors");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Birthday = new DateOnly(1990, 5, 12),
+                            FirstName = "Иван",
+                            LastName = "Петров",
+                            PhoneNumber = "+79001112233"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Birthday = new DateOnly(1985, 3, 21),
+                            FirstName = "Мария",
+                            LastName = "Сидорова"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Birthday = new DateOnly(2000, 7, 15),
+                            FirstName = "Алексей",
+                            LastName = "Иванов",
+                            PhoneNumber = "+79005556677"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Birthday = new DateOnly(1995, 11, 30),
+                            FirstName = "Екатерина",
+                            LastName = "Смирнова"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Birthday = new DateOnly(1988, 2, 5),
+                            FirstName = "Дмитрий",
+                            LastName = "Кузнецов",
+                            PhoneNumber = "+79008889900"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Birthday = new DateOnly(1992, 9, 18),
+                            FirstName = "Ольга",
+                            LastName = "Попова"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Birthday = new DateOnly(1998, 6, 10),
+                            FirstName = "Сергей",
+                            LastName = "Васильев",
+                            PhoneNumber = "+79002223344"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Birthday = new DateOnly(1993, 4, 25),
+                            FirstName = "Анастасия",
+                            LastName = "Морозова"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Birthday = new DateOnly(1987, 12, 1),
+                            FirstName = "Николай",
+                            LastName = "Новиков",
+                            PhoneNumber = "+79003334455"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Birthday = new DateOnly(1991, 8, 14),
+                            FirstName = "Татьяна",
+                            LastName = "Федорова"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Birthday = new DateOnly(1989, 10, 3),
+                            FirstName = "Владимир",
+                            LastName = "Соколов",
+                            PhoneNumber = "+79004445566"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Birthday = new DateOnly(1994, 1, 22),
+                            FirstName = "Елена",
+                            LastName = "Козлова"
+                        });
                 });
 
             modelBuilder.Entity("excursion_exhibitions", b =>
@@ -162,6 +528,143 @@ namespace Museum.Infrastructure.EfCore.Migrations
                     b.HasIndex("exhibition_id");
 
                     b.ToTable("excursion_exhibitions");
+
+                    b.HasData(
+                        new
+                        {
+                            excursion_id = 1,
+                            exhibition_id = 1
+                        },
+                        new
+                        {
+                            excursion_id = 1,
+                            exhibition_id = 4
+                        },
+                        new
+                        {
+                            excursion_id = 1,
+                            exhibition_id = 5
+                        },
+                        new
+                        {
+                            excursion_id = 2,
+                            exhibition_id = 2
+                        },
+                        new
+                        {
+                            excursion_id = 2,
+                            exhibition_id = 5
+                        },
+                        new
+                        {
+                            excursion_id = 2,
+                            exhibition_id = 6
+                        },
+                        new
+                        {
+                            excursion_id = 3,
+                            exhibition_id = 3
+                        },
+                        new
+                        {
+                            excursion_id = 3,
+                            exhibition_id = 5
+                        },
+                        new
+                        {
+                            excursion_id = 3,
+                            exhibition_id = 9
+                        },
+                        new
+                        {
+                            excursion_id = 4,
+                            exhibition_id = 1
+                        },
+                        new
+                        {
+                            excursion_id = 4,
+                            exhibition_id = 9
+                        },
+                        new
+                        {
+                            excursion_id = 4,
+                            exhibition_id = 10
+                        },
+                        new
+                        {
+                            excursion_id = 5,
+                            exhibition_id = 1
+                        },
+                        new
+                        {
+                            excursion_id = 5,
+                            exhibition_id = 2
+                        },
+                        new
+                        {
+                            excursion_id = 5,
+                            exhibition_id = 6
+                        },
+                        new
+                        {
+                            excursion_id = 6,
+                            exhibition_id = 1
+                        },
+                        new
+                        {
+                            excursion_id = 6,
+                            exhibition_id = 7
+                        },
+                        new
+                        {
+                            excursion_id = 7,
+                            exhibition_id = 1
+                        },
+                        new
+                        {
+                            excursion_id = 7,
+                            exhibition_id = 2
+                        },
+                        new
+                        {
+                            excursion_id = 7,
+                            exhibition_id = 7
+                        },
+                        new
+                        {
+                            excursion_id = 8,
+                            exhibition_id = 5
+                        },
+                        new
+                        {
+                            excursion_id = 8,
+                            exhibition_id = 7
+                        },
+                        new
+                        {
+                            excursion_id = 9,
+                            exhibition_id = 1
+                        },
+                        new
+                        {
+                            excursion_id = 10,
+                            exhibition_id = 1
+                        },
+                        new
+                        {
+                            excursion_id = 10,
+                            exhibition_id = 2
+                        },
+                        new
+                        {
+                            excursion_id = 10,
+                            exhibition_id = 9
+                        },
+                        new
+                        {
+                            excursion_id = 11,
+                            exhibition_id = 5
+                        });
                 });
 
             modelBuilder.Entity("Museum.Domain.Ticket", b =>

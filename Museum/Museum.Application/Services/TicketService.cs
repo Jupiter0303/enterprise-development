@@ -1,9 +1,8 @@
-﻿using Museum.Application.Contracts.Tickets;
-using Museum.Domain;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Museum.Application.Common;
+using Museum.Application.Contracts.Tickets;
 using Museum.Application.Mapping;
-
+using Museum.Domain;
 
 namespace Museum.Application.Services;
 

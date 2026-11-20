@@ -21,12 +21,12 @@ public class MuseumDbContext(DbContextOptions<MuseumDbContext> options) : DbCont
             builder.Property<int>("VisitorId").HasColumnName("visitor_id");
 
             builder.HasOne(t => t.Excursion)
-            .WithMany()
-            .HasForeignKey("ExcursionId");
+                .WithMany()
+                .HasForeignKey("ExcursionId");
 
             builder.HasOne(t => t.Visitor)
-            .WithMany()
-            .HasForeignKey("VisitorId");
+                .WithMany()
+                .HasForeignKey("VisitorId");
         });
 
         modelBuilder.Entity<Excursion>()
@@ -34,15 +34,19 @@ public class MuseumDbContext(DbContextOptions<MuseumDbContext> options) : DbCont
             .WithMany()
             .UsingEntity<Dictionary<string, object>>(
             "excursion_exhibitions",
-            r => r.HasOne<Exhibition>().WithMany().HasForeignKey("exhibition_id"),
-            l => l.HasOne<Excursion>().WithMany().HasForeignKey("excursion_id"),
+            r => r.HasOne<Exhibition>()
+                .WithMany()
+                .HasForeignKey("exhibition_id"),
+            l => l.HasOne<Excursion>()
+                .WithMany()
+                .HasForeignKey("excursion_id"),
             j => j.HasData(
                 DataSeeder.Create().Excursions.SelectMany(exc => exc.Exhibitions.Select(exh =>
-                new Dictionary<string, object>
-                {
-                    ["excursion_id"] = exc.Id,
-                    ["exhibition_id"] = exh.Id
-                }))));
+                    new Dictionary<string, object>
+                    {
+                        ["excursion_id"] = exc.Id,
+                        ["exhibition_id"] = exh.Id
+                    }))));
 
         var seed = DataSeeder.Create();
 
@@ -59,13 +63,13 @@ public class MuseumDbContext(DbContextOptions<MuseumDbContext> options) : DbCont
 
         modelBuilder.Entity<Ticket>().HasData(
             seed.Tickets.Select(t =>
-            new
-            {
-                t.Id,
-                t.Type,
-                t.Price,
-                ExcursionId = t.Excursion.Id,
-                VisitorId = t.Visitor.Id
-            }));
+                new
+                {
+                    t.Id,
+                    t.Type,
+                    t.Price,
+                    ExcursionId = t.Excursion.Id,
+                    VisitorId = t.Visitor.Id
+                }));
     }
 }

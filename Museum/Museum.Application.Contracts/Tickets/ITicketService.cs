@@ -6,6 +6,6 @@ namespace Museum.Application.Contracts.Tickets;
 /// <summary>
 /// Интерфейс сервиса для работы с билетами
 /// </summary>
-public interface ITicketService: ICrudService<TicketDto, TicketCreateUpdateDto>
+public interface ITicketService : ICrudService<TicketDto, TicketCreateUpdateDto>
 {
 }

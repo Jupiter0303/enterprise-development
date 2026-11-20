@@ -7,7 +7,7 @@ internal class TicketEfCoreRepository(MuseumDbContext context) : EfCoreRepositor
 {
     protected override IQueryable<Ticket> Query() =>
         base.Query()
-        .Include(t => t.Visitor)
-        .Include(t => t.Excursion)
-        .ThenInclude(e => e.Exhibitions);
+            .Include(t => t.Visitor)
+            .Include(t => t.Excursion)
+            .ThenInclude(e => e.Exhibitions);
 }

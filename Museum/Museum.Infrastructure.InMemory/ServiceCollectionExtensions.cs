@@ -9,7 +9,7 @@ namespace Museum.Infrastructure.InMemory;
 public static class ServiceCollectionExtensions
 {
     /// <summary>
-    /// Регистритровать репозитории InMemory на основе общего DataSeeder
+    /// Регистрировать репозитории InMemory на основе общего DataSeeder
     /// </summary>
     /// <param name="services">Коллекция сервисов</param>
     /// <returns>Коллекция сервисов с зарегистрированными InMemory репозиториями</returns>

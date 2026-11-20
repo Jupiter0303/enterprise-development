@@ -217,6 +217,7 @@ public static class DataSeeder
                 EndDate = new DateOnly(2024, 8, 20)
             }
         };
+
         var excursions = new List<Excursion>
         {
             new()

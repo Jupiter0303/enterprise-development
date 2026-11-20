@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Museum.Shared.Enums;
+﻿using Museum.Shared.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace Museum.Application.Contracts.Exhibitions;
 

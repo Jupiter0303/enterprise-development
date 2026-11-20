@@ -24,9 +24,9 @@ public record TicketCreateUpdateDto
     [EnumDataType(typeof(TicketType))]
     public required TicketType Type { get; init; }
 
-    /// <summary>  
+    /// <summary>
     /// Цена билета
     /// </summary>
-    [Range(typeof(decimal), "0","10000", ErrorMessage = "Цена должна быть между 0 и 10000")]
+    [Range(typeof(decimal), "0", "10000", ErrorMessage = "Цена должна быть между 0 и 10000")]
     public required decimal Price { get; init; }
 }

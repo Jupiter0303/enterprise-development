@@ -46,6 +46,7 @@ public class InMemoryRepository<TEntity>(IReadOnlyCollection<TEntity> seed)
             return Task.FromResult<TEntity?>(entity);
         }
     }
+
     /// <summary>
     /// Вернуть список всех сущностей
     /// </summary>

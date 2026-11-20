@@ -1,10 +1,10 @@
-﻿using Museum.Application.Common;
+﻿using Microsoft.Extensions.Logging;
+using Museum.Application.Common;
 using Museum.Application.Contracts.Excursions;
 using Museum.Application.Contracts.Exhibitions;
 using Museum.Application.Contracts.Tickets;
 using Museum.Application.Mapping;
 using Museum.Domain;
-using Microsoft.Extensions.Logging;
 
 namespace Museum.Application.Services;
 

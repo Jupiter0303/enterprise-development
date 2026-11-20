@@ -1,5 +1,5 @@
-﻿using Museum.Application.Contracts.Exhibitions;
-using Museum.Application.Contracts.Excursions;
+﻿using Museum.Application.Contracts.Excursions;
+using Museum.Application.Contracts.Exhibitions;
 using Museum.Application.Contracts.Tickets;
 using Museum.Application.Contracts.Visitors;
 using Museum.Domain;
