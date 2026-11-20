@@ -4,13 +4,32 @@ using Museum.Domain.Data;
 
 namespace Museum.Infrastructure.EfCore;
 
+/// <summary>
+/// Контекст базы данных для работы с сущностями музея
+/// </summary>
 public class MuseumDbContext(DbContextOptions<MuseumDbContext> options) : DbContext(options)
 {
+    /// <summary>
+    /// Набор сущностей посетителей
+    /// </summary>
     public DbSet<Visitor> Visitors => Set<Visitor>();
+    /// <summary>
+    /// Набор сущностей выставок
+    /// </summary>
     public DbSet<Exhibition> Exhibitions => Set<Exhibition>();
+    /// <summary>
+    /// Набор сущностей экскурсий
+    /// </summary>
     public DbSet<Excursion> Excursions => Set<Excursion>();
+    /// <summary>
+    /// Набор сущностей билетов
+    /// </summary>
     public DbSet<Ticket> Tickets => Set<Ticket>();
 
+    /// <summary>
+    /// Настроить модель базы данных и выполнить начальное заполнение данными
+    /// </summary>
+    /// <param name="modelBuilder">Строитель модели базы данных</param>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);

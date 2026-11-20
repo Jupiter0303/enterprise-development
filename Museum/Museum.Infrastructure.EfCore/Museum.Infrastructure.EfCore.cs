@@ -3,9 +3,16 @@ using Microsoft.EntityFrameworkCore.Design;
 
 namespace Museum.Infrastructure.EfCore;
 
+/// <summary>
+/// Фабрика для создания контекста базы данных в design-time 
+/// </summary>
 public class MuseumDbContextFactory : IDesignTimeDbContextFactory<MuseumDbContext>
 {
-    // Для генерации миграции в disign-time при использовании dotnet ef
+    /// <summary>
+    /// Создать контекст базы данных с жестко заданной строкой подключения и версией MySQL сервера
+    /// </summary>
+    /// <param name="args">Аргументы командной строки</param>
+    /// <returns>Контекст базы данных</returns>
     public MuseumDbContext CreateDbContext(string[] args)
     {
         var optionsBuilder = new DbContextOptionsBuilder<MuseumDbContext>();
