@@ -12,7 +12,7 @@ using Museum.Infrastructure.EfCore;
 namespace Museum.Infrastructure.EfCore.Migrations
 {
     [DbContext(typeof(MuseumDbContext))]
-    [Migration("20261120103430_InitialCreate")]
+    [Migration("20261120170335_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

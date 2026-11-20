@@ -10,6 +10,7 @@ using Museum.Infrastructure.InMemory;
 using Scalar.AspNetCore;
 using System.Text.Json.Serialization;
 using Museum.Infrastructure.EfCore;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.AddServiceDefaults();
@@ -42,6 +43,11 @@ builder.Services.AddScoped<IAnalyticsService, AnalyticsService>();
 var app = builder.Build();
 app.MapDefaultEndpoints();
 
+if (provider != "InMemory")
+{
+    using var scope = app.Services.CreateScope();
+    scope.ServiceProvider.GetRequiredService<MuseumDbContext>().Database.Migrate();
+}
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
