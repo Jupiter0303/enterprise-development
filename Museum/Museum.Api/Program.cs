@@ -32,7 +32,7 @@ else
     builder.AddMySqlDbContext<MuseumDbContext>("museum");
     builder.Services.AddEfCoreRepositories();
 }
-
+    
 builder.Services.AddScoped<IVisitorService, VisitorService>();
 builder.Services.AddScoped<IExhibitionService, ExhibitionService>();
 builder.Services.AddScoped<IExcursionService, ExcursionService>();
