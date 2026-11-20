@@ -11,14 +11,14 @@ public record VisitorCreateUpdateDto
     /// Имя посетителя
     /// </summary>
     [Required, StringLength(100)]
-
     public required string FirstName { get; init; }
+
     /// <summary>
     /// Фамилия посетителя
     /// </summary>
     [Required, StringLength(100)]
-
     public required string LastName { get; init; }
+
     /// <summary>
     /// Отчество посетителя
     /// </summary>

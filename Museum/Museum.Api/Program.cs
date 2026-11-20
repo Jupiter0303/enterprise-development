@@ -47,6 +47,7 @@ if (provider != "InMemory")
     using var scope = app.Services.CreateScope();
     scope.ServiceProvider.GetRequiredService<MuseumDbContext>().Database.Migrate();
 }
+
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();

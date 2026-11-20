@@ -46,7 +46,10 @@ public class EfCoreRepository<TEntity>(MuseumDbContext context) : IRepository<TE
         await Query().ToListAsync();
 
     /// <summary>
-    /// Обновить сущность в базе данных
+    /// Обновить сущность в базе данных.
+    /// Копируются только скалярные поля.
+    /// Навигационные свойства обновляются 
+    /// через уже отслеживаемую сущность
     /// </summary>
     /// <param name="entity">Обновляемая сущность</param>
     /// <returns>Обновленная сущность или null, если не найдена</returns>

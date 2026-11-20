@@ -20,7 +20,6 @@ public record ExcursionCreateUpdateDto
     /// <summary>
     /// Список идентификаторов выставок, которые будут включены в экскурсию
     /// </summary>
-
     [Required, MinLength(1, ErrorMessage = "В экскурсии должна быть хотя бы 1 выставка")]
     public required List<int> ExhibitionIds { get; init; }
 }

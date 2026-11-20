@@ -3,23 +3,35 @@
 namespace Museum.Domain.Data;
 
 /// <summary>
-/// контейнер для передачи списков сущностей
+/// Контейнер для передачи списков сущностей
 /// </summary>
 public record SeedData
 {
+    /// <summary>
+    /// Список выставок
+    /// </summary>
     public required List<Exhibition> Exhibitions { get; init; }
+    /// <summary>
+    /// Список экскурсий
+    /// </summary>
     public required List<Excursion> Excursions { get; init; }
+    /// <summary>
+    /// Список посетителей
+    /// </summary>
     public required List<Visitor> Visitors { get; init; }
+    /// <summary>
+    /// Список билетов
+    /// </summary>
     public required List<Ticket> Tickets { get; init; }
 }
 
 /// <summary>
-/// класс-генератор стартовых данных
+/// Класс-генератор стартовых данных
 /// </summary>
 public static class DataSeeder
 {
     /// <summary>
-    /// создает и возвращает набор стартовых данных
+    /// Создать и вернуть набор стартовых данных
     /// </summary>
     /// <returns>Набор стартовых данных в виде SeedData</returns>
     public static SeedData Create()

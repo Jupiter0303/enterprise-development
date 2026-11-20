@@ -12,8 +12,8 @@ using Museum.Infrastructure.EfCore;
 namespace Museum.Infrastructure.EfCore.Migrations
 {
     [DbContext(typeof(MuseumDbContext))]
-    [Migration("20261120185453_SeedData")]
-    partial class SeedData
+    [Migration("20261120220936_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

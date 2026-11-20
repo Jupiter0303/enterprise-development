@@ -14,7 +14,7 @@ public class ExcursionEfCoreRepository(MuseumDbContext context) : EfCoreReposito
     /// получения сущностей Excursion с включением
     /// связанных сущностей Exhibition
     /// </summary>
-    /// <returns>отложенный запрос к базе данных</returns>
+    /// <returns>Отложенный запрос к базе данных</returns>
     protected override IQueryable<Excursion> Query() => base.Query()
         .Include(e => e.Exhibitions);
 }

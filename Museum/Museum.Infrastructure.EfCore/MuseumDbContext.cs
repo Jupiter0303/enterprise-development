@@ -34,6 +34,8 @@ public class MuseumDbContext(DbContextOptions<MuseumDbContext> options) : DbCont
     {
         base.OnModelCreating(modelBuilder);
 
+        var seed = DataSeeder.Create();
+
         modelBuilder.Entity<Ticket>(builder =>
         {
             builder.Property<int>("ExcursionId").HasColumnName("excursion_id");
@@ -60,14 +62,12 @@ public class MuseumDbContext(DbContextOptions<MuseumDbContext> options) : DbCont
                 .WithMany()
                 .HasForeignKey("excursion_id"),
             j => j.HasData(
-                DataSeeder.Create().Excursions.SelectMany(exc => exc.Exhibitions.Select(exh =>
+                seed.Excursions.SelectMany(exc => exc.Exhibitions.Select(exh =>
                     new Dictionary<string, object>
                     {
                         ["excursion_id"] = exc.Id,
                         ["exhibition_id"] = exh.Id
                     }))));
-
-        var seed = DataSeeder.Create();
 
         modelBuilder.Entity<Visitor>().HasData(seed.Visitors);
         modelBuilder.Entity<Exhibition>().HasData(seed.Exhibitions);
