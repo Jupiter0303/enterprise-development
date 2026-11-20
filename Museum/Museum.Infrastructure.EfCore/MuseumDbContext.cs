@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Museum.Domain;
+using Museum.Domain.Data;
 
 namespace Museum.Infrastructure.EfCore;
 
@@ -34,6 +35,37 @@ public class MuseumDbContext(DbContextOptions<MuseumDbContext> options) : DbCont
             .UsingEntity<Dictionary<string, object>>(
             "excursion_exhibitions",
             r => r.HasOne<Exhibition>().WithMany().HasForeignKey("exhibition_id"),
-            l => l.HasOne<Excursion>().WithMany().HasForeignKey("excursion_id"));
+            l => l.HasOne<Excursion>().WithMany().HasForeignKey("excursion_id"),
+            j => j.HasData(
+                DataSeeder.Create().Excursions.SelectMany(exc => exc.Exhibitions.Select(exh =>
+                new Dictionary<string, object>
+                {
+                    ["excursion_id"] = exc.Id,
+                    ["exhibition_id"] = exh.Id
+                }))));
+
+        var seed = DataSeeder.Create();
+
+        modelBuilder.Entity<Visitor>().HasData(seed.Visitors);
+        modelBuilder.Entity<Exhibition>().HasData(seed.Exhibitions);
+
+        modelBuilder.Entity<Excursion>().HasData(
+            seed.Excursions.Select(e => new
+            {
+                e.Id,
+                e.StartsAt,
+                e.Duration
+            }));
+
+        modelBuilder.Entity<Ticket>().HasData(
+            seed.Tickets.Select(t =>
+            new
+            {
+                t.Id,
+                t.Type,
+                t.Price,
+                ExcursionId = t.Excursion.Id,
+                VisitorId = t.Visitor.Id
+            }));
     }
 }
