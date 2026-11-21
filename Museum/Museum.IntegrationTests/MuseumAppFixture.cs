@@ -17,6 +17,15 @@ public sealed class MuseumAppFixture : IAsyncLifetime
 
         var builder = await DistributedApplicationTestingBuilder
             .CreateAsync<Projects.Museum_AppHost>(ct);
+        //Убирает проверку ssl сертификата для тестового клиента
+        //На CI нет доверенного сертификата разработки и поэтому
+        //запросы к API будут падать с UntrustedRoot
+        builder.Services.ConfigureHttpClientDefaults(http =>
+            http.ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback =
+                    HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+            }));
 
         _app = await builder.BuildAsync(ct);
         await _app.StartAsync(ct);
