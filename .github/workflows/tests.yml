@@ -7,6 +7,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     defaults:
       run:
         working-directory: Museum
@@ -26,5 +27,5 @@ jobs:
       - name: Build solution
         run: dotnet build --no-restore
 
-      - name: Run unit tests
+      - name: Run tests
         run: dotnet test --no-build --verbosity normal
