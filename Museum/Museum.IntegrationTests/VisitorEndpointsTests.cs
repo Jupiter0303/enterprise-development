@@ -12,7 +12,7 @@ public class VisitorEndpointsTests(MuseumAppFixture fixture)
         var ct = TestContext.Current.CancellationToken;
 
         var visitors = await fixture.Client
-            .GetFromJsonAsync<List<VisitorDto>>("/api/visitor", ct);
+            .GetFromJsonAsync<List<VisitorDto>>("/api/visitor", TestJson.Options, ct);
 
         Assert.NotNull(visitors);
         Assert.True(visitors.Count >= 10);
@@ -24,7 +24,7 @@ public class VisitorEndpointsTests(MuseumAppFixture fixture)
         var response = await fixture.Client.GetAsync("/api/visitor/1", ct);
 
         response.EnsureSuccessStatusCode();
-        var visitor = await response.Content.ReadFromJsonAsync<VisitorDto>(ct);
+        var visitor = await response.Content.ReadFromJsonAsync<VisitorDto>(TestJson.Options, ct);
 
         Assert.NotNull(visitor);
         Assert.Equal(1, visitor.Id);
@@ -50,9 +50,9 @@ public class VisitorEndpointsTests(MuseumAppFixture fixture)
             Birthday = new DateOnly(2000, 1, 1)
         };
 
-        var response = await fixture.Client.PostAsJsonAsync("/api/visitor", dto, ct);
-        var created = await response.Content.ReadFromJsonAsync<VisitorDto>(ct);
-        var fetched = await fixture.Client.GetFromJsonAsync<VisitorDto>($"/api/visitor/{created.Id}", ct);
+        var response = await fixture.Client.PostAsJsonAsync("/api/visitor", dto, TestJson.Options, ct);
+        var created = await response.Content.ReadFromJsonAsync<VisitorDto>(TestJson.Options, ct);
+        var fetched = await fixture.Client.GetFromJsonAsync<VisitorDto>($"/api/visitor/{created.Id}", TestJson.Options, ct);
 
         Assert.Equal(response.StatusCode, HttpStatusCode.Created);
         Assert.NotNull(created);
@@ -70,7 +70,7 @@ public class VisitorEndpointsTests(MuseumAppFixture fixture)
             Birthday = new DateOnly(2000, 1, 1)
         };
 
-        var response = await fixture.Client.PostAsJsonAsync("/api/visitor", dto, ct);
+        var response = await fixture.Client.PostAsJsonAsync("/api/visitor", dto, TestJson.Options, ct);
 
         Assert.Equal(response.StatusCode, HttpStatusCode.BadRequest);
     }
