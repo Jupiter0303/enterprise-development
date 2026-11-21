@@ -1,8 +1,4 @@
 <Solution>
-  <Folder Name="/Solution Items/">
-    <File Path=".gitignore" />
-    <File Path="README.md" />
-  </Folder>
   <Project Path="Museum.Api/Museum.Api.csproj" />
   <Project Path="Museum.AppHost/Museum.AppHost.csproj" Id="341b5854-9bd7-49b3-97e0-0035446affd8" />
   <Project Path="Museum.Application.Contracts/Museum.Application.Contracts.csproj" />
