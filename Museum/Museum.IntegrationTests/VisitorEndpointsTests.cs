@@ -17,6 +17,7 @@ public class VisitorEndpointsTests(MuseumAppFixture fixture)
         Assert.NotNull(visitors);
         Assert.True(visitors.Count >= 10);
     }
+
     [Fact]
     public async Task GetById_WhenExists_ReturnsVisitor()
     {
@@ -36,7 +37,7 @@ public class VisitorEndpointsTests(MuseumAppFixture fixture)
         var ct = TestContext.Current.CancellationToken;
         var response = await fixture.Client.GetAsync("/api/visitor/999999", ct);
 
-        Assert.Equal(response.StatusCode, HttpStatusCode.NotFound);
+        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
     }
 
     [Fact]
@@ -51,11 +52,12 @@ public class VisitorEndpointsTests(MuseumAppFixture fixture)
         };
 
         var response = await fixture.Client.PostAsJsonAsync("/api/visitor", dto, TestJson.Options, ct);
-        var created = await response.Content.ReadFromJsonAsync<VisitorDto>(TestJson.Options, ct);
-        var fetched = await fixture.Client.GetFromJsonAsync<VisitorDto>($"/api/visitor/{created.Id}", TestJson.Options, ct);
+        Assert.Equal(HttpStatusCode.Created, response.StatusCode);
 
-        Assert.Equal(response.StatusCode, HttpStatusCode.Created);
+        var created = await response.Content.ReadFromJsonAsync<VisitorDto>(TestJson.Options, ct);
         Assert.NotNull(created);
+
+        var fetched = await fixture.Client.GetFromJsonAsync<VisitorDto>($"/api/visitor/{created.Id}", TestJson.Options, ct);
         Assert.Equal("Тест", fetched?.LastName);
     }
 
@@ -72,6 +74,57 @@ public class VisitorEndpointsTests(MuseumAppFixture fixture)
 
         var response = await fixture.Client.PostAsJsonAsync("/api/visitor", dto, TestJson.Options, ct);
 
-        Assert.Equal(response.StatusCode, HttpStatusCode.BadRequest);
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task Update_ValidVisitor_ReturnsOkAndUpdatesData()
+    {
+        var ct = TestContext.Current.CancellationToken;
+
+        var createDto = new VisitorCreateUpdateDto { FirstName = "Иван", LastName = "Иванов", Birthday = new DateOnly(2004, 10, 10) };
+        var createResponse = await fixture.Client.PostAsJsonAsync("/api/visitor", createDto, TestJson.Options, ct);
+        createResponse.EnsureSuccessStatusCode();
+        var created = await createResponse.Content.ReadFromJsonAsync<VisitorDto>(TestJson.Options, ct);
+
+        Assert.NotNull(created);
+
+        var updateDto = new VisitorCreateUpdateDto { FirstName = "Иван", LastName = "Наумов", Birthday = new DateOnly(2004, 10, 10) };
+        var updateResponse = await fixture.Client.PutAsJsonAsync($"/api/visitor/{created!.Id}", updateDto, ct);
+
+        Assert.Equal(HttpStatusCode.OK, updateResponse.StatusCode);
+
+        var fetched = await fixture.Client.GetFromJsonAsync<VisitorDto>($"/api/visitor/{created.Id}", TestJson.Options, ct);
+        Assert.Equal("Наумов", fetched?.LastName);
+    }
+
+    [Fact]
+    public async Task Update_UnknownId_ReturnsNotFound()
+    {
+        var ct = TestContext.Current.CancellationToken;
+
+        var updateDto = new VisitorCreateUpdateDto { FirstName = "Иван", LastName = "Наумов", Birthday = new DateOnly(2004, 10, 10) };
+        var response = await fixture.Client.PutAsJsonAsync("/api/visitor/99999", updateDto, ct);
+
+        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task Delete_ExistingVisitor_ReturnsNoContentAndRemovesData()
+    {
+        var ct = TestContext.Current.CancellationToken;
+
+        var createDto = new VisitorCreateUpdateDto { FirstName = "Удалите", LastName = "Меня", Birthday = new DateOnly(2000, 1, 1) };
+        var createResponse = await fixture.Client.PostAsJsonAsync("/api/visitor", createDto, TestJson.Options, ct);
+        createResponse.EnsureSuccessStatusCode();
+        var created = await createResponse.Content.ReadFromJsonAsync<VisitorDto>(TestJson.Options, ct);
+
+        Assert.NotNull(created);
+
+        var deleteResponse = await fixture.Client.DeleteAsync($"/api/visitor/{created!.Id}", ct);
+        Assert.Equal(HttpStatusCode.NoContent, deleteResponse.StatusCode);
+
+        var getResponse = await fixture.Client.GetAsync($"/api/visitor/{created.Id}", ct);
+        Assert.Equal(HttpStatusCode.NotFound, getResponse.StatusCode);
     }
 }

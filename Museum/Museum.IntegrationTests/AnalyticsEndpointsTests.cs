@@ -20,8 +20,9 @@ public class AnalyticsEndpointsTests(MuseumAppFixture fixture)
         Assert.Equal([1, 5, 2, 7, 6], result.Select(x => x.Exhibition.Id));
         Assert.Equal([7, 7, 5, 4, 3], result.Select(x => x.VisitorCount));
     }
+
     [Fact]
-    public async Task GetExcursionsWithMinVisitors_ByUniqueVisitors_ReturnsCorrectRanking()
+    public async Task GetExcursionsWithMinVisitors_ReturnsExcursionsWithMinimumVisitors()
     {
         var ct = TestContext.Current.CancellationToken;
 
@@ -67,7 +68,6 @@ public class AnalyticsEndpointsTests(MuseumAppFixture fixture)
 
         var result = await fixture.Client.GetFromJsonAsync<List<ThemeStatisticsDto>>(
             url, TestJson.Options, ct);
-        var art = result.Single(x => x.Theme == ExhibitionTheme.Art);
 
         Assert.NotNull(result);
         var expectedStats = new Dictionary<ExhibitionTheme,
