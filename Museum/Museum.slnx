@@ -7,6 +7,7 @@
   <Project Path="Museum.Domain/Museum.Domain.csproj" />
   <Project Path="Museum.Infrastructure.EfCore/Museum.Infrastructure.EfCore.csproj" />
   <Project Path="Museum.Infrastructure.InMemory/Museum.Infrastructure.InMemory.csproj" />
+  <Project Path="Museum.IntegrationTests/Museum.IntegrationTests.csproj" Id="039d8251-4b84-4af1-901d-a9529c39452b" />
   <Project Path="Museum.ServiceDefaults/Museum.ServiceDefaults.csproj" Id="4262a59a-4710-4dc9-a246-fac124e384dc" />
   <Project Path="Museum.Shared/Museum.Shared.csproj" />
 </Solution>
