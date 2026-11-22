@@ -6,6 +6,7 @@ var db = mysql.AddDatabase("museum");
 
 builder.AddProject<Projects.Museum_Api>("api")
     .WithReference(db)
-    .WaitFor(db);
+    .WaitFor(db)
+    .WithHttpHealthCheck("/health");
 
 builder.Build().Run();
