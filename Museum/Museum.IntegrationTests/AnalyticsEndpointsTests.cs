@@ -6,8 +6,15 @@ using System.Net.Http.Json;
 
 namespace Museum.IntegrationTests;
 
+/// <summary>
+/// Интеграционные тесты аналитических эндпоинтов
+/// </summary>
+/// <param name="fixture">Фикстура</param>
 public class AnalyticsEndpointsTests(MuseumAppFixture fixture)
 {
+    /// <summary>
+    /// Тест на получение топ-5 выставок по количеству уникальных посетителей
+    /// </summary>
     [Fact]
     public async Task GetTopExhibitions_ByUniqueVisitors_ReturnsCorrectRanking()
     {
@@ -21,6 +28,10 @@ public class AnalyticsEndpointsTests(MuseumAppFixture fixture)
         Assert.Equal([7, 7, 5, 4, 3], result.Select(x => x.VisitorCount));
     }
 
+    /// <summary>
+    /// Тест на экскурсии с минимальным количеством посетителей,
+    /// включая не имеющие билетов
+    /// </summary>
     [Fact]
     public async Task GetExcursionsWithMinVisitors_ReturnsExcursionsWithMinimumVisitors()
     {
@@ -28,12 +39,15 @@ public class AnalyticsEndpointsTests(MuseumAppFixture fixture)
 
         var result = await fixture.Client.GetFromJsonAsync<List<ExcursionVisitsDto>>(
             "/api/analytics/min-visitors-excursions", TestJson.Options, ct);
-
         Assert.NotNull(result);
         Assert.Equal([9], result.Select(x => x.Excursion.Id));
         Assert.Equal([0], result.Select(x => x.VisitorCount));
     }
 
+    /// <summary>
+    /// Тест на получение всех экскурсий, проходящих
+    /// в определенном зале в заданный период времени
+    /// </summary>
     [Fact]
     public async Task GetExcursionsInHall_WithinPeriod_ReturnsMatchingExcursions()
     {
@@ -48,6 +62,10 @@ public class AnalyticsEndpointsTests(MuseumAppFixture fixture)
         Assert.Equal([1, 4, 5, 6, 7, 9, 10], result.Select(x => x.Id));
     }
 
+    /// <summary>
+    /// Тест на получение списка посетителей для выбранной
+    /// экскурсии, упорядоченного по полному имени
+    /// </summary>
     [Fact]
     public async Task GetVisitors_ForSelectedExcursion_OrderedByFullName()
     {
@@ -60,6 +78,11 @@ public class AnalyticsEndpointsTests(MuseumAppFixture fixture)
         Assert.Equal([1, 6], result.Select(x => x.Id));
     }
 
+    /// <summary>
+    /// Тест на получение статистики посещаемости
+    /// и выручки выставок по темам и за определенный
+    /// период времени
+    /// </summary>
     [Fact]
     public async Task GetThemeStatistics_ByThemeAndPeriod_ReturnsCorrectStatistics()
     {

@@ -5,8 +5,16 @@ using System.Net.Http.Json;
 
 namespace Museum.IntegrationTests;
 
+/// <summary>
+/// Интеграционные тесты, проверяющие корректную работу бд
+/// </summary>
+/// <param name="fixture">Фикстура</param>
 public class DatabasePersistenceTests(MuseumAppFixture fixture)
 {
+    /// <summary>
+    /// Тест на то,что созданный через API посетитель действительно
+    /// сохранился в бд
+    /// </summary>
     [Fact]
     public async Task Create_Visitor_IsPersistedInDatabase()
     {
@@ -31,6 +39,10 @@ public class DatabasePersistenceTests(MuseumAppFixture fixture)
         Assert.Equal("415 база..", row.FirstName);
     }
 
+    /// <summary>
+    /// Тест на то, что после миграций в бд находится ожидаемое 
+    /// количество сидированных данных
+    /// </summary>
     [Fact]
     public async Task Database_AfterMigration_ContainsSeededData()
     {
@@ -43,10 +55,14 @@ public class DatabasePersistenceTests(MuseumAppFixture fixture)
         Assert.Equal(seed.Excursions.Count, await db.Excursions.CountAsync(ct));
         Assert.Equal(seed.Tickets.Count, await db.Tickets.CountAsync(ct));
 
-        //другой тест мог добавить посетителя, поэтому >=
+        // другой тест мог добавить посетителя, поэтому >=
         Assert.True(await db.Visitors.CountAsync(ct) >= seed.Visitors.Count);
     }
 
+    /// <summary>
+    /// Тест на то,что удаленный через API посетитель действительно
+    /// исчез из бд
+    /// </summary>
     [Fact]
     public async Task Delete_Visitor_IsRemovedFromDatabase()
     {
@@ -74,6 +90,10 @@ public class DatabasePersistenceTests(MuseumAppFixture fixture)
         Assert.Null(row);
     }
 
+    /// <summary>
+    /// Тест корректное заполнение связей "многие ко многим"
+    /// в промежуточной таблице
+    /// </summary>
     [Fact]
     public async Task Database_ManyToManyJoinTable_HasCorrectLinks()
     {
@@ -89,6 +109,9 @@ public class DatabasePersistenceTests(MuseumAppFixture fixture)
         Assert.Equal(expectedLinksCount, actualLinksCount);
     }
 
+    /// <summary>
+    /// Тест на snake_case формат названий таблиц в бд
+    /// </summary>
     [Fact]
     public async Task Database_Tables_AreInSnakeCase()
     {
