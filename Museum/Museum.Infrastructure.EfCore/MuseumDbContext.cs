@@ -13,14 +13,17 @@ public class MuseumDbContext(DbContextOptions<MuseumDbContext> options) : DbCont
     /// Набор сущностей посетителей
     /// </summary>
     public DbSet<Visitor> Visitors => Set<Visitor>();
+
     /// <summary>
     /// Набор сущностей выставок
     /// </summary>
     public DbSet<Exhibition> Exhibitions => Set<Exhibition>();
+
     /// <summary>
     /// Набор сущностей экскурсий
     /// </summary>
     public DbSet<Excursion> Excursions => Set<Excursion>();
+
     /// <summary>
     /// Набор сущностей билетов
     /// </summary>
@@ -54,20 +57,21 @@ public class MuseumDbContext(DbContextOptions<MuseumDbContext> options) : DbCont
             .HasMany(e => e.Exhibitions)
             .WithMany()
             .UsingEntity<Dictionary<string, object>>(
-            "excursion_exhibitions",
-            r => r.HasOne<Exhibition>()
-                .WithMany()
-                .HasForeignKey("exhibition_id"),
-            l => l.HasOne<Excursion>()
-                .WithMany()
-                .HasForeignKey("excursion_id"),
-            j => j.HasData(
-                seed.Excursions.SelectMany(exc => exc.Exhibitions.Select(exh =>
-                    new Dictionary<string, object>
-                    {
-                        ["excursion_id"] = exc.Id,
-                        ["exhibition_id"] = exh.Id
-                    }))));
+                "excursion_exhibitions",
+                r => r.HasOne<Exhibition>()
+                    .WithMany()
+                    .HasForeignKey("exhibition_id"),
+                l => l.HasOne<Excursion>()
+                    .WithMany()
+                    .HasForeignKey("excursion_id"),
+                j => j.HasData(
+                    seed.Excursions.SelectMany(exc =>
+                            exc.Exhibitions.Select(exh =>
+                            new Dictionary<string, object>
+                            {
+                                ["excursion_id"] = exc.Id,
+                                ["exhibition_id"] = exh.Id
+                            }))));
 
         modelBuilder.Entity<Visitor>().HasData(seed.Visitors);
         modelBuilder.Entity<Exhibition>().HasData(seed.Exhibitions);

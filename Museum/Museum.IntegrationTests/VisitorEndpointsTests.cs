@@ -1,6 +1,5 @@
-﻿using System.Net;
+﻿using Museum.Application.Contracts.Visitors;
 using System.Net.Http.Json;
-using Museum.Application.Contracts.Visitors;
 
 namespace Museum.IntegrationTests;
 
@@ -16,38 +15,50 @@ public class VisitorEndpointsTests(MuseumAppFixture fixture)
     [Fact]
     public async Task GetAll_AfterMigration_ReturnsSeededVisitors()
     {
+        // arrange
         var ct = TestContext.Current.CancellationToken;
 
+        // act
         var visitors = await fixture.Client
             .GetFromJsonAsync<List<VisitorDto>>("/api/visitor", TestJson.Options, ct);
 
+        // assert
         Assert.NotNull(visitors);
         Assert.True(visitors.Count >= 10);
     }
+
     /// <summary>
     /// Тест на возврат 200 при get-запросе по существующему id
     /// </summary>
     [Fact]
     public async Task GetById_WhenExists_ReturnsVisitor()
     {
+        // arrange
         var ct = TestContext.Current.CancellationToken;
-        var response = await fixture.Client.GetAsync("/api/visitor/1", ct);
 
+        // act
+        var response = await fixture.Client.GetAsync("/api/visitor/1", ct);
         response.EnsureSuccessStatusCode();
         var visitor = await response.Content.ReadFromJsonAsync<VisitorDto>(TestJson.Options, ct);
 
+        // assert
         Assert.NotNull(visitor);
         Assert.Equal(1, visitor.Id);
     }
+
     /// <summary>
     /// Тест на возврат 404 при get-запросе по несуществующему id
     /// </summary>
     [Fact]
     public async Task Get_UnknownId_ReturnsNotFound()
     {
+        // arrange
         var ct = TestContext.Current.CancellationToken;
+
+        // act
         var response = await fixture.Client.GetAsync("/api/visitor/999999", ct);
 
+        // assert
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
     }
 
@@ -58,6 +69,7 @@ public class VisitorEndpointsTests(MuseumAppFixture fixture)
     [Fact]
     public async Task Create_ValidVisitor_ReturnsCreatedAndCanBeRead()
     {
+        // arrange
         var ct = TestContext.Current.CancellationToken;
         var dto = new VisitorCreateUpdateDto
         {
@@ -66,7 +78,10 @@ public class VisitorEndpointsTests(MuseumAppFixture fixture)
             Birthday = new DateOnly(2000, 1, 1)
         };
 
+        // act
         var response = await fixture.Client.PostAsJsonAsync("/api/visitor", dto, TestJson.Options, ct);
+
+        // assert
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
 
         var created = await response.Content.ReadFromJsonAsync<VisitorDto>(TestJson.Options, ct);
@@ -82,6 +97,7 @@ public class VisitorEndpointsTests(MuseumAppFixture fixture)
     [Fact]
     public async Task Create_EmptyFirstName_ReturnsBadRequest()
     {
+        // arrange
         var ct = TestContext.Current.CancellationToken;
         var dto = new VisitorCreateUpdateDto
         {
@@ -90,10 +106,13 @@ public class VisitorEndpointsTests(MuseumAppFixture fixture)
             Birthday = new DateOnly(2000, 1, 1)
         };
 
+        // act
         var response = await fixture.Client.PostAsJsonAsync("/api/visitor", dto, TestJson.Options, ct);
 
+        // assert
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
     }
+
     /// <summary>
     /// Тест для проверки обновления данных существующего посетителя
     /// при put-запросе
@@ -101,6 +120,7 @@ public class VisitorEndpointsTests(MuseumAppFixture fixture)
     [Fact]
     public async Task Update_ValidVisitor_ReturnsOkAndUpdatesData()
     {
+        // arrange
         var ct = TestContext.Current.CancellationToken;
 
         var createDto = new VisitorCreateUpdateDto { FirstName = "Иван", LastName = "Иванов", Birthday = new DateOnly(2004, 10, 10) };
@@ -111,11 +131,13 @@ public class VisitorEndpointsTests(MuseumAppFixture fixture)
         Assert.NotNull(created);
 
         var updateDto = new VisitorCreateUpdateDto { FirstName = "Иван", LastName = "Наумов", Birthday = new DateOnly(2004, 10, 10) };
+
+        // act
         var updateResponse = await fixture.Client.PutAsJsonAsync($"/api/visitor/{created.Id}", updateDto, TestJson.Options, ct);
-
-        Assert.Equal(HttpStatusCode.OK, updateResponse.StatusCode);
-
         var fetched = await fixture.Client.GetFromJsonAsync<VisitorDto>($"/api/visitor/{created.Id}", TestJson.Options, ct);
+
+        // assert
+        Assert.Equal(HttpStatusCode.OK, updateResponse.StatusCode);
         Assert.Equal("Наумов", fetched?.LastName);
     }
 
@@ -125,11 +147,14 @@ public class VisitorEndpointsTests(MuseumAppFixture fixture)
     [Fact]
     public async Task Update_UnknownId_ReturnsNotFound()
     {
+        // arrange
         var ct = TestContext.Current.CancellationToken;
-
         var updateDto = new VisitorCreateUpdateDto { FirstName = "Иван", LastName = "Наумов", Birthday = new DateOnly(2004, 10, 10) };
+
+        // act
         var response = await fixture.Client.PutAsJsonAsync("/api/visitor/99999", updateDto, TestJson.Options, ct);
 
+        // assert
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
     }
 
@@ -140,6 +165,7 @@ public class VisitorEndpointsTests(MuseumAppFixture fixture)
     [Fact]
     public async Task Delete_ExistingVisitor_ReturnsNoContentAndRemovesData()
     {
+        // arrange
         var ct = TestContext.Current.CancellationToken;
 
         var createDto = new VisitorCreateUpdateDto { FirstName = "Удалите", LastName = "Меня", Birthday = new DateOnly(2000, 1, 1) };
@@ -149,10 +175,12 @@ public class VisitorEndpointsTests(MuseumAppFixture fixture)
 
         Assert.NotNull(created);
 
+        // act
         var deleteResponse = await fixture.Client.DeleteAsync($"/api/visitor/{created.Id}", ct);
-        Assert.Equal(HttpStatusCode.NoContent, deleteResponse.StatusCode);
-
         var getResponse = await fixture.Client.GetAsync($"/api/visitor/{created.Id}", ct);
+
+        // assert
+        Assert.Equal(HttpStatusCode.NoContent, deleteResponse.StatusCode);
         Assert.Equal(HttpStatusCode.NotFound, getResponse.StatusCode);
     }
 }

@@ -22,7 +22,7 @@ public sealed class MuseumAppFixture : IAsyncLifetime
     public HttpClient Client { get; private set; } = null!;
 
     /// <summary>
-    /// Инициализация фикстуры:запуск Aspire, ожидание готовности API
+    /// Инициализация фикстуры: запуск Aspire, ожидание готовности API
     /// и получение строки подключения к бд
     /// </summary>
     public async ValueTask InitializeAsync()
@@ -60,6 +60,11 @@ public sealed class MuseumAppFixture : IAsyncLifetime
         new(new DbContextOptionsBuilder<MuseumDbContext>()
             .UseMySql(_connectionString, new MySqlServerVersion(new Version(9, 0, 0)))
             .Options);
+
+    /// <summary>
+    /// Освобождает ресурсы http-клиента и тестового Aspire-приложения
+    /// </summary>
+    /// <returns></returns>
     public async ValueTask DisposeAsync()
     {
         Client?.Dispose();

@@ -15,26 +15,31 @@ public class Visitor : IEntity
     [Key]
     [Column("id")]
     public int Id { get; set; }
+
     /// <summary>
     /// Имя посетителя
     /// </summary>
     [Column("first_name")]
     public required string FirstName { get; set; }
+
     /// <summary>
     /// Фамилия посетителя
     /// </summary>
     [Column("last_name")]
     public required string LastName { get; set; }
+
     /// <summary>
     /// Отчество посетителя
     /// </summary>
     [Column("middle_name")]
     public string? MiddleName { get; set; }
+
     /// <summary>
     /// Дата рождения посетителя
     /// </summary>
     [Column("birthday")]
     public required DateOnly Birthday { get; set; }
+
     /// <summary>
     /// Номер телефона посетителя
     /// </summary>

@@ -7,4 +7,4 @@ namespace Museum.Application.Contracts.Tickets;
 /// Интерфейс сервиса для работы с билетами
 /// </summary>
 public interface ITicketService : ICrudService<TicketDto, TicketCreateUpdateDto>
-{}
+{ }

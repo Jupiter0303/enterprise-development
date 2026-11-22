@@ -18,11 +18,14 @@ public class AnalyticsEndpointsTests(MuseumAppFixture fixture)
     [Fact]
     public async Task GetTopExhibitions_ByUniqueVisitors_ReturnsCorrectRanking()
     {
+        // arrange
         var ct = TestContext.Current.CancellationToken;
 
+        // act
         var result = await fixture.Client.GetFromJsonAsync<List<ExhibitionVisitsDto>>(
             "/api/analytics/top-exhibitions", TestJson.Options, ct);
-
+        
+        // assert
         Assert.NotNull(result);
         Assert.Equal([1, 5, 2, 7, 6], result.Select(x => x.Exhibition.Id));
         Assert.Equal([7, 7, 5, 4, 3], result.Select(x => x.VisitorCount));
@@ -35,10 +38,14 @@ public class AnalyticsEndpointsTests(MuseumAppFixture fixture)
     [Fact]
     public async Task GetExcursionsWithMinVisitors_ReturnsExcursionsWithMinimumVisitors()
     {
+        // arrange
         var ct = TestContext.Current.CancellationToken;
 
+        // act
         var result = await fixture.Client.GetFromJsonAsync<List<ExcursionVisitsDto>>(
             "/api/analytics/min-visitors-excursions", TestJson.Options, ct);
+
+        // assert
         Assert.NotNull(result);
         Assert.Equal([9], result.Select(x => x.Excursion.Id));
         Assert.Equal([0], result.Select(x => x.VisitorCount));
@@ -51,13 +58,15 @@ public class AnalyticsEndpointsTests(MuseumAppFixture fixture)
     [Fact]
     public async Task GetExcursionsInHall_WithinPeriod_ReturnsMatchingExcursions()
     {
+        // arrange
         var ct = TestContext.Current.CancellationToken;
-
         var url = "/api/analytics/excursions-in-hall?hallNumber=101&startDate=2024-01-01&endDate=2024-12-31";
 
+        // act
         var result = await fixture.Client.GetFromJsonAsync<List<ExcursionDto>>(
             url, TestJson.Options, ct);
 
+        // assert
         Assert.NotNull(result);
         Assert.Equal([1, 4, 5, 6, 7, 9, 10], result.Select(x => x.Id));
     }
@@ -69,11 +78,14 @@ public class AnalyticsEndpointsTests(MuseumAppFixture fixture)
     [Fact]
     public async Task GetVisitors_ForSelectedExcursion_OrderedByFullName()
     {
+        // arrange
         var ct = TestContext.Current.CancellationToken;
 
+        // act
         var result = await fixture.Client.GetFromJsonAsync<List<VisitorDto>>(
             "/api/analytics/visitors-by-excursion/1", TestJson.Options, ct);
 
+        // assert
         Assert.NotNull(result);
         Assert.Equal([1, 6], result.Select(x => x.Id));
     }
@@ -86,21 +98,17 @@ public class AnalyticsEndpointsTests(MuseumAppFixture fixture)
     [Fact]
     public async Task GetThemeStatistics_ByThemeAndPeriod_ReturnsCorrectStatistics()
     {
+        // arrange
         var ct = TestContext.Current.CancellationToken;
         var url = "/api/analytics/theme-statistics?startDate=2024-01-01&endDate=2024-12-31";
-
-        var result = await fixture.Client.GetFromJsonAsync<List<ThemeStatisticsDto>>(
-            url, TestJson.Options, ct);
-
-        Assert.NotNull(result);
         var expectedStats = new Dictionary<ExhibitionTheme,
-            (
-                int TotalVisitors,
-                decimal TotalPrice, 
-                int MinVisitorsPerDay, 
-                int MaxVisitorsPerDay, 
-                double AverageVisitorsPerDay
-            )>
+           (
+               int TotalVisitors,
+               decimal TotalPrice,
+               int MinVisitorsPerDay,
+               int MaxVisitorsPerDay,
+               double AverageVisitorsPerDay
+           )>
         {
             { ExhibitionTheme.Art, (14, 3433.33m, 1, 2, 1.4) },
             { ExhibitionTheme.History, (6, 1308.33m, 1, 2, 1.2) },
@@ -108,6 +116,12 @@ public class AnalyticsEndpointsTests(MuseumAppFixture fixture)
             { ExhibitionTheme.Natural, (2, 425.00m, 2, 2, 2.0) }
         };
 
+        // act
+        var result = await fixture.Client.GetFromJsonAsync<List<ThemeStatisticsDto>>(
+            url, TestJson.Options, ct);
+
+        // assert
+        Assert.NotNull(result);
         Assert.Equal(expectedStats.Count, result.Count);
 
         foreach (var expected in expectedStats)
