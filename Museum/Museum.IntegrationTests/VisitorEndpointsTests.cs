@@ -3,9 +3,15 @@ using System.Net.Http.Json;
 using Museum.Application.Contracts.Visitors;
 
 namespace Museum.IntegrationTests;
-
+/// <summary>
+/// Интеграционные тесты эндпоинтов посетителей
+/// </summary>
+/// <param name="fixture">Фикстура</param>
 public class VisitorEndpointsTests(MuseumAppFixture fixture)
 {
+    /// <summary>
+    /// Тест на возврат от API списка посетителей после миграций и сидинга
+    /// </summary>
     [Fact]
     public async Task GetAll_AfterMigration_ReturnsSeededVisitors()
     {
@@ -17,7 +23,10 @@ public class VisitorEndpointsTests(MuseumAppFixture fixture)
         Assert.NotNull(visitors);
         Assert.True(visitors.Count >= 10);
     }
-
+    /// <summary>
+    /// Тест на возврат 200 при get запросе 
+    /// по существующему id
+    /// </summary>
     [Fact]
     public async Task GetById_WhenExists_ReturnsVisitor()
     {
@@ -30,7 +39,10 @@ public class VisitorEndpointsTests(MuseumAppFixture fixture)
         Assert.NotNull(visitor);
         Assert.Equal(1, visitor.Id);
     }
-
+    /// <summary>
+    /// Тест на возврат 404 при get запросе по
+    /// несуществующему id
+    /// </summary>
     [Fact]
     public async Task Get_UnknownId_ReturnsNotFound()
     {
@@ -40,6 +52,10 @@ public class VisitorEndpointsTests(MuseumAppFixture fixture)
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
     }
 
+    /// <summary>
+    /// Тест на 201 при добавлении посетителя при post запросе
+    /// и проверка, что данные сохранились
+    /// </summary>
     [Fact]
     public async Task Create_ValidVisitor_ReturnsCreatedAndCanBeRead()
     {
@@ -61,6 +77,9 @@ public class VisitorEndpointsTests(MuseumAppFixture fixture)
         Assert.Equal("Тест", fetched?.LastName);
     }
 
+    /// <summary>
+    /// Тест на возврат 400 при post запросе с невалидными данными
+    /// </summary>
     [Fact]
     public async Task Create_EmptyFirstName_ReturnsBadRequest()
     {
@@ -76,7 +95,10 @@ public class VisitorEndpointsTests(MuseumAppFixture fixture)
 
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
     }
-
+    /// <summary>
+    /// Тест для проверки обновления данных существующего посетителя
+    ///  при put запросе
+    /// </summary>
     [Fact]
     public async Task Update_ValidVisitor_ReturnsOkAndUpdatesData()
     {
@@ -90,7 +112,7 @@ public class VisitorEndpointsTests(MuseumAppFixture fixture)
         Assert.NotNull(created);
 
         var updateDto = new VisitorCreateUpdateDto { FirstName = "Иван", LastName = "Наумов", Birthday = new DateOnly(2004, 10, 10) };
-        var updateResponse = await fixture.Client.PutAsJsonAsync($"/api/visitor/{created!.Id}", updateDto, ct);
+        var updateResponse = await fixture.Client.PutAsJsonAsync($"/api/visitor/{created.Id}", updateDto, TestJson.Options, ct);
 
         Assert.Equal(HttpStatusCode.OK, updateResponse.StatusCode);
 
@@ -98,17 +120,25 @@ public class VisitorEndpointsTests(MuseumAppFixture fixture)
         Assert.Equal("Наумов", fetched?.LastName);
     }
 
+    /// <summary>
+    /// Тест на возврат 404 при put запросе для 
+    /// несуществующего посетителя
+    /// </summary>
     [Fact]
     public async Task Update_UnknownId_ReturnsNotFound()
     {
         var ct = TestContext.Current.CancellationToken;
 
         var updateDto = new VisitorCreateUpdateDto { FirstName = "Иван", LastName = "Наумов", Birthday = new DateOnly(2004, 10, 10) };
-        var response = await fixture.Client.PutAsJsonAsync("/api/visitor/99999", updateDto, ct);
+        var response = await fixture.Client.PutAsJsonAsync("/api/visitor/99999", updateDto, TestJson.Options, ct);
 
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
     }
 
+    /// <summary>
+    /// Тест на удаление посетителя при delete запросе
+    /// и возврат 404 после этого
+    /// </summary>
     [Fact]
     public async Task Delete_ExistingVisitor_ReturnsNoContentAndRemovesData()
     {
@@ -121,7 +151,7 @@ public class VisitorEndpointsTests(MuseumAppFixture fixture)
 
         Assert.NotNull(created);
 
-        var deleteResponse = await fixture.Client.DeleteAsync($"/api/visitor/{created!.Id}", ct);
+        var deleteResponse = await fixture.Client.DeleteAsync($"/api/visitor/{created.Id}", ct);
         Assert.Equal(HttpStatusCode.NoContent, deleteResponse.StatusCode);
 
         var getResponse = await fixture.Client.GetAsync($"/api/visitor/{created.Id}", ct);
