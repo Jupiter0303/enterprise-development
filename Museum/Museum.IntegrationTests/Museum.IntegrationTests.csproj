@@ -19,6 +19,8 @@
   <ItemGroup>
     <ProjectReference Include="..\Museum.AppHost\Museum.AppHost.csproj" />
     <ProjectReference Include="..\Museum.Application.Contracts\Museum.Application.Contracts.csproj" />
+    <ProjectReference Include="..\Museum.Domain\Museum.Domain.csproj" />
+    <ProjectReference Include="..\Museum.Infrastructure.EfCore\Museum.Infrastructure.EfCore.csproj" />
   </ItemGroup>
 
   <ItemGroup>

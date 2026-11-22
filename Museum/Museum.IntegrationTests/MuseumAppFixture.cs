@@ -1,6 +1,6 @@
 ﻿using Aspire.Hosting;
-using Aspire.Hosting.Testing;
-using Xunit;
+using Microsoft.EntityFrameworkCore;
+using Museum.Infrastructure.EfCore;
 
 [assembly: AssemblyFixture(typeof(Museum.IntegrationTests.MuseumAppFixture))]
 
@@ -10,7 +10,7 @@ public sealed class MuseumAppFixture : IAsyncLifetime
 {
     private DistributedApplication? _app;
     public HttpClient Client { get; private set; } = null!;
-
+    private string _connectionString = null!;
     public async ValueTask InitializeAsync()
     {
         var ct = TestContext.Current.CancellationToken;
@@ -34,9 +34,15 @@ public sealed class MuseumAppFixture : IAsyncLifetime
             .WaitForResourceHealthyAsync("api", ct)
             .WaitAsync(TimeSpan.FromMinutes(3), ct);
 
+        _connectionString = (await _app.GetConnectionStringAsync("museum", ct))!;
+
         Client = _app.CreateHttpClient("api");
     }
 
+    public MuseumDbContext CreateDbContext() =>
+        new(new DbContextOptionsBuilder<MuseumDbContext>()
+            .UseMySql(_connectionString, new MySqlServerVersion(new Version(9, 0, 0)))
+            .Options);
     public async ValueTask DisposeAsync()
     {
         Client?.Dispose();
