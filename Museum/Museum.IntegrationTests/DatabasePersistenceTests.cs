@@ -5,7 +5,6 @@ using System.Net.Http.Json;
 
 namespace Museum.IntegrationTests;
 
-
 public class DatabasePersistenceTests(MuseumAppFixture fixture)
 {
     [Fact]
@@ -20,7 +19,7 @@ public class DatabasePersistenceTests(MuseumAppFixture fixture)
             Birthday = new DateOnly(2000, 1, 1)
         };
 
-        var response = await fixture.Client.PostAsJsonAsync<VisitorCreateUpdateDto>("/api/visitor", dto, TestJson.Options, ct);
+        var response = await fixture.Client.PostAsJsonAsync("/api/visitor", dto, TestJson.Options, ct);
         response.EnsureSuccessStatusCode();
         var created = await response.Content.ReadFromJsonAsync<VisitorDto>(TestJson.Options, ct);
         Assert.NotNull(created);
@@ -30,5 +29,80 @@ public class DatabasePersistenceTests(MuseumAppFixture fixture)
 
         Assert.NotNull(row);
         Assert.Equal("415 база..", row.FirstName);
+    }
+
+    [Fact]
+    public async Task Database_AfterMigration_ContainsSeededData()
+    {
+        var ct = TestContext.Current.CancellationToken;
+        var seed = DataSeeder.Create();
+
+        await using var db = fixture.CreateDbContext();
+
+        Assert.Equal(seed.Exhibitions.Count, await db.Exhibitions.CountAsync(ct));
+        Assert.Equal(seed.Excursions.Count, await db.Excursions.CountAsync(ct));
+        Assert.Equal(seed.Tickets.Count, await db.Tickets.CountAsync(ct));
+
+        //другой тест мог добавить посетителя, поэтому >=
+        Assert.True(await db.Visitors.CountAsync(ct) >= seed.Visitors.Count);
+    }
+
+    [Fact]
+    public async Task Delete_Visitor_IsRemovedFromDatabase()
+    {
+        var ct = TestContext.Current.CancellationToken;
+
+        var dto = new VisitorCreateUpdateDto
+        {
+            FirstName = "удаляй..",
+            LastName = "..при мне",
+            Birthday = new DateOnly(2000, 1, 1)
+        };
+
+        var response = await fixture.Client.PostAsJsonAsync("/api/visitor", dto, TestJson.Options, ct);
+        response.EnsureSuccessStatusCode();
+
+        var created = await response.Content.ReadFromJsonAsync<VisitorDto>(TestJson.Options, ct);
+        Assert.NotNull(created);
+
+        var deleteResponse = await fixture.Client.DeleteAsync($"/api/visitor/{created.Id}", ct);
+        deleteResponse.EnsureSuccessStatusCode();
+
+        await using var db = fixture.CreateDbContext();
+        var row = await db.Visitors.SingleOrDefaultAsync(v => v.Id == created.Id, ct);
+
+        Assert.Null(row);
+    }
+
+    [Fact]
+    public async Task Database_ManyToManyJoinTable_HasCorrectLinks()
+    {
+        var ct = TestContext.Current.CancellationToken;
+        var seed = DataSeeder.Create();
+
+        var expectedLinksCount = seed.Excursions.Sum(exc => exc.Exhibitions.Count);
+
+        await using var db = fixture.CreateDbContext();
+
+        var actualLinksCount = await db.Excursions.SelectMany(exc => exc.Exhibitions).CountAsync(ct);
+
+        Assert.Equal(expectedLinksCount, actualLinksCount);
+    }
+
+    [Fact]
+    public async Task Database_Tables_AreInSnakeCase()
+    {
+        var ct = TestContext.Current.CancellationToken;
+
+        await using var db = fixture.CreateDbContext();
+
+        var sqlQuery = "SELECT table_name FROM information_schema.tables WHERE table_schema = DATABASE()";
+        var tables = await db.Database.SqlQueryRaw<string>(sqlQuery).ToListAsync(ct);
+
+        Assert.Contains("visitors", tables);
+        Assert.Contains("exhibitions", tables);
+        Assert.Contains("excursions", tables);
+        Assert.Contains("tickets", tables);
+        Assert.Contains("excursion_exhibitions", tables);
     }
 }
