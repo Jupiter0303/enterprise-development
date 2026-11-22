@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="Aspire.Pomelo.EntityFrameworkCore.MySql" Version="13.5.4" />
+	<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.23" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.23">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
