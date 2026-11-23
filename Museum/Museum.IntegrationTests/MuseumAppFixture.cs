@@ -17,6 +17,11 @@ public sealed class MuseumAppFixture : IAsyncLifetime
     private string _connectionString = null!;
 
     /// <summary>
+    /// Токен отмены текущего теста
+    /// </summary>
+    public CancellationToken Ct => TestContext.Current.CancellationToken;
+
+    /// <summary>
     /// http-клиент для обращения к API приложения
     /// </summary>
     public HttpClient Client { get; private set; } = null!;

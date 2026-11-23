@@ -19,7 +19,6 @@ public class DatabasePersistenceTests(MuseumAppFixture fixture)
     public async Task Create_Visitor_IsPersistedInDatabase()
     {
         // arrange
-        var ct = TestContext.Current.CancellationToken;
         var dto = new VisitorCreateUpdateDto
         {
             FirstName = "415 база..",
@@ -28,13 +27,13 @@ public class DatabasePersistenceTests(MuseumAppFixture fixture)
         };
 
         // act
-        var response = await fixture.Client.PostAsJsonAsync("/api/visitor", dto, TestJson.Options, ct);
+        var response = await fixture.Client.PostAsJsonAsync("/api/visitor", dto, TestJson.Options, fixture.Ct);
         response.EnsureSuccessStatusCode();
-        var created = await response.Content.ReadFromJsonAsync<VisitorDto>(TestJson.Options, ct);
+        var created = await response.Content.ReadFromJsonAsync<VisitorDto>(TestJson.Options, fixture.Ct);
         Assert.NotNull(created);
 
         await using var db = fixture.CreateDbContext();
-        var row = await db.Visitors.SingleOrDefaultAsync(v => v.Id == created.Id, ct);
+        var row = await db.Visitors.SingleOrDefaultAsync(v => v.Id == created.Id, fixture.Ct);
 
         // assert
         Assert.NotNull(row);
@@ -49,15 +48,14 @@ public class DatabasePersistenceTests(MuseumAppFixture fixture)
     public async Task Database_AfterMigration_ContainsSeededData()
     {
         // arrange
-        var ct = TestContext.Current.CancellationToken;
         var seed = DataSeeder.Create();
 
         // act
         await using var db = fixture.CreateDbContext();
-        var exhibitionsCount = await db.Exhibitions.CountAsync(ct);
-        var excursionsCount = await db.Excursions.CountAsync(ct);
-        var ticketsCount = await db.Tickets.CountAsync(ct);
-        var visitorsCount = await db.Visitors.CountAsync(ct);
+        var exhibitionsCount = await db.Exhibitions.CountAsync(fixture.Ct);
+        var excursionsCount = await db.Excursions.CountAsync(fixture.Ct);
+        var ticketsCount = await db.Tickets.CountAsync(fixture.Ct);
+        var visitorsCount = await db.Visitors.CountAsync(fixture.Ct);
 
         // assert
         Assert.Equal(seed.Exhibitions.Count, exhibitionsCount);
@@ -75,8 +73,6 @@ public class DatabasePersistenceTests(MuseumAppFixture fixture)
     public async Task Delete_Visitor_IsRemovedFromDatabase()
     {
         // arrange
-        var ct = TestContext.Current.CancellationToken;
-
         var dto = new VisitorCreateUpdateDto
         {
             FirstName = "удаляй..",
@@ -84,18 +80,18 @@ public class DatabasePersistenceTests(MuseumAppFixture fixture)
             Birthday = new DateOnly(2000, 1, 1)
         };
 
-        var response = await fixture.Client.PostAsJsonAsync("/api/visitor", dto, TestJson.Options, ct);
+        var response = await fixture.Client.PostAsJsonAsync("/api/visitor", dto, TestJson.Options, fixture.Ct);
         response.EnsureSuccessStatusCode();
 
-        var created = await response.Content.ReadFromJsonAsync<VisitorDto>(TestJson.Options, ct);
+        var created = await response.Content.ReadFromJsonAsync<VisitorDto>(TestJson.Options, fixture.Ct);
         Assert.NotNull(created);
 
         // act
-        var deleteResponse = await fixture.Client.DeleteAsync($"/api/visitor/{created.Id}", ct);
+        var deleteResponse = await fixture.Client.DeleteAsync($"/api/visitor/{created.Id}", fixture.Ct);
         deleteResponse.EnsureSuccessStatusCode();
 
         await using var db = fixture.CreateDbContext();
-        var row = await db.Visitors.SingleOrDefaultAsync(v => v.Id == created.Id, ct);
+        var row = await db.Visitors.SingleOrDefaultAsync(v => v.Id == created.Id, fixture.Ct);
 
         // assert
         Assert.Null(row);
@@ -109,13 +105,12 @@ public class DatabasePersistenceTests(MuseumAppFixture fixture)
     public async Task Database_ManyToManyJoinTable_HasCorrectLinks()
     {
         // arrange
-        var ct = TestContext.Current.CancellationToken;
         var seed = DataSeeder.Create();
         var expectedLinksCount = seed.Excursions.Sum(exc => exc.Exhibitions.Count);
 
         // act
         await using var db = fixture.CreateDbContext();
-        var actualLinksCount = await db.Excursions.SelectMany(exc => exc.Exhibitions).CountAsync(ct);
+        var actualLinksCount = await db.Excursions.SelectMany(exc => exc.Exhibitions).CountAsync(fixture.Ct);
 
         // assert
         Assert.Equal(expectedLinksCount, actualLinksCount);
@@ -128,12 +123,11 @@ public class DatabasePersistenceTests(MuseumAppFixture fixture)
     public async Task Database_Tables_AreInSnakeCase()
     {
         // arrange
-        var ct = TestContext.Current.CancellationToken;
         await using var db = fixture.CreateDbContext();
         var sqlQuery = "SELECT table_name FROM information_schema.tables WHERE table_schema = DATABASE()";
 
         // act
-        var tables = await db.Database.SqlQueryRaw<string>(sqlQuery).ToListAsync(ct);
+        var tables = await db.Database.SqlQueryRaw<string>(sqlQuery).ToListAsync(fixture.Ct);
 
         // assert
         Assert.Contains("visitors", tables);
