@@ -25,8 +25,10 @@ builder.Services.AddOpenApi();
 
 var provider = builder.Configuration["Storage:Provider"] ?? "EfCore";
 
-if (provider == "InMemory")
+if (provider == "InMemory") 
+{
     builder.Services.AddInMemoryRepositories();
+}
 else
 {
     builder.AddMySqlDbContext<MuseumDbContext>("museum");
@@ -42,16 +44,16 @@ builder.Services.AddScoped<IAnalyticsService, AnalyticsService>();
 var app = builder.Build();
 app.MapDefaultEndpoints();
 
-if (provider != "InMemory")
-{
-    using var scope = app.Services.CreateScope();
-    scope.ServiceProvider.GetRequiredService<MuseumDbContext>().Database.Migrate();
-}
-
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
     app.MapScalarApiReference();
+
+    if (provider != "InMemory")
+    {
+        using var scope = app.Services.CreateScope();
+        scope.ServiceProvider.GetRequiredService<MuseumDbContext>().Database.Migrate();
+    }
 }
 
 app.UseExceptionHandler();
